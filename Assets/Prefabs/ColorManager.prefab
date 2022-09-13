@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6082210789116517138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6082210789116517136}
+  - component: {fileID: 6082210789116517137}
+  m_Layer: 0
+  m_Name: ColorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6082210789116517136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082210789116517138}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8546594, y: 1.3275812, z: 164017.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6082210789116517137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082210789116517138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42944d0f82784484cad9c56633014903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crewMat: {fileID: 2100000, guid: fe75d7dff421540208f05ffaa58907d9, type: 2}
+  colorList:
+  - {r: 0.7764706, g: 0.06666667, b: 0.06666667, a: 1}
+  - {r: 0, g: 0.11764706, b: 0.8509804, a: 1}
+  - {r: 0.06666667, g: 0.5019608, b: 0.1764706, a: 1}
+  - {r: 0.93333334, g: 0.32941177, b: 0.73333335, a: 0}
+  - {r: 0.9411765, g: 0.49019608, b: 0.050980393, a: 1}
+  - {r: 0.9647059, g: 0.9647059, b: 0.34117648, a: 1}
+  - {r: 0.24705882, g: 0.2784314, b: 0.30588236, a: 1}
+  - {r: 0.84313726, g: 0.88235295, b: 0.94509804, a: 1}
+  - {r: 0.41960785, g: 0.18431373, b: 0.7372549, a: 1}
+  - {r: 0.44313726, g: 0.28627452, b: 0.11764706, a: 1}
+  - {r: 0.21960784, g: 0.99607843, b: 0.8627451, a: 1}
+  - {r: 0.3137255, g: 0.9411765, b: 0.22352941, a: 1}
+  - {r: 0.37254903, g: 0.11372549, b: 0.18039216, a: 1}
+  - {r: 0.9254902, g: 0.7529412, b: 0.827451, a: 1}
+  - {r: 0.9411765, g: 0.90588236, b: 0.65882355, a: 1}
+  - {r: 0.45882353, g: 0.52156866, b: 0.5764706, a: 1}
+  - {r: 0.5686275, g: 0.53333336, b: 0.46666667, a: 1}
+  - {r: 0.84313726, g: 0.39215687, b: 0.39215687, a: 1}
+  crewMatColor: {r: 0, g: 0, b: 0, a: 0}
