@@ -70,6 +70,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
             if (i == count-1)
             {
                 imposterCountButtons[i].image.color = new Color(1, 1, 1, 1);
+                
             }
             else
             {
@@ -78,6 +79,11 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         }
         UpdateImposterImgs();
     }
+
+    // 여기 박재민이 겁나 건드려놨음 94번 줄에 있는 모양이 머티리얼 불러오는 부분
+    // MainMenu_Crew_Mat 이 하얀색'
+    // MainMenu_Imposter_Mat 가 빨간색 
+
     private void UpdateImposterImgs()
     {
         int imposterCount = roomData.imposterCount;
@@ -86,7 +92,8 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 초기화
         for (int i=0; i < crewImgs.Count; i++)
         {
-            crewImgs[i].color = new Color(1, 1, 1, 1);
+            // crewImgs[i].color = new Color(1, 1, 1, 1);
+            crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Crew_Mat");
         }
 
         // 임포스터 수만큼 색상 랜덤 변경
@@ -97,9 +104,11 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 
             for (int i=0; i < maxCount; i++)
             {
-                if (i == n && crewImgs[i].color != Color.black && crewImgs[i].gameObject.activeSelf)
+                if (i == n && crewImgs[i].material != Resources.Load<Material>("Materials/Impoeter_Mat") && crewImgs[i].gameObject.activeSelf)
                 {
-                    crewImgs[i].color = new Color(0, 0, 0, 1);
+                    // 재민 추가코드
+                    crewImgs[i].material = Resources.Load<Material>("Materials/Imposter_Mat");
+                    // crewImgs[i].color = new Color(0, 0, 0, 1);
                     imposterCount--;
                 }
             }
@@ -131,6 +140,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
             if (i == count - 4)
             {
                 maxPlayerCountButtons[i].image.color = new Color(1, 1, 1, 1);
+                
             }
             else
             {
