@@ -8,14 +8,20 @@ using Photon.Realtime;
 public class SH_LobbyManager : MonoBehaviourPunCallbacks
 {
     public Text roomName;
+    public Text statusText;
+
     public GameObject privateUI;
     public GameObject joinRoomFailedUI;
 
-    public Text statusText;
+    // 닉네임
+    public Text nickNameInput;
+    public string nickName;
+
 
     // 입력받은 방이름으로 방 입장 요청
     public void OnClickJoinRoom()
     {
+        PhotonNetwork.NickName = nickName;
         PhotonNetwork.JoinRoom(roomName.text);
     }
 
@@ -34,9 +40,12 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
         joinRoomFailedUI.SetActive(true);
     }
 
-    private void Update()
+    void Update()
     {
         statusText.text = PhotonNetwork.NetworkClientState.ToString();
         Debug.Log(PhotonNetwork.NetworkClientState.ToString());
+
+        // 닉네임 저장
+        nickName = nickNameInput.text;
     }
 }
