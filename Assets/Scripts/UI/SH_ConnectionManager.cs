@@ -15,26 +15,16 @@ public class SH_ConnectionManager : MonoBehaviourPunCallbacks  // 포톤 서비스가 
     public Text connectionInfoText;
     // 온라인 버튼
     public Button onlineButton;
-    // 닉네임
-    public Text nickName;
 
 
-    private void Awake()
-    {
-        connectionInfoText = GameObject.Find("Text_ConnectionInfo").GetComponent<Text>();
-    }
     // 게임 실행과 동시에 마스터 서버 접속 시도
     void Start()
     {
         Connect();
     }
 
-    void Update()
-    {
-        // 닉네임 설정
-        PhotonNetwork.NickName = nickName.text;
-    }
 
+    // 마스터 접속 
     void Connect()
     {
         PhotonNetwork.GameVersion = gameVersion;
@@ -48,7 +38,6 @@ public class SH_ConnectionManager : MonoBehaviourPunCallbacks  // 포톤 서비스가 
         // 접속 시도 중임 텍스트로 표시
         connectionInfoText.text = "마스터 서버에 접속 중...";
     }
-
 
     // 마스터 서버 접속 성공할 경우
     public override void OnConnectedToMaster()
@@ -73,6 +62,6 @@ public class SH_ConnectionManager : MonoBehaviourPunCallbacks  // 포톤 서비스가 
     // 로비 접속 성공시 호출
     public override void OnJoinedLobby()
     {
-        //SH_ConnectionManager.connectionInfoText.text = "로비 접속 완료";
+        connectionInfoText.text = "로비 접속 완료";
     }
 }

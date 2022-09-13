@@ -25,11 +25,13 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 
     // 새로 생성하는 방의 데이터
     private CreateRoomData roomData;
+    // 닉네임 가져오기
+    public SH_LobbyManager lobbyManager;
     
 
     void Start()
     {
-        // 방 이름 랜덤 설정
+        // 방 이름 6자리 랜덤 설정
         string roomName = RandomString(6);
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
@@ -79,11 +81,8 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         }
         UpdateImposterImgs();
     }
-
-    // 여기 박재민이 겁나 건드려놨음 94번 줄에 있는 모양이 머티리얼 불러오는 부분
-    // MainMenu_Crew_Mat 이 하얀색'
-    // MainMenu_Imposter_Mat 가 빨간색 
-
+    // 하얀색 : MainMenu_Crew_Mat 
+    // 빨간색 : MainMenu_Imposter_Mat 
     private void UpdateImposterImgs()
     {
         int imposterCount = roomData.imposterCount;
@@ -99,16 +98,16 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 임포스터 수만큼 색상 랜덤 변경
         while (imposterCount > 0)
         {
-            // 몇번째 이미지를 블랙으로 만들것인지 랜덤한 숫자 뽑기
+            // 몇번째 이미지를 빨강으로 만들것인지 랜덤한 숫자 뽑기
             int n = Random.Range(0, maxCount);
 
             for (int i=0; i < maxCount; i++)
             {
-                if (i == n && crewImgs[i].material != Resources.Load<Material>("Materials/Impoeter_Mat") && crewImgs[i].gameObject.activeSelf)
+                if (i == n && crewImgs[i].material != Resources.Load<Material>("Materials/MainMenu_Imposter_Mat") && crewImgs[i].gameObject.activeSelf)
                 {
                     // 재민 추가코드
-                    crewImgs[i].material = Resources.Load<Material>("Materials/Imposter_Mat");
-                    // crewImgs[i].color = new Color(0, 0, 0, 1);
+                    crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Imposter_Mat");
+                    //crewImgs[i].color = new Color(0, 0, 0, 1);
                     imposterCount--;
                 }
             }
@@ -148,9 +147,9 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
             }
         }
 
-        // 최대 플레이어 수만큼 CrewImage 조정
+        // 크루 이미지, 임포스터 이미지 업데이트
         UpdateCrewImgs();
-        OnClickImposterNum(roomData.imposterCount);
+        UpdateImposterImgs();
     }
 
 
@@ -182,13 +181,13 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     // 방 입장 요청 (생성자는 자동 입장)
     public void JoinRoom()
     {
+        PhotonNetwork.NickName = lobbyManager.nickName;
         PhotonNetwork.JoinRoom(roomData.name);
     }
     // 방 입장 성공할 경우 대기실로 씬 전환
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        //SH_ConnectionManager.connectionInfoText.text = "방에 접속...";
         PhotonNetwork.LoadLevel("JM_WaitRoomScene");
     }
 }
