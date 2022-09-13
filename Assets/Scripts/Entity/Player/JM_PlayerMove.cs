@@ -105,9 +105,9 @@ public class JM_PlayerMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         print("콜라이더 작동함");
-        playerSpeed = 0;
+        playerSpeed = 0.5f;
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         playerSpeed = originSpeed;
         // asdfasdf
