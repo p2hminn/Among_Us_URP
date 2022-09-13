@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/SH_MainMenu.unity
+    guid: 92b0e41219de9dd49ad7c6b3c0978c98
+  - enabled: 1
+    path: Assets/Scenes/JM_WaitRoomScene.unity
+    guid: 6eb210ff7e481764f93c5fd35f110489
+  m_configObjects: {}
