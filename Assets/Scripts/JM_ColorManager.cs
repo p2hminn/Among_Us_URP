@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class JM_ColorManager : MonoBehaviour
+
+public class JM_ColorManager : MonoBehaviourPun
 {
     public Material crewMat;
     public static JM_ColorManager instance;
@@ -17,108 +19,117 @@ public class JM_ColorManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (photonView.IsMine)
+        {
+            // 플레이어 색상 정리
+            int randomNum = Random.Range(0, 18);
+            SetColor(randomNum);
+        }      
+    }
+
     void Update()
     {
-        // 플레이어 색상 정리
-        SetColor("red");
+        
     }
 
     // 색 지정 함수
-    public void SetColor(string colorCode)
+    public void SetColor(int colorCode)
     {
         // 빨강
-        if (colorCode == "red")
+        if (colorCode == 0)
         {
             crewMat.SetColor("_PlayerColor", colorList[0]);
             // crewMatColor = colorList[0];
         }
         // 파랑
-        else if (colorCode == "blue")
+        else if (colorCode == 1)
         {
             crewMat.SetColor("_PlayerColor", colorList[1]);
         }
         // 초록
-        else if (colorCode == "green")
+        else if (colorCode == 2)
         {
             crewMat.SetColor("_PlayerColor", colorList[2]);
         }
         // 분홍
-        else if (colorCode == "pink")
+        else if (colorCode == 3)
         {
             crewMat.SetColor("_PlayerColor", colorList[3]);
         }
         // 주황
-        else if (colorCode == "orange")
+        else if (colorCode == 4)
         {
             crewMat.SetColor("_PlayerColor", colorList[4]);
         }
         // 노랑
-        else if (colorCode == "yellow")
+        else if (colorCode == 5)
         {
             crewMat.SetColor("_PlayerColor", colorList[5]);
         }
         // 검정
-        else if (colorCode == "black")
+        else if (colorCode == 6)
         {
             crewMat.SetColor("_PlayerColor", colorList[6]);
         }
         // 하양
-        else if (colorCode == "white")
+        else if (colorCode == 7)
         {
             crewMat.SetColor("_PlayerColor", colorList[7]);
         }
         // 보라
-        else if (colorCode == "purple")
+        else if (colorCode == 8)
         {
             crewMat.SetColor("_PlayerColor", colorList[8]);
         }
         // 갈색
-        else if (colorCode == "brown")
+        else if (colorCode == 9)
         {
             crewMat.SetColor("_PlayerColor", colorList[9]);
         }
         // 청록
-        else if (colorCode == "cyan")
+        else if (colorCode == 10)
         {
             crewMat.SetColor("_PlayerColor", colorList[10]);
         }
         // 연두
-        else if (colorCode == "lime")
+        else if (colorCode == 11)
         {
             crewMat.SetColor("_PlayerColor", colorList[11]);
         }
         // 적갈색
-        else if (colorCode == "maroon")
+        else if (colorCode == 12)
         {
             crewMat.SetColor("_PlayerColor", colorList[12]);
         }
         // 장미색
-        else if (colorCode == "rose")
+        else if (colorCode == 13)
         {
             crewMat.SetColor("_PlayerColor", colorList[13]);
         }
         // 바나나색
-        else if (colorCode == "banana")
+        else if (colorCode == 14)
         {
             crewMat.SetColor("_PlayerColor", colorList[14]);
         }
         // 회색ㄹ
-        else if (colorCode == "gray")
+        else if (colorCode == 15)
         {
             crewMat.SetColor("_PlayerColor", colorList[15]);
         }
         // 황갈색
-        else if (colorCode == "tan")
+        else if (colorCode == 16)
         {
             crewMat.SetColor("_PlayerColor", colorList[16]);
         }
         // 산호색
-        else if (colorCode == "coral")
+        else if (colorCode == 17)
         {
             crewMat.SetColor("_PlayerColor", colorList[17]);
         }
     }
+}
 
     
-
-}
+      

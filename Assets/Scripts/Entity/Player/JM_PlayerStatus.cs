@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class JM_PlayerStatus : MonoBehaviour
+public class JM_PlayerStatus : MonoBehaviourPun
 {
     Animator anim;
     public enum State
