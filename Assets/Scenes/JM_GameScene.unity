@@ -6260,6 +6260,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3636451108774233917, guid: e6ed5568fee9fbe47a700f07076b1872, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6421228704647536493, guid: e6ed5568fee9fbe47a700f07076b1872, type: 3}
       propertyPath: m_Name
       value: Crew1

@@ -3,88 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class JM_PlayerMove : MonoBehaviourPun
+public class JM_WaitingRoomPlayer : MonoBehaviourPun
 {
-
-    // í”Œë ˆì´ì–´ ì´ë™ì†ë„
+    // ÇÃ·¹ÀÌ¾î ÀÌµ¿¼Óµµ
     public float playerSpeed = 3;
     float originSpeed;
 
     // Rigidbody2D
     // Rigidbody2D rb;
 
-    // ì›€ì§ì´ëŠ”ì§€ ì—¬ë¶€
+    // ¿òÁ÷ÀÌ´ÂÁö ¿©ºÎ
     bool isMoving;
 
-    // ì„í¬ìŠ¤í„° ì—¬ë¶€
+    // ÀÓÆ÷½ºÅÍ ¿©ºÎ
     bool isImposter;
 
-    // ì• ë‹ˆë©”ì´í„°
+    // ¾Ö´Ï¸ŞÀÌÅÍ
     Animator anim;
 
-    // ì„í¬ìŠ¤í„°ì½”ë“œ ë° ì¼ë°˜ í”Œë ˆì´ì–´ ì½”ë“œ
-    JM_ImposterStatus imposterCode;
     JM_PlayerStatus playerCode;
 
-    // ì¹´ë©”ë¼
+    // Ä«¸Ş¶ó
     public Camera cam;
 
 
-    // ë„ì°© ìœ„ì¹˜
+    // µµÂø À§Ä¡
     Vector3 receivePos;
 
-    // íšŒì „ë˜ì•¼ í•˜ëŠ” ê°’
+    // È¸ÀüµÇ¾ß ÇÏ´Â °ª
     Quaternion receiveRot;
 
-    // ë³´ê°„ ì†ë„
+    // º¸°£ ¼Óµµ
     public float lerpSpeed = 100;
 
     void Start()
     {
         if (photonView.IsMine) cam.gameObject.SetActive(true);
-        // ìµœì´ˆ ì†ë„ ì €ì¥
+        // ÃÖÃÊ ¼Óµµ ÀúÀå
         originSpeed = playerSpeed;
 
         // rb = GetComponent<Rigidbody2D>();
-        imposterCode = GetComponent<JM_ImposterStatus>();
+        
         playerCode = GetComponent<JM_PlayerStatus>();
         anim = GetComponent<Animator>();
-
-        // ëœë¤ìˆ«ì ì§€ì •í•´ì„œ ì„í¬ìŠ¤í„° ë˜ëŠ” í”Œë ˆì´ì–´ ì§€ì •
-        // (ë‚˜ì¤‘ì—ëŠ” ë„¤íŠ¸ì›Œí¬ë‘ ì—°ë™í•´ì„œ ë°”ê¿€ ì˜ˆì •)
-        int randomNum = 1;//Random.Range(0, 2);
-        if (randomNum > 0)
-        {
-            isImposter = true;          
-        }
-        if (isImposter)
-        {
-            imposterCode.enabled = true;
-            playerCode.enabled = false;
-        }
-        else
-        {
-            imposterCode.enabled = false;
-            playerCode.enabled = true;
-        }
 
     }
 
     void Update()
     {
-        // ë§Œì•½ ë‚´ ê²ƒì´ ì•„ë‹ˆë¼ë©´ í•¨ìˆ˜ë¥¼ ë‚˜ê°€ê² ë‹¤
+        // ¸¸¾à ³» °ÍÀÌ ¾Æ´Ï¶ó¸é ÇÔ¼ö¸¦ ³ª°¡°Ú´Ù
         if (!photonView.IsMine) return;
 
-        // ì´ë™ ì¸í’‹ ë°›ê¸°
+        // ÀÌµ¿ ÀÎÇ² ¹Ş±â
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        // ì´ë™ ì¸í’‹ì´ ìˆì„ ê²½ìš° 
+        // ÀÌµ¿ ÀÎÇ²ÀÌ ÀÖÀ» °æ¿ì 
         if (h != 0f || v != 0f)
         {
-            // ì´ë™í•¨ìˆ˜ ì‹¤í–‰
+            // ÀÌµ¿ÇÔ¼ö ½ÇÇà
             Move(h, v);
-            // ì´ë™ ì¤‘ 
+            // ÀÌµ¿ Áß 
             isMoving = true;
         }
         else
@@ -94,51 +73,37 @@ public class JM_PlayerMove : MonoBehaviourPun
         photonView.RPC("RPC_SetBool", RpcTarget.All, isMoving);
     }
 
-    // ì´ë™ í•¨ìˆ˜
+    // ÀÌµ¿ ÇÔ¼ö
     private void Move(float h, float v)
     {
         SpriteRenderer sr;
         sr = GetComponent<SpriteRenderer>();
 
-        // ë°©í–¥ ì§€ì •
+        // ¹æÇâ ÁöÁ¤
         Vector3 playerDir = h * Vector3.right + v * Vector3.up;
         playerDir.Normalize();
 
-        
-        // ì´ë™ë°©í–¥ìœ¼ë¡œ í–¥í•˜ë„ë¡ ë’¤ì§‘íˆê²Œ ì„¤ì •
-        // í•˜ëŠ” í•¨ìˆ˜ë¡œ ëº€ í›„ í¬í†¤ì— ë™ê¸°í™”
+
+        // ÀÌµ¿¹æÇâÀ¸·Î ÇâÇÏµµ·Ï µÚÁıÈ÷°Ô ¼³Á¤
+        // ÇÏ´Â ÇÔ¼ö·Î »« ÈÄ Æ÷Åæ¿¡ µ¿±âÈ­
 
         ChangeDir(playerDir);
 
-        // ì´ë™
+        // ÀÌµ¿
         transform.position += playerDir * playerSpeed * Time.deltaTime;
 
     }
-    /*
-    // ì¶©ëŒí–ˆì„ë•Œ ì†ë„ 0ìœ¼ë¡œ ì œí•œ --> ì•ˆíŠ•ê²¨ë‚˜ê²Œ
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        print("ì½œë¼ì´ë” ì‘ë™í•¨");
-        playerSpeed = 0.5f;
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        playerSpeed = originSpeed;
-        // asdfasdf
-        // apiosefbna;soeigvhj;aelskfjpa0soeibnv;osdih;vasolikdhfp;asoidbflk;sjbvp9o;sdb
-    }
-    */
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // ë°ì´í„° ë³´ë‚´ê¸°
+        // µ¥ÀÌÅÍ º¸³»±â
         if (stream.IsWriting) // isMine == true
         {
             // position, rotation
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
-        // ë°ì´í„° ë°›ê¸°
+        // µ¥ÀÌÅÍ ¹Ş±â
         if (stream.IsReading) // isMine == false
         {
             receivePos = (Vector3)stream.ReceiveNext();
@@ -166,5 +131,4 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         anim.SetBool("IsMoving", bl);
     }
-
 }
