@@ -32,10 +32,13 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     void Start()
     {
         // 방 이름 6자리 랜덤 설정
-        string roomName = "11";// RandomString(6);
+        string roomName = "11"; // RandomString(6);
         print(roomName);
+
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
+
+        // 크루, 임포스터 이미지 업데이트
         UpdateImposterImgs();
         UpdateCrewImgs();
     }
@@ -169,8 +172,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 방 만들기
         PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
     }
-
-    // 방 생성 성공할 경우
+    // 방 생성 성공할 경우(생성자 자동 입장)
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
@@ -180,8 +182,6 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         print("OnCreateRoomFailed, " + returnCode + ", " + message);
-
-        // 만약 동일한 이름의 방 생성할 경우 에러 팝업 창 띄우기
     }
     // 방 입장 요청 (생성자는 자동 입장)
     //public void JoinRoom()
@@ -201,6 +201,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     //    print("")
     //}
 }
+
 
 // 새로 생성되는 방의 데이터 저장
 public class CreateRoomData
