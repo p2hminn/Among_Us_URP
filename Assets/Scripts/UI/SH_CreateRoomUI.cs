@@ -32,7 +32,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     void Start()
     {
         // 방 이름 6자리 랜덤 설정
-        string roomName = RandomString(6);
+        string roomName = "11";// RandomString(6);
         print(roomName);
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
@@ -165,7 +165,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
         // 방 만들기
-        PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(roomData.name, roomOptions, TypedLobby.Default);
     }
 
     // 방 생성 성공할 경우

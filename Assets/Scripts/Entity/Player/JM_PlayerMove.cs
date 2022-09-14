@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
@@ -41,7 +42,12 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     void Start()
     {
-        if (photonView.IsMine) cam.gameObject.SetActive(true);
+        if (photonView.IsMine)
+        {
+            cam.gameObject.SetActive(true);
+            int r = Random.Range(0, 18);
+            photonView.RPC("CreatedPlayer", RpcTarget.AllBuffered, r);
+        }
         // 최초 속도 저장
         originSpeed = playerSpeed;
 
@@ -50,24 +56,40 @@ public class JM_PlayerMove : MonoBehaviourPun
         playerCode = GetComponent<JM_PlayerStatus>();
         anim = GetComponent<Animator>();
 
-        // 랜덤숫자 지정해서 임포스터 또는 플레이어 지정
-        // (나중에는 네트워크랑 연동해서 바꿀 예정)
-        int randomNum = 1;//Random.Range(0, 2);
-        if (randomNum > 0)
+        // waitroom에 있는동안은 무조건 다들 플레이어
+        if (SceneManager.GetActiveScene().name == "JM_WaitRoomScene")
         {
-            isImposter = true;          
-        }
-        if (isImposter)
-        {
-            imposterCode.enabled = true;
-            playerCode.enabled = false;
+            imposterCode.enabled = false;
         }
         else
         {
-            imposterCode.enabled = false;
-            playerCode.enabled = true;
+            // 랜덤숫자 지정해서 임포스터 또는 플레이어 지정
+            // (나중에는 네트워크랑 연동해서 바꿀 예정)
+            int randomNum = 1;//Random.Range(0, 2);
+            if (randomNum > 0)
+            {
+                isImposter = true;
+            }
+            if (isImposter)
+            {
+                imposterCode.enabled = true;
+                playerCode.enabled = false;
+            }
+            else
+            {
+                imposterCode.enabled = false;
+                playerCode.enabled = true;
+            }
         }
 
+        
+
+    }
+    [PunRPC]
+    void CreatedPlayer(int colorNum)
+    {
+        Material mat = gameObject.GetComponent<SpriteRenderer>().material;
+        mat.SetColor("_PlayerColor", JM_ColorManager.instance.colorList[colorNum]);
     }
 
     void Update()

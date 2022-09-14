@@ -679,6 +679,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColorManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6082210789116517138, guid: c58aa78fc7df0e04fa622f212f73e759, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c58aa78fc7df0e04fa622f212f73e759, type: 3}
 --- !u!1 &7067114886099220948 stripped
