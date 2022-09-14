@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 대문자만 출력되도록 설정
+
 public class SH_InputFieldControl : MonoBehaviour
 {
 	InputField field;
