@@ -43,6 +43,8 @@ MonoBehaviour:
   - RPC_SetBool
   - RPC_ChangeDir
   - RPC_SetColor
+  - CreatePlayer
+  - CreatedPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

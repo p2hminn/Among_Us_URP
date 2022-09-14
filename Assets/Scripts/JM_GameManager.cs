@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class JM_GameManager : MonoBehaviour
+public class JM_GameManager : MonoBehaviourPun
 {
     public List<Transform> spawnPosList = new List<Transform>();
 
@@ -15,9 +15,10 @@ public class JM_GameManager : MonoBehaviour
 
         int randomNum = Random.Range(0, 3);
 
-        PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
+        GameObject crew = PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
     }
 
+    
     void Update()
     {
         

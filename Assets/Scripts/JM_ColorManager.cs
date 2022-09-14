@@ -10,7 +10,8 @@ public class JM_ColorManager : MonoBehaviourPun
     public static JM_ColorManager instance;
     // 색깔 리스트
     public List<Color> colorList = new List<Color>();
-
+    Color curColor;
+   
     private void Awake()
     {
         if (instance == null)
@@ -25,7 +26,7 @@ public class JM_ColorManager : MonoBehaviourPun
         {
             // 플레이어 색상 정리
             int randomNum = Random.Range(0, 18);
-            SetColor(randomNum);
+           // SetColor(randomNum);
         }      
     }
 
@@ -34,9 +35,14 @@ public class JM_ColorManager : MonoBehaviourPun
         
     }
 
+   
+
     // 색 지정 함수
     public void SetColor(int colorCode)
     {
+        crewMat.SetColor("_PlayerColor", colorList[colorCode]);
+        
+        /*
         // 빨강
         if (colorCode == 0)
         {
@@ -128,6 +134,7 @@ public class JM_ColorManager : MonoBehaviourPun
         {
             crewMat.SetColor("_PlayerColor", colorList[17]);
         }
+        */
     }
 }
 
