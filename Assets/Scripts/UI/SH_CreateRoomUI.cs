@@ -33,6 +33,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         // 방 이름 6자리 랜덤 설정
         string roomName = RandomString(6);
+
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
     }
