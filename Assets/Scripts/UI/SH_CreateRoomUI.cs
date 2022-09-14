@@ -36,6 +36,8 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         print(roomName);
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
+        UpdateImposterImgs();
+        UpdateCrewImgs();
     }
 
     // 랜덤 string 출력 함수
@@ -165,7 +167,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
         // 방 만들기
-        PhotonNetwork.JoinOrCreateRoom(roomData.name, roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
     }
 
     // 방 생성 성공할 경우
@@ -178,19 +180,26 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         print("OnCreateRoomFailed, " + returnCode + ", " + message);
+
+        // 만약 동일한 이름의 방 생성할 경우 에러 팝업 창 띄우기
     }
     // 방 입장 요청 (생성자는 자동 입장)
-    public void JoinRoom()
-    {
-        PhotonNetwork.NickName = lobbyManager.nickName;
-        PhotonNetwork.JoinRoom(roomData.name);
-    }
-    // 방 입장 성공할 경우 대기실로 씬 전환
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-        PhotonNetwork.LoadLevel("JM_WaitRoomScene");
-    }
+    //public void JoinRoom()
+    //{
+    //    PhotonNetwork.NickName = lobbyManager.nickName;
+    //    PhotonNetwork.JoinRoom(roomData.name);
+    //}
+    //// 방 입장 성공할 경우 대기실로 씬 전환
+    //public override void OnJoinedRoom()
+    //{
+    //    base.OnJoinedRoom();
+    //    PhotonNetwork.LoadLevel("JM_WaitRoomScene");
+    //}
+
+    //private void Update()
+    //{
+    //    print("")
+    //}
 }
 
 // 새로 생성되는 방의 데이터 저장

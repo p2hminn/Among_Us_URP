@@ -45,6 +45,7 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickJoinRoom()
     {
         PhotonNetwork.JoinRoom(roomName.text);
+        print(roomName.text);
     }
 
     // 방 입장 성공할 경우
@@ -54,9 +55,9 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("JM_WaitRoomScene");
     }
     // 방 입장 실패할 경우
-    public override void OnJoinRandomFailed(short returnCode, string message)
+    public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        base.OnJoinRandomFailed(returnCode, message);
+        base.OnJoinRoomFailed(returnCode, message);
         // Private UI 비활성화하고 JoinRoomFailed UI 활성화
         privateUI.SetActive(false);
         joinRoomFailedUI.SetActive(true);
