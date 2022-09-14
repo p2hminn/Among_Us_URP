@@ -14,14 +14,36 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public GameObject joinRoomFailedUI;
 
     // 닉네임
-    public Text nickNameInput;
+    public InputField inputNickName;
     public string nickName;
 
+    // 버튼
+    public Button btnCreateRoom;
+    public Button btnFindRoom;
+    public Button btnJoinRoom;
+
+
+    private void Start()
+    {
+        // 닉네임(InputField)이 변경될 때 호출되는 함수 등록
+        inputNickName.onValueChanged.AddListener(OnNickNameValueChanged);
+        // 닉네임(InputField)에서 Focusing을 잃었을 때 호출되는 함수 등록
+
+    }
+
+    public void OnNickNameValueChanged(string s)
+    {
+        // 버튼 3개 모두 활성화
+        btnCreateRoom.interactable = s.Length > 0;
+        btnFindRoom.interactable = s.Length > 0;
+        btnJoinRoom.interactable = s.Length > 0;
+        // 닉네임 등록
+        PhotonNetwork.NickName = inputNickName.text;
+    }
 
     // 입력받은 방이름으로 방 입장 요청
     public void OnClickJoinRoom()
     {
-        PhotonNetwork.NickName = nickName;
         PhotonNetwork.JoinRoom(roomName.text);
     }
 
@@ -44,8 +66,5 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     {
         statusText.text = PhotonNetwork.NetworkClientState.ToString();
         Debug.Log(PhotonNetwork.NetworkClientState.ToString());
-
-        // 닉네임 저장
-        nickName = nickNameInput.text;
     }
 }
