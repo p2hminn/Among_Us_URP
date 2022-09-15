@@ -35,7 +35,7 @@ public class JM_ColorManager : MonoBehaviourPun
 
     public void UpdateColorInfo(int input)
     {
-        if (photonView.IsMine)
+        //if (photonView.IsMine)
             photonView.RPC("RPC_UpdateColorInfo", RpcTarget.AllBuffered, input);
     }
 

@@ -91,7 +91,8 @@ public class JM_PlayerMove : MonoBehaviourPun
      void RPC_SetCrewColor(int colorIndex)
     {
         Material mat = gameObject.GetComponent<SpriteRenderer>().material;
-        mat.SetColor("_PlayerColor", JM_ColorManager.instance.colorList[colorIndex]);
+        Color color = JM_ColorManager.instance.colorList[colorIndex];
+        mat.SetColor("_PlayerColor", color);
 
         // JM_ColorManager.instance.GetColor();
 
