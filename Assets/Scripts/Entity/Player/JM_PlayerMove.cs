@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
@@ -37,20 +38,36 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 회전되야 하는 값
     Quaternion receiveRot;
 
+    // 닉네임 UI
+    public Text nickName;
 
-    public GameObject crew;
+    SpriteRenderer sr;
 
     void Start()
     {
+        // 닉네임 
+        nickName.text = photonView.Owner.NickName;
+
+        // 스프라이트 렌더러
+        sr = GetComponent<SpriteRenderer>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            print(JM_ColorManager.instance.colorList.Count);
+            int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
+
+
+            photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
+        }
+
         if (photonView.IsMine)
         {
             cam.gameObject.SetActive(true);
-            int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
+            
             //photonView.RPC("CreatedPlayer", RpcTarget.AllBuffered, rn);
 
-            photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
-            JM_ColorManager.instance.UpdateColorInfo(randomNum);
-            
+           
+            //JM_ColorManager.instance.UpdateColorInfo(randomNum);       
         }
         
         // 최초 속도 저장
@@ -65,9 +82,12 @@ public class JM_PlayerMove : MonoBehaviourPun
         {
             imposterCode.enabled = false;
         }
-        else
+        else if (SceneManager.GetActiveScene().name == "JM_GameRoomScene")
         {
             // 랜덤숫자 지정해서 임포스터 또는 플레이어 지정
+            // 플레이어 수로 이루어진 리스트에 각 플레이어 할당
+            // 랜덤숫자로 임포스터 수만큼 임포스터 설정
+            // 대충 이런 느낌/
             // (나중에는 네트워크랑 연동해서 바꿀 예정)
             int randomNum = 1;//Random.Range(0, 2);
             if (randomNum > 0)
@@ -90,11 +110,15 @@ public class JM_PlayerMove : MonoBehaviourPun
     [PunRPC]
      void RPC_SetCrewColor(int colorIndex)
     {
+        // 머티리얼 받아서
         Material mat = gameObject.GetComponent<SpriteRenderer>().material;
+        // 플레이어 컬러에 컬러리스트의 색상값을 지정해주고
         Color color = JM_ColorManager.instance.colorList[colorIndex];
-        mat.SetColor("_PlayerColor", color);
+        // 머티리얼에 플레이어 컬러를 지정한다
+        mat.SetColor("_PlayerColor", color); 
 
-        // JM_ColorManager.instance.GetColor();
+        // 컬러매니저의 컬러 리스트를 업데이트한다
+        JM_ColorManager.instance.RPC_UpdateColorInfo(colorIndex);
 
     }
 
@@ -132,8 +156,6 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 이동 함수
     private void Move(float h, float v)
     {
-        SpriteRenderer sr;
-        sr = GetComponent<SpriteRenderer>();
 
         // 방향 지정
         Vector3 playerDir = h * Vector3.right + v * Vector3.up;
@@ -191,8 +213,15 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void RPC_ChangeDir(Vector3 dir)
     {
         if (dir.x > 0f)
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+        {
+            sr.flipX = false;
+        }
+            //transform.localScale = new Vector3(-1f, 1f, 1f);
+            
         else if (dir.x < 0f)
+        {
+            sr.flipX = true;
+        }
             transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
