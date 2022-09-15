@@ -45,6 +45,10 @@ MonoBehaviour:
   - RPC_SetColor
   - CreatePlayer
   - CreatedPlayer
+  - SetColor
+  - RPC_GetColor
+  - RPC_UpdateColorInfo
+  - RPC_SetCrewColor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
