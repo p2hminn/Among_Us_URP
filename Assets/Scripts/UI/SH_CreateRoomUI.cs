@@ -32,7 +32,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     void Start()
     {
         // 방 이름 6자리 랜덤 설정
-        string roomName = "11"; // RandomString(6);
+        string roomName = RandomString(6);
         print(roomName);
 
         // 방 데이터 초기화
