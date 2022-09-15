@@ -21,7 +21,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     bool isImposter;
 
     // 애니메이터
-    Animator anim;
+    public Animator anim;
 
     // 임포스터코드 및 일반 플레이어 코드
     JM_ImposterStatus imposterCode;
@@ -37,24 +37,28 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 회전되야 하는 값
     Quaternion receiveRot;
 
-    // 보간 속도
-    public float lerpSpeed = 100;
+
+    public GameObject crew;
 
     void Start()
     {
         if (photonView.IsMine)
         {
             cam.gameObject.SetActive(true);
-            int r = Random.Range(0, 18);
-            photonView.RPC("CreatedPlayer", RpcTarget.AllBuffered, r);
+            int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
+            //photonView.RPC("CreatedPlayer", RpcTarget.AllBuffered, rn);
+
+            photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
+            JM_ColorManager.instance.UpdateColorInfo(randomNum);
+            
         }
+        
         // 최초 속도 저장
         originSpeed = playerSpeed;
 
         // rb = GetComponent<Rigidbody2D>();
         imposterCode = GetComponent<JM_ImposterStatus>();
         playerCode = GetComponent<JM_PlayerStatus>();
-        anim = GetComponent<Animator>();
 
         // waitroom에 있는동안은 무조건 다들 플레이어
         if (SceneManager.GetActiveScene().name == "JM_WaitRoomScene")
@@ -80,11 +84,19 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterCode.enabled = false;
                 playerCode.enabled = true;
             }
-        }
-
-        
+        }       
 
     }
+    [PunRPC]
+     void RPC_SetCrewColor(int colorIndex)
+    {
+        Material mat = gameObject.GetComponent<SpriteRenderer>().material;
+        mat.SetColor("_PlayerColor", JM_ColorManager.instance.colorList[colorIndex]);
+
+        // JM_ColorManager.instance.GetColor();
+
+    }
+
     [PunRPC]
     void CreatedPlayer(int colorNum)
     {
@@ -113,7 +125,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         {
             isMoving = false;
         }
-        photonView.RPC("RPC_SetBool", RpcTarget.All, isMoving);
+        SetBool(isMoving);
     }
 
     // 이동 함수
@@ -181,6 +193,11 @@ public class JM_PlayerMove : MonoBehaviourPun
             transform.localScale = new Vector3(-1f, 1f, 1f);
         else if (dir.x < 0f)
             transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+    void SetBool(bool bl)
+    {
+        photonView.RPC("RPC_SetBool", RpcTarget.All, bl);
     }
 
     [PunRPC]
