@@ -378,7 +378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickImposterNum
         m_Mode: 3
@@ -2110,7 +2110,7 @@ RectTransform:
   - {fileID: 704770756}
   - {fileID: 1544421302}
   m_Father: {fileID: 1058578259}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2866,7 +2866,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickImposterNum
         m_Mode: 3
@@ -4185,11 +4185,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520330021}
   m_CullTransparentMesh: 1
---- !u!224 &525757884 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8705208062855785869, guid: 296dd9c1f910afe4080c33297d147dde, type: 3}
-  m_PrefabInstance: {fileID: 8705208063037325361}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &542538523
 GameObject:
   m_ObjectHideFlags: 0
@@ -5099,7 +5094,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickMapImgs
         m_Mode: 3
@@ -8067,11 +8062,11 @@ RectTransform:
   - {fileID: 134546385}
   - {fileID: 1829083010}
   - {fileID: 1082914320}
-  - {fileID: 234084554}
-  - {fileID: 1143320791}
   - {fileID: 1533442038}
   - {fileID: 2046101649}
   - {fileID: 1927020321}
+  - {fileID: 1143320791}
+  - {fileID: 234084554}
   - {fileID: 189220703}
   - {fileID: 735399259}
   m_Father: {fileID: 0}
@@ -8165,7 +8160,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1078601493}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1927020320}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1082914319}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1078601493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8687,7 +8706,7 @@ RectTransform:
   - {fileID: 1860001266}
   - {fileID: 1940124969}
   m_Father: {fileID: 1058578259}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9718,7 +9737,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickMapImgs
         m_Mode: 3
@@ -9851,7 +9870,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickMapImgs
         m_Mode: 3
@@ -11097,7 +11116,7 @@ RectTransform:
   - {fileID: 1970945261}
   - {fileID: 107682696}
   m_Father: {fileID: 1058578259}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11434,15 +11453,16 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 525757884}
+  m_Children: []
   m_Father: {fileID: 1104089629}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
+
   m_SizeDelta: {x: 0, y: 103.14}
+
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1583575111
 MonoBehaviour:
@@ -12624,7 +12644,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1927020322}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SH_CreateRoomUI, Assembly-CSharp
         m_MethodName: OnClickImposterNum
         m_Mode: 3
@@ -14207,7 +14227,6 @@ GameObject:
   - component: {fileID: 1927020321}
   - component: {fileID: 1927020324}
   - component: {fileID: 1927020323}
-  - component: {fileID: 1927020322}
   m_Layer: 5
   m_Name: 'Join Room UI '
   m_TagString: Untagged
@@ -14235,53 +14254,13 @@ RectTransform:
   - {fileID: 2111229558}
   - {fileID: 900274754}
   m_Father: {fileID: 1058578259}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1927020322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927020320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 346ff821f06ae1841ba9758e2bc57d1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapImgs:
-  - {fileID: 1426951192}
-  - {fileID: 414288201}
-  - {fileID: 896086653}
-  crewImgs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  imposterCountButtons:
-  - {fileID: 1743670053}
-  - {fileID: 52758247}
-  - {fileID: 339931096}
-  maxPlayerCountButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  lobbyManager: {fileID: 0}
 --- !u!114 &1927020323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15207,7 +15186,7 @@ RectTransform:
   - {fileID: 157340539}
   - {fileID: 1992140120}
   m_Father: {fileID: 1058578259}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -15291,7 +15270,7 @@ MonoBehaviour:
   - {fileID: 698596954}
   - {fileID: 1493211308}
   - {fileID: 520330023}
-  lobbyManager: {fileID: 0}
+  lobbyManager: {fileID: 2086930785}
 --- !u!1 &2065795764
 GameObject:
   m_ObjectHideFlags: 0
@@ -15561,6 +15540,8 @@ MonoBehaviour:
   btnCreateRoom: {fileID: 1464277072}
   btnFindRoom: {fileID: 1078601492}
   btnJoinRoom: {fileID: 1437811252}
+  content: {fileID: 1583575110}
+  roomItemFactory: {fileID: 8705208062855785866, guid: 296dd9c1f910afe4080c33297d147dde, type: 3}
 --- !u!4 &2086930786
 Transform:
   m_ObjectHideFlags: 0
@@ -16167,6 +16148,7 @@ RectTransform:
   m_AnchoredPosition: {x: 112, y: -153}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+
 --- !u!1001 &8705208063037325361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16264,3 +16246,4 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 296dd9c1f910afe4080c33297d147dde, type: 3}
+
