@@ -34,7 +34,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         // 방 이름 6자리 랜덤 설정
         string roomName = RandomString(6);
         print(roomName);
-
+        
         // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
 
@@ -169,6 +169,11 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = (byte) roomData.maxPlayerCount;
         // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
+        // custom 정보 셋팅
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash[""]
+           
+        roomOptions.CustomRoomProperties = hash;
         // 방 만들기
         PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
     }
