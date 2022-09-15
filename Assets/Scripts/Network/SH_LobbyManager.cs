@@ -69,14 +69,15 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
 
 
     // 방 목록 : 방 생성 시 호출 (추가/삭제/수정)
+    // roomList : 변동사항이 있는 방
     public override void OnRoomListUpdate(List<RoomInfo> roomList)  // roomList => PhotonNetwork.CreateRoom(roomData.name, roomOptions...?
     {
         base.OnRoomListUpdate(roomList);
-        for (int i=0; i < roomList.Count; i++)
-        {
-            print("OnRoomListUpdate===============================");
-            print(roomList[i]);
-        }
+        //for (int i=0; i < roomList.Count; i++)
+        //{
+        //    print("OnRoomListUpdate===============================");
+        //    print(roomList[i]);
+        //}
         // 룸 리스트 UI 전체삭제 
         DeleteRoomListUI();
         // 룸 리스트 정보 업데이트
