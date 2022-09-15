@@ -11,6 +11,10 @@ public class JM_ColorManager : MonoBehaviourPun
     // 색깔 리스트
     public List<Color> colorList = new List<Color>();
     Color curColor;
+    public float r;
+    public float g;
+    public float b;
+    public float a;
    
     private void Awake()
     {
@@ -22,25 +26,59 @@ public class JM_ColorManager : MonoBehaviourPun
 
     private void Start()
     {
-        if (photonView.IsMine)
-        {
-            // 플레이어 색상 정리
-            int randomNum = Random.Range(0, 18);
-           // SetColor(randomNum);
-        }      
+        
     }
 
     void Update()
     {
-        
     }
 
-   
+    public void UpdateColorInfo(int input)
+    {
+        if (photonView.IsMine)
+            photonView.RPC("RPC_UpdateColorInfo", RpcTarget.AllBuffered, input);
+    }
+
+    [PunRPC]
+    public void RPC_UpdateColorInfo(int input)
+    {
+        colorList.RemoveAt(input);
+        print(input);
+    }
+
+
+    [PunRPC]
+    public void RPC_GetColor(int rn)
+    {
+        colorList.RemoveAt(rn);
+    }
+
+    public void GetColor(int rn)
+    {
+        int randomNum = Random.Range(0, 18);
+        curColor = colorList[rn];
+        r = curColor.r;
+        g = curColor.g;
+        b = curColor.b;
+        a = curColor.a;
+
+        photonView.RPC("RPC_GetColor", RpcTarget.AllBuffered, rn);
+    }
+
+    [PunRPC]
+    void RPC_SetColor(Material mat)
+    {
+        int randomNum = Random.Range(10, 18);
+        // Material mat = crew.GetComponent<SpriteRenderer>().material;
+        mat.SetColor("_PlayerColor", colorList[randomNum]);
+    }
+
 
     // 색 지정 함수
-    public void SetColor(int colorCode)
+    public void SetColor(Material mat)
     {
-        crewMat.SetColor("_PlayerColor", colorList[colorCode]);
+        photonView.RPC("RPC_SetColor", RpcTarget.AllBuffered, mat);
+        // crewMat.SetColor("_PlayerColor", colorList[colorCode]);
         
         /*
         // 빨강
