@@ -31,13 +31,14 @@ public class SH_RoomUI : MonoBehaviour
 
         // 방이름 UI text
         txt_RoomName.text = roomName;
-        // 참가 인원 / 참가 최대 인원 UI text
-        txt_PlayerNum.text = $"{currPlayerNum}/{maxPlayerNum}";
     }
 
     
     void Update()
     {
+        // 참가 인원 / 참가 최대 인원 UI text 업데이트
+        txt_PlayerNum.text = $"{currPlayerNum}/{maxPlayerNum}";
+
         // 현재 참가 인원이 4명이면  Start 버튼  interatable 활성화
         if (currPlayerNum == 4)
         {
