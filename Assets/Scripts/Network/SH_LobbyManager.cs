@@ -70,14 +70,9 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
 
     // 방 목록 : 방 생성 시 호출 (추가/삭제/수정)
     // roomList : 변동사항이 있는 방
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)  // roomList => PhotonNetwork.CreateRoom(roomData.name, roomOptions...?
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) 
     {
         base.OnRoomListUpdate(roomList);
-        //for (int i=0; i < roomList.Count; i++)
-        //{
-        //    print("OnRoomListUpdate===============================");
-        //    print(roomList[i]);
-        //}
         // 룸 리스트 UI 전체삭제 
         DeleteRoomListUI();
         // 룸 리스트 정보 업데이트
@@ -116,6 +111,7 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     }
     // roomCache의 value값으로 룸 아이템 생성
     public GameObject roomItemFactory;
+    // 방목록 생성
     void CreateRoomListUI()
     {
         foreach (RoomInfo info in roomCache.Values)
@@ -123,11 +119,18 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
             // content의 자식으로 룸아이템 생성
             GameObject go = Instantiate(roomItemFactory, content);
             // 룸아이템 정보 셋팅 (방제목(0/0))
-            SH_RoomInfo item = go.GetComponent<SH_RoomInfo>();
+            SH_RoomItem item = go.GetComponent<SH_RoomItem>();
             item.SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
+            // roomItem 버튼이 클릭되면 호출되는 함수 등록
+            //item.onClickAction = SetRoomName;
+            // 람다식으로 바로 함수 내용 넣어주기 (함수 선언후 넣어주기도 가능)
+            item.onClickAction = (room) => { roomName.text = room; };
+
+
         }
     }
 
+    
     void Update()
     {
         statusText.text = PhotonNetwork.NetworkClientState.ToString();

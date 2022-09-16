@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 8705208062855785870}
   - component: {fileID: 8705208062855785871}
   - component: {fileID: 8705208062855785868}
-  - component: {fileID: 5090319849438998340}
+  - component: {fileID: 1859029814953810523}
   m_Layer: 5
   m_Name: Room
   m_TagString: Untagged
@@ -202,8 +202,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8705208062855785871}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5090319849438998340
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1859029814953810523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
