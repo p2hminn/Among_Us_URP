@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JM_WaitRoomScene.unity
     guid: 6eb210ff7e481764f93c5fd35f110489
+  - enabled: 1
+    path: Assets/Scenes/SH_RoomScene UI.unity
+    guid: 1e71bdc6985ed6b4fad13a82bd6729ca
   m_configObjects: {}

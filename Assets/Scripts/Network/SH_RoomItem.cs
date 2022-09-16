@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
 
 public class SH_RoomItem : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class SH_RoomItem : MonoBehaviour
         name = roomName;
         // 방이름
         roomInfo.text = $"{roomName} ( {currPlayer} / {maxPlayer} ) ";
+    }
+    public void SetInfo(RoomInfo info)
+    {
+        SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
     }
 
     // 방목록 누를 때 해당 방으로 이동

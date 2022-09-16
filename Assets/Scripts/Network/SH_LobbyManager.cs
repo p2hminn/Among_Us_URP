@@ -56,7 +56,7 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.LoadLevel("JM_WaitRoomScene");
+        PhotonNetwork.LoadLevel("SH_RoomScene UI");
     }
     // 방 입장 실패할 경우
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -120,7 +120,7 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
             GameObject go = Instantiate(roomItemFactory, content);
             // 룸아이템 정보 셋팅 (방제목(0/0))
             SH_RoomItem item = go.GetComponent<SH_RoomItem>();
-            item.SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
+            item.SetInfo(info);
             // roomItem 버튼이 클릭되면 호출되는 함수 등록
             //item.onClickAction = SetRoomName;
             // 람다식으로 바로 함수 내용 넣어주기 (함수 선언후 넣어주기도 가능)
@@ -137,3 +137,4 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.NetworkClientState.ToString());
     }
 }
+

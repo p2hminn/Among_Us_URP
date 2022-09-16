@@ -10,40 +10,40 @@ using System.Linq;
 
 public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 {
-    [Header("[¸Ê ÀÌ¸§ Images]")]
+    [Header("[ï¿½ï¿½ ï¿½Ì¸ï¿½ Images]")]
     [SerializeField]
     private List<Image> mapImgs;
-    [Header("[Å©·ç Images]")]
+    [Header("[Å©ï¿½ï¿½ Images]")]
     [SerializeField]
     private List<Image> crewImgs;
-    [Header("[ÀÓÆ÷½ºÅÍ ¼ö ¹öÆ°]")]
+    [Header("[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°]")]
     [SerializeField]
     private List<Button> imposterCountButtons;
-    [Header("[ÃÖ´ë ÇÃ·¹ÀÌ¾î ¼ö ¹öÆ°]")]
+    [Header("[ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°]")]
     [SerializeField]
     private List<Button> maxPlayerCountButtons;
 
-    // »õ·Î »ý¼ºÇÏ´Â ¹æÀÇ µ¥ÀÌÅÍ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private CreateRoomData roomData;
-    // ´Ð³×ÀÓ °¡Á®¿À±â
+    // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public SH_LobbyManager lobbyManager;
     
 
     void Start()
     {
-        // ¹æ ÀÌ¸§ 6ÀÚ¸® ·£´ý ¼³Á¤
+        // ï¿½ï¿½ ï¿½Ì¸ï¿½ 6ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         string roomName = RandomString(6);
         print(roomName);
         
-        // ¹æ µ¥ÀÌÅÍ ÃÊ±âÈ­
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
 
-        // Å©·ç, ÀÓÆ÷½ºÅÍ ÀÌ¹ÌÁö ¾÷µ¥ÀÌÆ®
+        // Å©ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         UpdateImposterImgs();
         UpdateCrewImgs();
     }
 
-    // ·£´ý string Ãâ·Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ string ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     private System.Random random = new System.Random();
     public string RandomString(int length)
     {
@@ -52,7 +52,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     }
 
 
-    // ¹æ »ý¼º ¿É¼Ç ¼±ÅÃ ¹öÆ°
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public void OnClickMapImgs(int count)
     {
         roomData.mapName = mapImgs[count].name;
@@ -87,31 +87,31 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         }
         UpdateImposterImgs();
     }
-    // ÇÏ¾á»ö : MainMenu_Crew_Mat 
-    // »¡°£»ö : MainMenu_Imposter_Mat 
+    // ï¿½Ï¾ï¿½ï¿½ : MainMenu_Crew_Mat 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : MainMenu_Imposter_Mat 
     private void UpdateImposterImgs()
     {
         int imposterCount = roomData.imposterCount;
         int maxCount = roomData.maxPlayerCount;
 
-        // ÃÊ±âÈ­
+        // ï¿½Ê±ï¿½È­
         for (int i=0; i < crewImgs.Count; i++)
         {
             // crewImgs[i].color = new Color(1, 1, 1, 1);
             crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Crew_Mat");
         }
 
-        // ÀÓÆ÷½ºÅÍ ¼ö¸¸Å­ »ö»ó ·£´ý º¯°æ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         while (imposterCount > 0)
         {
-            // ¸î¹øÂ° ÀÌ¹ÌÁö¸¦ »¡°­À¸·Î ¸¸µé°ÍÀÎÁö ·£´ýÇÑ ¼ýÀÚ »Ì±â
+            // ï¿½ï¿½ï¿½Â° ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½
             int n = Random.Range(0, maxCount);
 
             for (int i=0; i < maxCount; i++)
             {
                 if (i == n && crewImgs[i].material != Resources.Load<Material>("Materials/MainMenu_Imposter_Mat") && crewImgs[i].gameObject.activeSelf)
                 {
-                    // Àç¹Î Ãß°¡ÄÚµå
+                    // ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Úµï¿½
                     crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Imposter_Mat");
                     //crewImgs[i].color = new Color(0, 0, 0, 1);
                     imposterCount--;
@@ -141,7 +141,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < maxPlayerCountButtons.Count; i++)
         {
-            // ÃÖ´ë ÇÃ·¹ÀÌ¾î ¼ö·Î ¼±Á¤µÈ ¹öÆ° ÀÌ¹ÌÁö¸¸ alpha°ª = 1
+            // ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ alphaï¿½ï¿½ = 1
             if (i == count - 4)
             {
                 maxPlayerCountButtons[i].image.color = new Color(1, 1, 1, 1);
@@ -153,71 +153,54 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
             }
         }
 
-        // Å©·ç ÀÌ¹ÌÁö, ÀÓÆ÷½ºÅÍ ÀÌ¹ÌÁö ¾÷µ¥ÀÌÆ®
+        // Å©ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         UpdateCrewImgs();
         UpdateImposterImgs();
     }
 
 
-    // È®ÀÎ ¹öÆ° -> ¹æ »ý¼º
+    // È®ï¿½ï¿½ ï¿½ï¿½Æ° -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void OnClickToCreateRoom()
     {
-        // ¹æ ¿É¼Ç ¼¼ÆÃ
+        // ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         RoomOptions roomOptions = new RoomOptions();
 
-        // ÃÖ´ë ÀÎ¿ø
+        // ï¿½Ö´ï¿½ ï¿½Î¿ï¿½
         roomOptions.MaxPlayers = (byte) roomData.maxPlayerCount;
-        // ·ë ¸ñ·Ï¿¡ º¸ÀÌ´ÂÁö ¿©ºÎ
+        // ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         roomOptions.IsVisible = true;
-        // custom Á¤º¸ ¼ÂÆÃ
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        // custom ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+        //ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        // custom ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+        //roomOptions.CustomRoomPropertiesForLobby = new string[] { };
            
-        roomOptions.CustomRoomProperties = hash;
-        // ¹æ ¸¸µé±â
-        PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
-        
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+        PhotonNetwork.CreateRoom(roomData.name, roomOptions);
     }
-    // ¹æ »ý¼º ¼º°øÇÒ °æ¿ì(»ý¼ºÀÚ ÀÚµ¿ ÀÔÀå)
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½)
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
     }
-    // ¹æ »ý¼º ½ÇÆÐÇÒ °æ¿ì
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
         print("OnCreateRoomFailed, " + returnCode + ", " + message);
     }
-    // ¹æ ÀÔÀå ¿äÃ» (»ý¼ºÀÚ´Â ÀÚµ¿ ÀÔÀå)
-    //public void JoinRoom()
-    //{
-    //    PhotonNetwork.NickName = lobbyManager.nickName;
-    //    PhotonNetwork.JoinRoom(roomData.name);
-    //}
-    //// ¹æ ÀÔÀå ¼º°øÇÒ °æ¿ì ´ë±â½Ç·Î ¾À ÀüÈ¯
-    //public override void OnJoinedRoom()
-    //{
-    //    base.OnJoinedRoom();
-    //    PhotonNetwork.LoadLevel("JM_WaitRoomScene");
-    //}
-
-    //private void Update()
-    //{
-    //    print("")
-    //}
 }
 
 
-// »õ·Î »ý¼ºµÇ´Â ¹æÀÇ µ¥ÀÌÅÍ ÀúÀå
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class CreateRoomData
 {
-    // ·ë ÀÌ¸§
+    // ï¿½ï¿½ ï¿½Ì¸ï¿½
     public string name;
-    // ¸Ê ÀÌ¸§
+    // ï¿½ï¿½ ï¿½Ì¸ï¿½
     public string mapName;
-    // ÀÓÆ÷½ºÅÍ ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public int imposterCount;
-    // ÃÖ´ë ÇÃ·¹ÀÌ¾î ¼ö
+    // ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½
     public int maxPlayerCount;
 }
 
