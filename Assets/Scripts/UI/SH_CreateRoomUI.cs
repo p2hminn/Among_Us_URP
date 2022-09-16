@@ -171,11 +171,11 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         roomOptions.IsVisible = true;
         // custom 정보 셋팅
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash[""]
            
         roomOptions.CustomRoomProperties = hash;
         // 방 만들기
         PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
+        
     }
     // 방 생성 성공할 경우(생성자 자동 입장)
     public override void OnCreatedRoom()
