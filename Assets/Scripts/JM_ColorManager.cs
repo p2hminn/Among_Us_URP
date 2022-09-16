@@ -23,24 +23,9 @@ public class JM_ColorManager : MonoBehaviourPun
             instance = this;
         }
     }
-
-    private void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-    }
-
+    
+    // 색상리스트에서 해당 색상 삭제
     public void UpdateColorInfo(int input)
-    {
-        //if (photonView.IsMine)
-            photonView.RPC("RPC_UpdateColorInfo", RpcTarget.AllBuffered, input);
-    }
-
-    [PunRPC]
-    public void RPC_UpdateColorInfo(int input)
     {
         colorList.RemoveAt(input);
         print(input);
@@ -72,7 +57,6 @@ public class JM_ColorManager : MonoBehaviourPun
         // Material mat = crew.GetComponent<SpriteRenderer>().material;
         mat.SetColor("_PlayerColor", colorList[randomNum]);
     }
-
 
     // 색 지정 함수
     public void SetColor(Material mat)
