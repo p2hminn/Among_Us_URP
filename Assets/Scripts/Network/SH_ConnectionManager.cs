@@ -38,7 +38,6 @@ public class SH_ConnectionManager : MonoBehaviourPunCallbacks  // 포톤 서비스가 
         // 접속 시도 중임 텍스트로 표시
         connectionInfoText.text = "마스터 서버에 접속 중...";
     }
-
     // 마스터 서버 접속 성공할 경우
     public override void OnConnectedToMaster()
     {

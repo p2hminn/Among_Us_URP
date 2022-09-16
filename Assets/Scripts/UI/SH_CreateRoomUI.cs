@@ -169,13 +169,13 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = (byte) roomData.maxPlayerCount;
         // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
-        // custom 정보 셋팅
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash[""]
+        // custom 정보 셋팅 
+        //ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        // custom 정보 공개하는 설정
+        //roomOptions.CustomRoomPropertiesForLobby = new string[] { };
            
-        roomOptions.CustomRoomProperties = hash;
         // 방 만들기
-        PhotonNetwork.CreateRoom(roomData.name, roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(roomData.name, roomOptions);
     }
     // 방 생성 성공할 경우(생성자 자동 입장)
     public override void OnCreatedRoom()
@@ -188,23 +188,6 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
         print("OnCreateRoomFailed, " + returnCode + ", " + message);
     }
-    // 방 입장 요청 (생성자는 자동 입장)
-    //public void JoinRoom()
-    //{
-    //    PhotonNetwork.NickName = lobbyManager.nickName;
-    //    PhotonNetwork.JoinRoom(roomData.name);
-    //}
-    //// 방 입장 성공할 경우 대기실로 씬 전환
-    //public override void OnJoinedRoom()
-    //{
-    //    base.OnJoinedRoom();
-    //    PhotonNetwork.LoadLevel("JM_WaitRoomScene");
-    //}
-
-    //private void Update()
-    //{
-    //    print("")
-    //}
 }
 
 
