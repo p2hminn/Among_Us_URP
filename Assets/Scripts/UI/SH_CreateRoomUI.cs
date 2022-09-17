@@ -167,10 +167,13 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = (byte) roomData.maxPlayerCount;
         // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
-        // custom 옵션 설정
-        //ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        // custom 정보 셋팅
+        ExitGames.Client.Photon.Hashtable customHash = new ExitGames.Client.Photon.Hashtable();
+        customHash["map"] = roomData.mapName;
+        customHash["imposter"] = roomData.imposterCount;
+        roomOptions.CustomRoomProperties = customHash;
         // custom 정보 공개 설정
-        //roomOptions.CustomRoomPropertiesForLobby = new string[] { };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "map", "imposter" };
 
         // 방 만들기
         PhotonNetwork.CreateRoom(roomData.name, roomOptions);

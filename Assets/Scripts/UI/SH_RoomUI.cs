@@ -25,6 +25,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 게임 Start 버튼 누를 시 비활성화해야 하는 오브젝트들
     [Header("GameStart 시 비활성화해야 하는 오브젝트")]
     public List<GameObject> toOff = new List<GameObject>();
+    // GameIntro UI 카메라 
+    public Camera cam;
+    // GameIntro UI
+    public GameObject shhh;
+    public GameObject crews;
+    public GameObject imposters;
+    public float introSpeed;
 
     void Start()
     {
@@ -45,12 +52,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
-        }
-
-        // Start 버튼 눌린 경우 게임 인트로 시작
-        if (isStart)
-        {
-            StartCoroutine("GameIntro");
         }
     }
 
@@ -77,10 +78,21 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     void GameIntroStart()
     {
         isStart = true;
+        // UI 보이게할 카메라 활성화
+        cam.gameObject.SetActive(true);
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
+        }
+
+        if (isStart)
+        {
+            // Start 버튼 눌린 경우 게임 인트로 시작
+            if (isStart)
+            {
+                StartCoroutine("GameIntro");
+            }
         }
     }
     
@@ -88,6 +100,47 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // GameIntro 코루틴
     IEnumerator GameIntro()
     {
+        //yield return new WaitForSeconds(2);
+
+        float currTime = 0;
+        float delayTime = 2;
+        while (currTime < delayTime)
+        {
+            shhh.SetActive(true);
+            currTime += introSpeed * Time.deltaTime;
+            print($"currTime : {currTime}");
+        }
+        shhh.SetActive(false);
+
+        // 크루일 경우
+        if (!JM_PlayerMove.instance.isImposter)
+        {
+            float a = 0;
+            CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
+            // 만약에 로컬이라면 player 오브젝트 활성화하기
+            if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
+            while (a < 1)
+            {
+                print($"crewsAlpha : {a}");
+                a += introSpeed * Time.deltaTime;
+                crewsAlpha.alpha = a;
+            }
+            crewsAlpha.alpha = 1;
+        }
+        // 임포스터일 경우
+        else
+        {
+            float a = 0;
+            CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
+            if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
+            while (a < 1)
+            {
+                print($"impostersAlpha : {a}");
+                a += introSpeed * Time.deltaTime;
+                impostersAlpha.alpha = a;
+            }
+            impostersAlpha.alpha = 1;
+        }
         yield return new WaitForSeconds(2);
 
 
