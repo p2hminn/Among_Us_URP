@@ -42,6 +42,23 @@ public class JM_GameManager : MonoBehaviourPun
         {
             SetGameScene(1);
         }
+
+
+        // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화
+        if (SH_RoomUI.instance.isStart)
+        {
+            for (int i=0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(false);
+            }
+        }
+
+
+        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 
+        //if (SH_RoomUI.instance.isStart && )
+        //{
+        //    isGameRoom = true
+        //}
     }
 
     public void AddPlayer(PhotonView pv)
