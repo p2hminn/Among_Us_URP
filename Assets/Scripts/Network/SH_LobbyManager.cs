@@ -26,14 +26,12 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     Dictionary<string, RoomInfo> roomCache = new Dictionary<string, RoomInfo>();
     // 룸 자식으로 삼을 Content(부모)
     public Transform content;
-    
 
 
     private void Start()
     {
         // 닉네임(InputField)이 변경될 때 호출되는 함수 등록
         inputNickName.onValueChanged.AddListener(OnNickNameValueChanged);
-        // 닉네임(InputField)에서 Focusing을 잃었을 때 호출되는 함수 등록
     }
 
     public void OnNickNameValueChanged(string s)
@@ -56,6 +54,9 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        //// 자신이 방에 들어갔을 때 방의 인원 수 업데이트
+        //SH_RoomUI.instance.PlayerNumUpdate();
+        // 방 씬으로  전환 
         PhotonNetwork.LoadLevel("SH_RoomScene UI");
     }
     // 방 입장 실패할 경우
@@ -133,8 +134,8 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     
     void Update()
     {
-        statusText.text = PhotonNetwork.NetworkClientState.ToString();
-        Debug.Log(PhotonNetwork.NetworkClientState.ToString());
+        //statusText.text = PhotonNetwork.NetworkClientState.ToString();
+        //Debug.Log(PhotonNetwork.NetworkClientState.ToString());
     }
 }
 

@@ -30,6 +30,9 @@ public class JM_GameManager : MonoBehaviourPun
 
         int randomNum = Random.Range(0, 3);
 
+        // 방 인원 수 text 업데이트
+        SH_RoomUI.instance.PlayerNumUpdate();
+
         GameObject crew = PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
     }
 
