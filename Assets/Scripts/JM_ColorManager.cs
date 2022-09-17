@@ -28,7 +28,6 @@ public class JM_ColorManager : MonoBehaviourPun
     public void UpdateColorInfo(int input)
     {
         colorList.RemoveAt(input);
-        print(input);
     }
 
 

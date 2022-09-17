@@ -68,7 +68,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 마스터 클라이언트만 색깔지정 (컬러매니저는 마스터 클라이언트만 사용)
         if (PhotonNetwork.IsMasterClient)
         {
-            print(JM_ColorManager.instance.colorList.Count);
+            //print(JM_ColorManager.instance.colorList.Count);
             int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
             photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
         }
@@ -262,17 +262,20 @@ public class JM_PlayerMove : MonoBehaviourPun
             deadBodyCode.SetColor(color);
         }
     }
+    public bool introStart = false;
     [PunRPC]
     void RPC_SetImposter()
     {
         isImposter = true;
-        JM_GameManager.instance.isGameRoom = true;
+        introStart = true;
+        //JM_GameManager.instance.isGameRoom = true;
     }
 
     [PunRPC]
     void RPC_SetCrew()
     {
         isImposter = false;
-        JM_GameManager.instance.isGameRoom = true;
+        introStart = true;
+        //JM_GameManager.instance.isGameRoom = true;
     }
 }
