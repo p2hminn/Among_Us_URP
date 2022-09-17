@@ -86,13 +86,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             toOff[i].SetActive(false);
         }
 
-        if (isStart)
+        if (isStart && JM_PlayerMove.instance.introStart)
         {
             // Start 버튼 눌린 경우 게임 인트로 시작
-            if (isStart)
-            {
-                StartCoroutine("GameIntro");
-            }
+            StartCoroutine("GameIntro");
         }
     }
     
@@ -103,10 +100,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         //yield return new WaitForSeconds(2);
 
         float currTime = 0;
-        float delayTime = 2;
+        float delayTime = 5000;
+        shhh.SetActive(true);
         while (currTime < delayTime)
         {
-            shhh.SetActive(true);
             currTime += introSpeed * Time.deltaTime;
             print($"currTime : {currTime}");
         }
@@ -116,6 +113,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         if (!JM_PlayerMove.instance.isImposter)
         {
             float a = 0;
+            crews.SetActive(true);
             CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
             // 만약에 로컬이라면 player 오브젝트 활성화하기
             if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
@@ -124,13 +122,17 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
                 print($"crewsAlpha : {a}");
                 a += introSpeed * Time.deltaTime;
                 crewsAlpha.alpha = a;
+                yield return null;
             }
             crewsAlpha.alpha = 1;
+            yield return new WaitForSeconds(2);
+            crews.SetActive(false);
         }
         // 임포스터일 경우
         else
         {
             float a = 0;
+            imposters.SetActive(true);
             CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
             if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
             while (a < 1)
@@ -138,8 +140,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
                 print($"impostersAlpha : {a}");
                 a += introSpeed * Time.deltaTime;
                 impostersAlpha.alpha = a;
+                yield return null;
             }
             impostersAlpha.alpha = 1;
+            yield return new WaitForSeconds(2);
+            imposters.SetActive(false);
         }
         yield return new WaitForSeconds(2);
 
