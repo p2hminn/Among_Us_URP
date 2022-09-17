@@ -10,40 +10,40 @@ using System.Linq;
 
 public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 {
-    [Header("[�� �̸� Images]")]
+    [Header("[맵 이름 Images]")]
     [SerializeField]
     private List<Image> mapImgs;
-    [Header("[ũ�� Images]")]
+    [Header("[크루 Images]")]
     [SerializeField]
     private List<Image> crewImgs;
-    [Header("[�������� �� ��ư]")]
+    [Header("[임포스터 수 버튼]")]
     [SerializeField]
     private List<Button> imposterCountButtons;
-    [Header("[�ִ� �÷��̾� �� ��ư]")]
+    [Header("[최대 플레이어 수 버튼]")]
     [SerializeField]
     private List<Button> maxPlayerCountButtons;
 
-    // ���� �����ϴ� ���� ������
+    // 새로 생성하는 방의 데이터
     private CreateRoomData roomData;
-    // �г��� ��������
+    // 닉네임 가져오기
     public SH_LobbyManager lobbyManager;
     
 
     void Start()
     {
-        // �� �̸� 6�ڸ� ���� ����
+        // 방 이름 6자리 랜덤 설정
         string roomName = RandomString(6);
         print(roomName);
         
-        // �� ������ �ʱ�ȭ
+        // 방 데이터 초기화
         roomData = new CreateRoomData() { name = roomName, imposterCount = 1, maxPlayerCount = 10 };
 
-        // ũ��, �������� �̹��� ������Ʈ
+        // 임포스터, 크루 이미지 업데이트
         UpdateImposterImgs();
         UpdateCrewImgs();
     }
 
-    // ���� string ��� �Լ�
+    // 랜덤 string 출력 함수
     private System.Random random = new System.Random();
     public string RandomString(int length)
     {
@@ -52,7 +52,8 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
     }
 
 
-    // �� ���� �ɼ� ���� ��ư
+
+    // 방 생성 옵션 선택 버튼
     public void OnClickMapImgs(int count)
     {
         roomData.mapName = mapImgs[count].name;
@@ -87,33 +88,29 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
         }
         UpdateImposterImgs();
     }
-    // �Ͼ�� : MainMenu_Crew_Mat 
-    // ������ : MainMenu_Imposter_Mat 
+    // 하얀색 : MainMenu_Crew_Mat 
+    // 빨간색 : MainMenu_Imposter_Mat 
     private void UpdateImposterImgs()
     {
         int imposterCount = roomData.imposterCount;
         int maxCount = roomData.maxPlayerCount;
 
-        // �ʱ�ȭ
+        // 초기화
         for (int i=0; i < crewImgs.Count; i++)
         {
-            // crewImgs[i].color = new Color(1, 1, 1, 1);
             crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Crew_Mat");
         }
 
-        // �������� ����ŭ ���� ���� ����
+        // 임포스터 수만큼 색상 랜덤 변경
         while (imposterCount > 0)
         {
-            // ���° �̹����� �������� ��������� ������ ���� �̱�
             int n = Random.Range(0, maxCount);
 
             for (int i=0; i < maxCount; i++)
             {
                 if (i == n && crewImgs[i].material != Resources.Load<Material>("Materials/MainMenu_Imposter_Mat") && crewImgs[i].gameObject.activeSelf)
                 {
-                    // ��� �߰��ڵ�
                     crewImgs[i].material = Resources.Load<Material>("Materials/MainMenu_Imposter_Mat");
-                    //crewImgs[i].color = new Color(0, 0, 0, 1);
                     imposterCount--;
                 }
             }
@@ -141,7 +138,7 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < maxPlayerCountButtons.Count; i++)
         {
-            // �ִ� �÷��̾� ���� ������ ��ư �̹����� alpha�� = 1
+            // 최대 플레이어 수로 선정된 버튼 이미지만 alpha값 = 1
             if (i == count - 4)
             {
                 maxPlayerCountButtons[i].image.color = new Color(1, 1, 1, 1);
@@ -153,36 +150,37 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
             }
         }
 
-        // ũ�� �̹���, �������� �̹��� ������Ʈ
+        // 임포스터, 크루 이미지 업데이트
         UpdateCrewImgs();
         UpdateImposterImgs();
     }
 
 
-    // Ȯ�� ��ư -> �� ����
+
+    // 확인 버튼 -> 방 생성
     public void OnClickToCreateRoom()
     {
-        // �� �ɼ� ����
+        // 방 옵션 세팅
         RoomOptions roomOptions = new RoomOptions();
 
-        // �ִ� �ο�
+        // 최대 인원
         roomOptions.MaxPlayers = (byte) roomData.maxPlayerCount;
-        // �� ��Ͽ� ���̴��� ����
+        // 룸 목록에 보이는지 여부
         roomOptions.IsVisible = true;
-        // custom ���� ���� 
+        // custom 옵션 설정
         //ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        // custom ���� �����ϴ� ����
+        // custom 정보 공개 설정
         //roomOptions.CustomRoomPropertiesForLobby = new string[] { };
-           
-        // �� �����
+
+        // 방 만들기
         PhotonNetwork.CreateRoom(roomData.name, roomOptions);
     }
-    // �� ���� ������ ���(������ �ڵ� ����)
+    // 방 생성 성공할 경우
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
     }
-    // �� ���� ������ ���
+    // 방 생성 실패할 경우
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
@@ -191,16 +189,16 @@ public class SH_CreateRoomUI : MonoBehaviourPunCallbacks
 }
 
 
-// ���� �����Ǵ� ���� ������ ����
+// 새로 생성되는 방의 데이터 저장
 public class CreateRoomData
 {
-    // �� �̸�
+    // 방 이름
     public string name;
-    // �� �̸�
+    // 맵 이름
     public string mapName;
-    // �������� ��
+    // 임포스터 수
     public int imposterCount;
-    // �ִ� �÷��̾� ��
+    // 최대 플레이어 수
     public int maxPlayerCount;
 }
 

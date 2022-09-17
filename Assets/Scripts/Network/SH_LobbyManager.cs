@@ -13,122 +13,119 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public GameObject privateUI;
     public GameObject joinRoomFailedUI;
 
-    // ´Ğ³×ÀÓ
+    // ë‹‰ë„¤ì„
     public InputField inputNickName;
     public string nickName;
 
-    // ¹öÆ°
+    // ë²„íŠ¼
     public Button btnCreateRoom;
     public Button btnFindRoom;
     public Button btnJoinRoom;
 
-    // ¹æ Á¤º¸ (Key = ¹æÀÌ¸§, Value = roomInfo)
+    // ë°© ì •ë³´ (Key = ë°©ì´ë¦„, Value = roomInfo)
     Dictionary<string, RoomInfo> roomCache = new Dictionary<string, RoomInfo>();
-    // ·ë ÀÚ½ÄÀ¸·Î »ïÀ» Content(ºÎ¸ğ)
+    // ë£¸ ìì‹ìœ¼ë¡œ ì‚¼ì„ Content(ë¶€ëª¨)
     public Transform content;
-    
 
 
     private void Start()
     {
-        // ´Ğ³×ÀÓ(InputField)ÀÌ º¯°æµÉ ¶§ È£ÃâµÇ´Â ÇÔ¼ö µî·Ï
+        // ë‹‰ë„¤ì„(InputField)ì´ ë³€ê²½ë  ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ ë“±ë¡
         inputNickName.onValueChanged.AddListener(OnNickNameValueChanged);
-        // ´Ğ³×ÀÓ(InputField)¿¡¼­ FocusingÀ» ÀÒ¾úÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö µî·Ï
     }
 
     public void OnNickNameValueChanged(string s)
     {
-        // ¹öÆ° 3°³ ¸ğµÎ È°¼ºÈ­
+        // ë²„íŠ¼ 3ê°œ ëª¨ë‘ í™œì„±í™”
         btnCreateRoom.interactable = s.Length > 0;
         btnFindRoom.interactable = s.Length > 0;
         btnJoinRoom.interactable = s.Length > 0;
-        // ´Ğ³×ÀÓ µî·Ï
+        // ë‹‰ë„¤ì„ ë“±ë¡
         PhotonNetwork.NickName = inputNickName.text;
     }
 
-    // ÀÔ·Â¹ŞÀº ¹æÀÌ¸§À¸·Î ¹æ ÀÔÀå 
+    // ì…ë ¥ë°›ì€ ë°©ì´ë¦„ìœ¼ë¡œ ë°© ì…ì¥ 
     public void OnClickJoinRoom()
     {
         PhotonNetwork.JoinRoom(roomName.text);
         print(roomName.text);
     }
-    // ¹æ ÀÔÀå ¼º°øÇÒ °æ¿ì
+    // ë°© ì…ì¥ ì„±ê³µí•  ê²½ìš°
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-
-        // ¾À µÎ°³ - ¼öÇö : SH_RoomScene UI
-        //         - Àç¹Î : JM_WaitRoomScene
-
-        // PhotonNetwork.LoadLevel("SH_RoomScene UI");
-        PhotonNetwork.LoadLevel("JM_WaitRoomScene");
+        
+        //// ìì‹ ì´ ë°©ì— ë“¤ì–´ê°”ì„ ë•Œ ë°©ì˜ ì¸ì› ìˆ˜ ì—…ë°ì´íŠ¸
+        //SH_RoomUI.instance.PlayerNumUpdate();
+        // ë°© ì”¬ìœ¼ë¡œ  ì „í™˜ 
+        PhotonNetwork.LoadLevel("SH_RoomScene UI");
     }
-    // ¹æ ÀÔÀå ½ÇÆĞÇÒ °æ¿ì
+    // ë°© ì…ì¥ ì‹¤íŒ¨í•  ê²½ìš°
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
-        // Private UI ºñÈ°¼ºÈ­ÇÏ°í JoinRoomFailed UI È°¼ºÈ­
+        // Private UI ë¹„í™œì„±í™”í•˜ê³  JoinRoomFailed UI í™œì„±í™”
         privateUI.SetActive(false);
         joinRoomFailedUI.SetActive(true);
     }
 
 
-    // ¹æ ¸ñ·Ï : ¹æ »ı¼º ½Ã È£Ãâ (Ãß°¡/»èÁ¦/¼öÁ¤)
-    // roomList : º¯µ¿»çÇ×ÀÌ ÀÖ´Â ¹æ
+    // ë°© ëª©ë¡ : ë°© ìƒì„± ì‹œ í˜¸ì¶œ (ì¶”ê°€/ì‚­ì œ/ìˆ˜ì •)
+    // roomList : ë³€ë™ì‚¬í•­ì´ ìˆëŠ” ë°©
     public override void OnRoomListUpdate(List<RoomInfo> roomList) 
     {
         base.OnRoomListUpdate(roomList);
-        // ·ë ¸®½ºÆ® UI ÀüÃ¼»èÁ¦ 
+        // ë£¸ ë¦¬ìŠ¤íŠ¸ UI ì „ì²´ì‚­ì œ 
         DeleteRoomListUI();
-        // ·ë ¸®½ºÆ® Á¤º¸ ¾÷µ¥ÀÌÆ®
+        // ë£¸ ë¦¬ìŠ¤íŠ¸ ì •ë³´ ì—…ë°ì´íŠ¸
         UpdateRoomCache(roomList);
-        // ·ë ¸®½ºÆ® UI ÀüÃ¼ »ı¼º
+        // ë£¸ ë¦¬ìŠ¤íŠ¸ UI ì „ì²´ ìƒì„±
         CreateRoomListUI();
     }
     void DeleteRoomListUI()
     {
-        // Transform : ÀÚ½Ä ÄÄÆ÷³ÍÆ® °¡Á®¿È
+        // Transform : ìì‹ ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜´
         foreach (Transform tr in content)
         {
             Destroy(tr.gameObject);
         }
     }
-    // roomList¸¦ roomCache¿¡ °»½Å
+    // roomListë¥¼ roomCacheì— ê°±ì‹ 
     void UpdateRoomCache(List<RoomInfo> roomList)
     {
         for (int i = 0; i < roomList.Count; i++)
         {
-            // »èÁ¦
+            // ì‚­ì œ
             if (roomCache.ContainsKey(roomList[i].Name))
             {
-                //  ¸¸¾à¿¡ ÇØ´ç ·ëÀÌ »èÁ¦µÈ °ÍÀÌ¶ó¸é (RemovedFromList  : »èÁ¦ ¿©ºÎ)
+                //  ë§Œì•½ì— í•´ë‹¹ ë£¸ì´ ì‚­ì œëœ ê²ƒì´ë¼ë©´ (RemovedFromList  : ì‚­ì œ ì—¬ë¶€)
                 if (roomList[i].RemovedFromList)
                 {
-                    // roomCache¿¡¼­ ÇØ´ç Á¤º¸ »èÁ¦
+                    // roomCacheì—ì„œ í•´ë‹¹ ì •ë³´ ì‚­ì œ
                     roomCache.Remove(roomList[i].Name);
                     continue;
                 }
             }
-            // Ãß°¡ ¹× ¼öÁ¤ ( Key-Value )
+            // ì¶”ê°€ ë° ìˆ˜ì • ( Key-Value )
             print(roomList[i]);
             roomCache[roomList[i].Name] = roomList[i];
         }
     }
-    // roomCacheÀÇ value°ªÀ¸·Î ·ë ¾ÆÀÌÅÛ »ı¼º
+    // roomCacheì˜ valueê°’ìœ¼ë¡œ ë£¸ ì•„ì´í…œ ìƒì„±
     public GameObject roomItemFactory;
-    // ¹æ¸ñ·Ï »ı¼º
+    // ë°©ëª©ë¡ ìƒì„±
     void CreateRoomListUI()
     {
         foreach (RoomInfo info in roomCache.Values)
         {
-            // contentÀÇ ÀÚ½ÄÀ¸·Î ·ë¾ÆÀÌÅÛ »ı¼º
+            // contentì˜ ìì‹ìœ¼ë¡œ ë£¸ì•„ì´í…œ ìƒì„±
             GameObject go = Instantiate(roomItemFactory, content);
-            // ·ë¾ÆÀÌÅÛ Á¤º¸ ¼ÂÆÃ (¹æÁ¦¸ñ(0/0))
+            // ë£¸ì•„ì´í…œ ì •ë³´ ì…‹íŒ… (ë°©ì œëª©(0/0))
             SH_RoomItem item = go.GetComponent<SH_RoomItem>();
             item.SetInfo(info);
-            // roomItem ¹öÆ°ÀÌ Å¬¸¯µÇ¸é È£ÃâµÇ´Â ÇÔ¼ö µî·Ï
+            // roomItem ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ ë“±ë¡
             //item.onClickAction = SetRoomName;
-            // ¶÷´Ù½ÄÀ¸·Î ¹Ù·Î ÇÔ¼ö ³»¿ë ³Ö¾îÁÖ±â (ÇÔ¼ö ¼±¾ğÈÄ ³Ö¾îÁÖ±âµµ °¡´É)
+            // ëŒë‹¤ì‹ìœ¼ë¡œ ë°”ë¡œ í•¨ìˆ˜ ë‚´ìš© ë„£ì–´ì£¼ê¸° (í•¨ìˆ˜ ì„ ì–¸í›„ ë„£ì–´ì£¼ê¸°ë„ ê°€ëŠ¥)
             item.onClickAction = (room) => { roomName.text = room; };
 
 
@@ -138,8 +135,8 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     
     void Update()
     {
-        statusText.text = PhotonNetwork.NetworkClientState.ToString();
-        Debug.Log(PhotonNetwork.NetworkClientState.ToString());
+        //statusText.text = PhotonNetwork.NetworkClientState.ToString();
+        //Debug.Log(PhotonNetwork.NetworkClientState.ToString());
     }
 }
 
