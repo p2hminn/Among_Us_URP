@@ -19,7 +19,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     bool isMoving;
 
     // 임포스터 여부
-    bool isImposter;
+    public bool isImposter;
 
     // 애니메이터
     public Animator anim;

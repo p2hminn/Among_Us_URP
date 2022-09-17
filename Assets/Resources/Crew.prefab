@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 3
+  isImposter: 0
   anim: {fileID: 3059736370986691486}
   cam: {fileID: 3059736371520065653}
   nickName: {fileID: 7082993974185885838}
