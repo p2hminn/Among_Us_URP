@@ -56,7 +56,12 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.LoadLevel("SH_RoomScene UI");
+
+        // 씬 두개 - 수현 : SH_RoomScene UI
+        //         - 재민 : JM_WaitRoomScene
+
+        // PhotonNetwork.LoadLevel("SH_RoomScene UI");
+        PhotonNetwork.LoadLevel("JM_WaitRoomScene");
     }
     // 방 입장 실패할 경우
     public override void OnJoinRoomFailed(short returnCode, string message)

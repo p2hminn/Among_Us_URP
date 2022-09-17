@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3059736370986691481}
   - component: {fileID: 4692137819838067670}
   - component: {fileID: 9203691537345319286}
+  - component: {fileID: 4326509646114621149}
   m_Layer: 0
   m_Name: Crew
   m_TagString: Untagged
@@ -177,6 +178,7 @@ MonoBehaviour:
   anim: {fileID: 3059736370986691486}
   cam: {fileID: 3059736371520065653}
   nickName: {fileID: 7082993974185885838}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &3059736370986691482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,11 +186,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3059736370986691462}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4de6bbb8a47567428beb73ecb0c55b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadBodyGenerator: {fileID: 1522875784025858697, guid: 03c5a01ba03482c439b2e199b9a5bfc6, type: 3}
   state: 0
 --- !u!114 &3059736370986691481
 MonoBehaviour:
@@ -197,7 +200,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3059736370986691462}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24b39767ae275b44fb8e2fa166e53e13, type: 3}
   m_Name: 
@@ -241,6 +244,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!70 &4326509646114621149
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059736370986691462}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.11275178}
+  m_Size: {x: 0.87142015, y: 0.87142015}
+  m_Direction: 0
 --- !u!1 &3059736371520065649
 GameObject:
   m_ObjectHideFlags: 0

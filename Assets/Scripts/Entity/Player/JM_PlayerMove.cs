@@ -41,6 +41,12 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 닉네임 UI
     public Text nickName;
 
+    // 플레이어 색상
+    [SerializeField]
+    Color color;
+
+    GameObject deadBody;
+
     SpriteRenderer sr;
 
     void Start()
@@ -66,7 +72,10 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 내 카메라 켜주기
         if (photonView.IsMine)
         {  
-            cam.gameObject.SetActive(true);      
+            cam.gameObject.SetActive(true);   
+            // 색상정보를 받는다
+
+            // 받은 정보를 통해서 색상값을 저장한다. 
         }
         
         // 최초 속도 저장
@@ -94,7 +103,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         if (!JM_GameManager.instance.isGameRoom)
         {
             // 크루도 아니고 
-            playerCode.enabled = false;
+            playerCode.enabled = true;
             // 임포스터도 아님
             imposterCode.enabled = false;
         }
@@ -214,14 +223,41 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 머티리얼 받아서
         Material mat = gameObject.GetComponent<SpriteRenderer>().material;
         // 플레이어 컬러에 컬러리스트의 색상값을 지정해주고
-        Color color = JM_ColorManager.instance.colorList[colorIndex];
-        // 머티리얼에 플레이어 컬러를 지정한다
+        Color settingColor = JM_ColorManager.instance.colorList[colorIndex];
+
+        // 색상의 rgba 값을 구해서
+        float r = settingColor.r;
+        float g = settingColor.g;
+        float b = settingColor.b;
+        float a = settingColor.a;
+
+        // 해당 플레이어에게 저장
+        photonView.RPC("RPC_SaveColor", RpcTarget.AllBuffered, r, g, b, a);
+
+        // 머티리얼에 플레이어 컬러를 지정
         mat.SetColor("_PlayerColor", color);
 
-        // 컬러매니저의 컬러 리스트를 업데이트한다
+        // 컬러매니저의 컬러 리스트를 업데이트
         JM_ColorManager.instance.UpdateColorInfo(colorIndex);
     }
 
+    [PunRPC]
+    void RPC_SaveColor(float r, float g, float b, float a)
+    {
+        color = new Color(r, g, b, a);
+    }
+
+    // 죽음
+    [PunRPC]
+    void RPC_Dead()
+    {
+        if (photonView.IsMine)
+        {
+            deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);
+            JM_DeadBody deadBodyCode = deadBody.GetComponent<JM_DeadBody>();
+            deadBodyCode.SetColor(color);
+        }
+    }
     [PunRPC]
     void RPC_SetImposter()
     {
