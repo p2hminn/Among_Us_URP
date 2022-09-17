@@ -33,7 +33,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     JM_PlayerStatus playerCode;
 
     // 카메라
-    public Camera cam;
+    public Transform camPos;
 
 
     // 도착 위치
@@ -76,10 +76,11 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 내 카메라 켜주기
         if (photonView.IsMine)
         {  
-            cam.gameObject.SetActive(true);   
-            // 색상정보를 받는다
-
-            // 받은 정보를 통해서 색상값을 저장한다. 
+            if (photonView.IsMine)
+            {
+                //camPos를 활성화한다
+                camPos.gameObject.SetActive(true);
+            } 
         }
         
         // 최초 속도 저장
@@ -268,6 +269,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         isImposter = true;
         introStart = true;
+        // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;
     }
 
@@ -276,6 +278,8 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         isImposter = false;
         introStart = true;
+        // SH_RoomUI.instance.StartCoroutine("GameIntro");
+
         //JM_GameManager.instance.isGameRoom = true;
     }
 }

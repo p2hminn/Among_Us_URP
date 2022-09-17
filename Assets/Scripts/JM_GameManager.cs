@@ -47,7 +47,15 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 playerList[i].gameObject.SetActive(false);
             }
-            
+        }
+
+        if (SH_RoomUI.instance.isGameScene)
+        {
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(true);
+            }
+            isGameRoom = true;
         }
 
 
