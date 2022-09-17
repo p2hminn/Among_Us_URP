@@ -49,7 +49,7 @@ public class JM_GameManager : MonoBehaviourPun
 
     public void SetGameScene(int imposterAmt)
     {
-        isGameRoom = true;
+        //isGameRoom = true;
         if (PhotonNetwork.IsMasterClient)
         {
             // int 로 이루어진 리스트를 만들고
@@ -59,8 +59,9 @@ public class JM_GameManager : MonoBehaviourPun
             for (int i = 0; i < imposterAmt; i++)
             {
                 // 플레이어 최대 숫자와 0 사이에서 랜덤 숫자를 생성
-                int randomNum = Random.Range(0, playerList.Count);
-
+                int randomNum = 1;
+                    //Random.Range(0, playerList.Count);
+                print("index number : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterGenerator.Contains(randomNum))
                 {
@@ -89,20 +90,14 @@ public class JM_GameManager : MonoBehaviourPun
                 {
                     // RPC 함수로 해당 인덱스 플레이어는 임포스터 할당
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
+                    print("얘는 임포스터임" + i);
                 }
                 else
                 {
                     playerList[i].RPC("RPC_SetCrew", RpcTarget.All);
+                    print("얘는 크루임" + i);
                 }
             }
-        }
-
-
-
-            
-        
+        }       
     }
-
-
-
 }
