@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
-
+    public static JM_PlayerMove instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     // 플레이어 이동속도
     public float playerSpeed = 3;
     float originSpeed;
