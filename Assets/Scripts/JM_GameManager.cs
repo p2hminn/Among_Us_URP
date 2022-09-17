@@ -73,20 +73,20 @@ public class JM_GameManager : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             // int 로 이루어진 리스트를 만들고
-            List<int> imposterGenerator = new List<int>();
+            List<int> imposterIndexList = new List<int>();
 
             // 임포스터 수만큼의 for 문을 돌려서
             for (int i = 0; i < imposterAmt; i++)
             {
                 // 플레이어 최대 숫자와 0 사이에서 랜덤 숫자를 생성
-                int randomNum = 1;
+                int randomNum = 0;
                     //Random.Range(0, playerList.Count);
                 print("index number : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
-                if (!imposterGenerator.Contains(randomNum))
+                if (!imposterIndexList.Contains(randomNum))
                 {
                     // 리스트에 랜덤숫자 추가
-                    imposterGenerator.Add(randomNum);
+                    imposterIndexList.Add(randomNum);
                 }
                 // 그렇지 않다면
                 else
@@ -95,18 +95,18 @@ public class JM_GameManager : MonoBehaviourPun
                     randomNum = Random.Range(0, playerList.Count);
                 }
             }
-            ChooseImposter(imposterGenerator);
+            ChooseImposter(imposterIndexList);
         }
     }
 
-    void ChooseImposter(List<int> imposterGenerator)
+    void ChooseImposter(List<int> imposterIndexList)
     {
        for (int i = 0; i < playerList.Count; i++)
         {
             // 임포스터의 인덱스가 맞다면
-            for (int j = 0; j < imposterGenerator.Count; j++)
+            for (int j = 0; j < imposterIndexList.Count; j++)
             {
-                if (i == imposterGenerator[j])
+                if (i == imposterIndexList[j])
                 {
                     // RPC 함수로 해당 인덱스 플레이어는 임포스터 할당
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
@@ -120,4 +120,6 @@ public class JM_GameManager : MonoBehaviourPun
             }
         }       
     }
+
+   
 }

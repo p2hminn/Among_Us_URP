@@ -44,24 +44,14 @@ public class JM_ImposterStatus : MonoBehaviour
         // 공격 가능한 상황일때
         if (isAttackOk)
         {
-            // Q 버튼을 누르면
-            if (Input.GetKeyDown(KeyCode.Q))
+            print("kill ok");
+            // 킬 버튼 활성화되고 킬 버튼 누르면 크루 죽음
+            // 일단 2 누르면 죽는걸로
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                // 죽이는 애니메이션 재생 및 플레이어 죽는 애니메이션 재생
-                state = State.kill;
-                anim.SetTrigger("Imposter_Kill");
-                // 플레이어 상태 죽은 상태로 변경
-                ps.state = JM_PlayerStatus.State.die;
-
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Imposter_Kill") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-            {
-
-                pm.playerSpeed = 0;
-            }
-            else
-            {
-                pm.playerSpeed = curPlayerSpeed;
+                // 플레이어 죽이기
+                ps.Dead();
+                print("정상적으로 죽이기 작동함");
             }
         }
 
@@ -95,7 +85,7 @@ public class JM_ImposterStatus : MonoBehaviour
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("Player"))
+        if (collision.gameObject.name.Contains("Crew"))
         {
             isAttackOk = true;
             ps = collision.gameObject.transform.GetComponent<JM_PlayerStatus>();
