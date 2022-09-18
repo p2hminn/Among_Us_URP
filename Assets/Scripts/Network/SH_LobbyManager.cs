@@ -113,7 +113,6 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     }
     // roomCache의 value값으로 룸 아이템 생성
     public GameObject roomItemFactory;
-    // 방목록 생성
     void CreateRoomListUI()
     {
         foreach (RoomInfo info in roomCache.Values)
@@ -127,8 +126,6 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
             //item.onClickAction = SetRoomName;
             // 람다식으로 바로 함수 내용 넣어주기 (함수 선언후 넣어주기도 가능)
             item.onClickAction = (room) => { roomName.text = room; };
-
-
         }
     }
 

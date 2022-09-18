@@ -176,11 +176,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 3
   isImposter: 0
+  introStart: 0
   anim: {fileID: 3059736370986691486}
   camPos: {fileID: 6466060129604528847}
   nickName: {fileID: 7082993974185885838}
   color: {r: 0, g: 0, b: 0, a: 0}
-  introStart: 0
 --- !u!114 &3059736370986691482
 MonoBehaviour:
   m_ObjectHideFlags: 0

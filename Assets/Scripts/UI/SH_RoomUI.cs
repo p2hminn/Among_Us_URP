@@ -49,7 +49,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-    
+
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
@@ -73,7 +73,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_GameEnable();
         }
 
-        
+
     }
 
     // 플레이어가 방에 들어올 때 & 나갈 때 방 인원 수 업데이트
@@ -167,7 +167,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         gameMap.SetActive(true);
     }
-    
+
 
     // GameIntro 코루틴
     //IEnumerator GameIntro()

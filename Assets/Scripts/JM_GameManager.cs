@@ -44,7 +44,7 @@ public class JM_GameManager : MonoBehaviourPun
         {
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-            for (int i=0; i < playerList.Count; i++)
+            for (int i = 0; i < playerList.Count; i++)
             {
                 playerList[i].gameObject.SetActive(false);
             }
@@ -91,7 +91,7 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
                 int randomNum = Random.Range(0, playerList.Count);
-                    //Random.Range(0, playerList.Count);
+                //Random.Range(0, playerList.Count);
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))
@@ -113,7 +113,7 @@ public class JM_GameManager : MonoBehaviourPun
     // imposter 인덱스를 담은 리스트를 받아 imposter 지정
     void ChooseImposter(List<int> imposterIndexList)
     {
-       for (int i = 0; i < playerList.Count; i++)
+        for (int i = 0; i < playerList.Count; i++)
         {
             // 임포스터의 인덱스가 맞다면
             for (int j = 0; j < imposterIndexList.Count; j++)
@@ -130,6 +130,6 @@ public class JM_GameManager : MonoBehaviourPun
                     print("얘는 크루임" + i);
                 }
             }
-        }       
+        }
     }
 }
