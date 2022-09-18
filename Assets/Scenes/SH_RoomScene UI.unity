@@ -365,6 +365,7 @@ MonoBehaviour:
   crews: {fileID: 519990383}
   imposters: {fileID: 685115076}
   introSpeed: 0.05
+  isGameScene: 0
   gameMap: {fileID: 1831687538}
 --- !u!114 &107687083
 MonoBehaviour:
@@ -2264,7 +2265,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182548961}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1182548964
 Camera:
   m_ObjectHideFlags: 0

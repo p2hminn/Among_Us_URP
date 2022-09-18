@@ -98,7 +98,7 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     
     
-
+    bool isOnce = true;
     void Update()
     {
         // 만약 내 것이 아니라면 함수를 나가겠다
@@ -114,7 +114,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         }
 
         // gameRoom 안에 있을 경우
-        if (JM_GameManager.instance.isGameRoom)
+        if (JM_GameManager.instance.isGameRoom && isOnce) 
         {
             print("isGameRoom is correctly working");
             // 게임 매니저로부터 임포스터인지 크루인지 지정받아서 어떤 코드를 활성화할건지 결정
@@ -123,13 +123,14 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterCode.enabled = true;
                 playerCode.enabled = false;
                 nickName.color = Color.red;
-                print("빨간색 지정 했음");
+                print("빨간색 지정 완료");
             }
             else
             {
                 imposterCode.enabled = false;
                 playerCode.enabled = true;
             }
+            isOnce = false;
         }
 
         // 이동 인풋 받기
@@ -279,7 +280,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         isImposter = false;
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
-
         //JM_GameManager.instance.isGameRoom = true;
     }
 }
