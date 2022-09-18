@@ -46,10 +46,17 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     GameObject deadBody;
 
+    // 귀신 생성공장
+    public GameObject ghostGenerator;
+
+    GameObject ghost;
+
     SpriteRenderer sr;
 
     void Start()
     {
+       
+
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
         JM_GameManager.instance.AddPlayer(photonView);
 
@@ -68,14 +75,16 @@ public class JM_PlayerMove : MonoBehaviourPun
         }
         
         // 내 카메라 켜주기
+         
         if (photonView.IsMine)
-        {  
-            if (photonView.IsMine)
-            {
-                //camPos를 활성화한다
-                camPos.gameObject.SetActive(true);
-            } 
-        }
+        {
+            //camPos를 활성화한다
+            camPos.gameObject.SetActive(true);
+            // 시작할때 다른 얘들 말고 나만 스폰애니 ㄱ하고 그 애니 다른 얘들한테 공유
+            Spawn();
+            anim.SetTrigger("Spawn");
+        } 
+        
         
         // 최초 속도 저장
         originSpeed = playerSpeed;
@@ -143,6 +152,19 @@ public class JM_PlayerMove : MonoBehaviourPun
         SetBool(isMoving);
     }
 
+    // 스폰
+    void Spawn()
+    {
+        
+    }
+
+    // RPC 스폰
+    [PunRPC]
+    void RPC_Spawn()
+    {
+        anim.SetTrigger("Spawn");
+    }
+
     // 이동 함수
     private void Move(float h, float v)
     {
@@ -192,6 +214,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         photonView.RPC("RPC_SetBool", RpcTarget.All, bl);
     }
 
+    
     [PunRPC]
     public void RPC_SetBool(bool bl)
     {
@@ -253,8 +276,16 @@ public class JM_PlayerMove : MonoBehaviourPun
             deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);
             JM_DeadBody deadBodyCode = deadBody.GetComponent<JM_DeadBody>();
             deadBodyCode.SetColor(color);
+
+            ghost = GameObject.Instantiate(ghostGenerator);
+            ghost.transform.position = transform.position;
+            JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
+            ghostCode.SetColor(color);
         }
+        // gameObject.SetActive(false);
+        Destroy(gameObject);
     }
+
 
     [PunRPC]
     void RPC_SetImposter()
@@ -275,5 +306,17 @@ public class JM_PlayerMove : MonoBehaviourPun
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;
+    }
+
+    // 게임 시작할때 각자 위치값 받기
+    [PunRPC]
+    void RPC_SetIndividualPos(float x, float y, float z)
+    {
+        transform.position = new Vector3(x, y, z);
+    }
+
+    public void SetIndividualPos(float x, float y, float z)
+    {
+        photonView.RPC("RPC_SetIndividualPos", RpcTarget.All, x, y, z);
     }
 }

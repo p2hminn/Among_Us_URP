@@ -93,6 +93,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         // Start버튼 눌렸다고 RPC 날려주기
         photonView.RPC("GameIntroStart", RpcTarget.All);
+        JM_GameManager.instance.SetStartPos();
     }
     [PunRPC]
     void GameIntroStart()
@@ -152,6 +153,17 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         if (currentTime > delayTime)
         {
             isGameScene = true;
+
+            // 플레이어 활성화 함수 게임매니저에서 호출
+            // photonView.RPC("RPC_EnablePlayers", RpcTarget.All);
+            JM_GameManager.instance.RPC_EnablePlayers();
+
+            // 위치도 지정
+            
+                
+            // photonView.RPC("RPC_SetPlayerPos", RpcTarget.All);
+            // photonView.RPC("RPC_Test", RpcTarget.All);
+
             isSelectionUI = false;
             // 임포스터라면 임포스터 꺼주고 크루라면 크루 꺼줌
             if (isLocalImposter)
