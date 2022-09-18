@@ -55,6 +55,11 @@ MonoBehaviour:
   - RPC_SaveColor
   - RPC_ShareColor
   - GameIntroStart
+  - RPC_EnablePlayers
+  - RPC_SetPlayerPos
+  - RPC_Test
+  - RPC_SetIndividualPos
+  - RPC_Spawn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

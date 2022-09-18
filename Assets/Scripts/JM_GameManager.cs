@@ -17,6 +17,9 @@ public class JM_GameManager : MonoBehaviourPun
     // 초기 스폰위치 리스트
     public List<Transform> spawnPosList = new List<Transform>();
 
+    // 게임씬 스폰위치 기준
+    public Transform gameStartOrigin;
+
     private void Awake()
     {
         instance = this;
@@ -54,11 +57,7 @@ public class JM_GameManager : MonoBehaviourPun
         // 게임씬이 된 경우 다시 플레이어들 활성화시키기
         if (SH_RoomUI.instance.isGameScene)
         {
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                playerList[i].gameObject.SetActive(true);
-            }
-            isGameRoom = true;
+            isGameRoom = true; 
         }
 
 
@@ -68,6 +67,52 @@ public class JM_GameManager : MonoBehaviourPun
         //    isGameRoom = true
         //}
     }
+
+    // 게임씬 활성화
+    [PunRPC]
+    public void RPC_EnablePlayers()
+    {
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            playerList[i].gameObject.SetActive(true);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_SetPlayerPos()
+    {
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            
+        }
+    }
+
+    // 게임시작 위치들
+    public Vector3[] startPos;
+
+    // 마스터 클라이언트일때만 위치지정 ㄱㄱ
+    public void SetStartPos()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        startPos = new Vector3[playerList.Count];
+        float angle = 360 / playerList.Count;
+        print(angle);
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            startPos[i] = gameStartOrigin.position + transform.up * 2.5f;
+            playerList[i].gameObject.transform.position = startPos[i];
+            print("로테이트 좀 되라고");
+            transform.Rotate(0, 0, angle);
+            print("ㅅㅂ 왜 안되는건데 대체");
+
+            playerList[i].gameObject.GetComponent<JM_PlayerMove>().SetIndividualPos(startPos[i].x, startPos[i].y, startPos[i].z);
+        }
+    }
+
+    // 지정한 위치값을 해당 얘들한테 각자 지정
+
+
 
     // 플레이어 생성될 때 호출됨 (PlayerMove.cs의 Start)
     public void AddPlayer(PhotonView pv)
@@ -90,7 +135,8 @@ public class JM_GameManager : MonoBehaviourPun
             for (int i = 0; i < imposterAmt; i++)
             {
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
-                int randomNum = Random.Range(0, playerList.Count);
+                // int randomNum = Random.Range(0, playerList.Count);
+                int randomNum = 0;
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))

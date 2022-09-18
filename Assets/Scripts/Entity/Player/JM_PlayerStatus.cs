@@ -15,6 +15,8 @@ public class JM_PlayerStatus : MonoBehaviourPun
     // 시체 생성공장
     public GameObject deadBodyGenerator;
 
+    
+
 
     public enum State
     {
