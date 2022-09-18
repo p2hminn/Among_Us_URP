@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
-    public static JM_PlayerMove instance;
-    private void Awake()
-    {
-        instance = this;
-    }
-
     // 플레이어 이동속도
     public float playerSpeed = 3;
     float originSpeed;
@@ -262,11 +256,12 @@ public class JM_PlayerMove : MonoBehaviourPun
         }
     }
 
-    
     [PunRPC]
     void RPC_SetImposter()
-    {
+    {                                                                                                                                                                                               
         isImposter = true;
+        // 플레이어가 로컬일 때 SH_RoomUI에 임포스터 여부 알려줌
+        if (photonView.IsMine) SH_RoomUI.instance.isLocalImposter = isImposter;
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;
@@ -276,6 +271,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     void RPC_SetCrew()
     {
         isImposter = false;
+        if (photonView.IsMine) SH_RoomUI.instance.isLocalImposter = isImposter;
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;

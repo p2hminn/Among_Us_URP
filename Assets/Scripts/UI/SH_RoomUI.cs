@@ -37,6 +37,9 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public bool isGameScene;
     public GameObject gameMap;
 
+    // 로컬 플레이어가 임포스터인지 아닌지 여부
+    public bool isLocalImposter;
+
     void Start()
     {
         // 방이름 UI text
@@ -58,16 +61,14 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             btn_Start.interactable = true;
         }
 
-        if (isStart && JM_PlayerMove.instance.introStart)
+        if (isStart)
         {
             JM_GameIntro();
         }
-
         if (isSelectionUI)
         {
             JM_ShowPlayerRole();
         }
-
         if (isGameScene)
         {
             JM_GameEnable();
@@ -136,7 +137,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         currentTime += Time.deltaTime;
         float delayTime = 3;
         // 임포스터라면
-        if (JM_PlayerMove.instance.isImposter)
+        if (isLocalImposter)
         {
             // 임포스터 ui 실행
             imposters.SetActive(true);
@@ -153,16 +154,15 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             isGameScene = true;
             isSelectionUI = false;
             // 임포스터라면 임포스터 꺼주고 크루라면 크루 꺼줌
-            if (JM_PlayerMove.instance.isImposter)
+            if (isLocalImposter)
                 imposters.SetActive(false);
-            else if (!JM_PlayerMove.instance.isImposter)
+            else if (!isLocalImposter)
                 crews.SetActive(false);
             cam.gameObject.SetActive(true);
 
             currentTime = 0;
         }
     }
-
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
