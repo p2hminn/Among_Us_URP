@@ -12,6 +12,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         instance = this;
     }
+
     // 플레이어 이동속도
     public float playerSpeed = 3;
     float originSpeed;
@@ -21,9 +22,10 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 움직이는지 여부
     bool isMoving;
-
     // 임포스터 여부
     public bool isImposter;
+    // 게임 인트로 UI 시작 여부
+    public bool introStart = false;
 
     // 애니메이터
     public Animator anim;
@@ -34,7 +36,6 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 카메라
     public Transform camPos;
-
 
     // 도착 위치
     Vector3 receivePos;
@@ -61,7 +62,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 닉네임 가져와서 닉네임 지정
         nickName.text = photonView.Owner.NickName;
         
-
         // 스프라이트 렌더러                                                                                                                                                                                                                                    
         sr = GetComponent<SpriteRenderer>();
 
@@ -92,8 +92,6 @@ public class JM_PlayerMove : MonoBehaviourPun
 
         // waitroom에 있는동안은 무조건 다들 플레이어
         // 게임매니저로부터 isWaitRoom 변수 받아서 isWaitRoom일 경우 다들 플레이어 상태
-
- 
     }
 
     
@@ -116,7 +114,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         // gameRoom 안에 있을 경우
         if (JM_GameManager.instance.isGameRoom && isOnce) 
         {
-            print("isGameRoom is correctly working");
             // 게임 매니저로부터 임포스터인지 크루인지 지정받아서 어떤 코드를 활성화할건지 결정
             if (isImposter)
             {
@@ -264,7 +261,8 @@ public class JM_PlayerMove : MonoBehaviourPun
             deadBodyCode.SetColor(color);
         }
     }
-    public bool introStart = false;
+
+    
     [PunRPC]
     void RPC_SetImposter()
     {
