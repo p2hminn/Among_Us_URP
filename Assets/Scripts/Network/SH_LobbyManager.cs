@@ -129,6 +129,11 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void SetRoomName(string room)
+    {
+        roomName.text = room;
+    }
+
     
     void Update()
     {
