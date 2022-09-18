@@ -91,12 +91,11 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
                 int randomNum = Random.Range(0, playerList.Count);
-                //Random.Range(0, playerList.Count);
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))
                 {
-                    // 리스트에 랜덤숫자 추가
+                    // 리스트에 랜덤숫자 추가                                                        
                     imposterIndexList.Add(randomNum);
                 }
                 // 그렇지 않다면
@@ -119,11 +118,11 @@ public class JM_GameManager : MonoBehaviourPun
             for (int j = 0; j < imposterIndexList.Count; j++)
             {
                 if (i == imposterIndexList[j])
-                {
+                {  
                     // RPC 함수로 해당 인덱스 플레이어는 임포스터 할당
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
                     print("얘는 임포스터임" + i);
-                }
+                }                                                             
                 else
                 {
                     playerList[i].RPC("RPC_SetCrew", RpcTarget.All);
