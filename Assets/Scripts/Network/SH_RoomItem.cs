@@ -12,17 +12,17 @@ public class SH_RoomItem : MonoBehaviour
     // 클릭이 되었을 때 호출되는 함수를 가지고있는 변수
     public System.Action<string> onClickAction;
 
-    public void SetInfo(string mapName,  string roomName, int currPlayer, byte maxPlayer)
+    public void SetInfo(string roomName, int currPlayer, byte maxPlayer)
     {
         // 게임오브젝트의 이름을 roomName으로!
         name = roomName;
         // 방이름   
-        roomInfo.text = $"한국어     {mapName}     {roomName}   (   {currPlayer}   /   {maxPlayer}   ) ";
+        roomInfo.text = $"한국어    THE SKELD     {roomName}   (   {currPlayer}   /   {maxPlayer}   ) ";
     }
     public void SetInfo(RoomInfo info)
     {
-        string map = (string)info.CustomProperties["map"];
-        SetInfo(map, info.Name, info.PlayerCount, info.MaxPlayers);
+        //string map = (string)info.CustomProperties["map"];
+        SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
     }
 
     // 방목록 누를 때 해당 방으로 이동
