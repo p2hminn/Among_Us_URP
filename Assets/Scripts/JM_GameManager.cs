@@ -36,10 +36,11 @@ public class JM_GameManager : MonoBehaviourPun
         GameObject crew = PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
     }
 
+    bool isOnce = true;
     void Update()
     {
-        // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화
-        if (SH_RoomUI.instance.isStart)
+        // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
+        if (SH_RoomUI.instance.isStart && isOnce)
         {
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
@@ -47,8 +48,10 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 playerList[i].gameObject.SetActive(false);
             }
+            isOnce = false;
         }
 
+        // 게임씬이 된 경우 다시 플레이어들 활성화시키기
         if (SH_RoomUI.instance.isGameScene)
         {
             for (int i = 0; i < playerList.Count; i++)
@@ -72,6 +75,8 @@ public class JM_GameManager : MonoBehaviourPun
         // 플레이어 리스트에 플레이어 포톤 뷰 저장
         playerList.Add(pv);
     }
+
+
     // 임포스터 idx 선정
     public void SetGameScene(int imposterAmt)
     {
@@ -84,8 +89,8 @@ public class JM_GameManager : MonoBehaviourPun
             // 임포스터 수만큼의 for 문을 돌려서
             for (int i = 0; i < imposterAmt; i++)
             {
-                // 플레이어 최대 숫자와 0 사이에서 랜덤 숫자를 생성
-                int randomNum = 0;
+                // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
+                int randomNum = Random.Range(0, playerList.Count);
                     //Random.Range(0, playerList.Count);
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
@@ -101,6 +106,7 @@ public class JM_GameManager : MonoBehaviourPun
                     randomNum = Random.Range(0, playerList.Count);
                 }
             }
+            print("ChooseImposter");
             ChooseImposter(imposterIndexList);
         }
     }

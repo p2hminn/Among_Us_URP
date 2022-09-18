@@ -58,7 +58,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             btn_Start.interactable = true;
         }
 
-        if (isStart)
+        if (isStart && JM_PlayerMove.instance.introStart)
         {
             JM_GameIntro();
         }
@@ -87,14 +87,12 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     }
 
 
-
     // 방장이 Start버튼 누른 경우
     public void OnClickStart()
     {
         // Start버튼 눌렸다고 RPC 날려주기
         photonView.RPC("GameIntroStart", RpcTarget.All);
     }
-
     [PunRPC]
     void GameIntroStart()
     {
@@ -115,7 +113,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_PlayerMove.instance.introStart = false;
         }
         */
-
     }
 
     float currentTime = 0;
@@ -173,60 +170,60 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     
 
     // GameIntro 코루틴
-    IEnumerator GameIntro()
-    {
-        //yield return new WaitForSeconds(2);
-        float currTime = 0;
-        float delayTime = 5000;
-        shhh.SetActive(true);
-        while (currTime < delayTime)
-        {
-            currTime += introSpeed * Time.deltaTime;
-            print($"currTime : {currTime}");
-        }
-        shhh.SetActive(false);
+    //IEnumerator GameIntro()
+    //{
+    //    //yield return new WaitForSeconds(2);
+    //    float currTime = 0;
+    //    float delayTime = 5000;
+    //    shhh.SetActive(true);
+    //    while (currTime < delayTime)
+    //    {
+    //        currTime += introSpeed * Time.deltaTime;
+    //        print($"currTime : {currTime}");
+    //    }
+    //    shhh.SetActive(false);
 
-        // 크루일 경우
-        if (!JM_PlayerMove.instance.isImposter)
-        {
-            float a = 0;
-            crews.SetActive(true);
-            CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
-            // 만약에 로컬이라면 player 오브젝트 활성화하기
-            if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-            while (a < 1)
-            {
-                print($"crewsAlpha : {a}");
-                a += introSpeed * Time.deltaTime;
-                crewsAlpha.alpha = a;
-                yield return null;
-            }
-            crewsAlpha.alpha = 1;
-            yield return new WaitForSeconds(2);
-            crews.SetActive(false);
-        }
+    //    // 크루일 경우
+    //    if (!JM_PlayerMove.instance.isImposter)
+    //    {
+    //        float a = 0;
+    //        crews.SetActive(true);
+    //        CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
+    //        // 만약에 로컬이라면 player 오브젝트 활성화하기
+    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
+    //        while (a < 1)
+    //        {
+    //            print($"crewsAlpha : {a}");
+    //            a += introSpeed * Time.deltaTime;
+    //            crewsAlpha.alpha = a;
+    //            yield return null;
+    //        }
+    //        crewsAlpha.alpha = 1;
+    //        yield return new WaitForSeconds(2);
+    //        crews.SetActive(false);
+    //    }
 
-        // 임포스터일 경우
-        else
-        {
-            float a = 0;
-            imposters.SetActive(true);
-            CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
-            if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-            while (a < 1)
-            {
-                print($"impostersAlpha : {a}");
-                a += introSpeed * Time.deltaTime;
-                impostersAlpha.alpha = a;
-                yield return null;
-            }
-            impostersAlpha.alpha = 1;
-            yield return new WaitForSeconds(2);
-            imposters.SetActive(false);
-        }
+    //    // 임포스터일 경우
+    //    else
+    //    {
+    //        float a = 0;
+    //        imposters.SetActive(true);
+    //        CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
+    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
+    //        while (a < 1)
+    //        {
+    //            print($"impostersAlpha : {a}");
+    //            a += introSpeed * Time.deltaTime;
+    //            impostersAlpha.alpha = a;
+    //            yield return null;
+    //        }
+    //        impostersAlpha.alpha = 1;
+    //        yield return new WaitForSeconds(2);
+    //        imposters.SetActive(false);
+    //    }
 
-        yield return new WaitForSeconds(2);
+    //    yield return new WaitForSeconds(2);
 
 
-    }
+    //}
 }
