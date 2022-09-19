@@ -56,7 +56,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
         }
@@ -175,9 +175,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
+
+    public GameObject gameUI;
+
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
+        gameUI.SetActive(true);
     }
 
 
