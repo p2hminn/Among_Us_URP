@@ -43,5 +43,6 @@ public class JM_PlayerStatus : MonoBehaviourPun
     {
         // 여기까지 문제 ㄴ
         photonView.RPC("RPC_Dead", RpcTarget.AllBuffered);
+        JM_CrewUI.instance.Die();
     } 
 }

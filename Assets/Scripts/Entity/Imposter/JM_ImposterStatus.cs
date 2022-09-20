@@ -36,6 +36,9 @@ public class JM_ImposterStatus : MonoBehaviour
         pm = GetComponent<JM_PlayerMove>();
         curPlayerSpeed = pm.playerSpeed;
         state = State.idle;
+
+        // 시작할때 코드정보 공유
+        JM_ImposterUI.instance.imposterCode = this;
     }
 
     // Update is called once per frame
@@ -88,6 +91,7 @@ public class JM_ImposterStatus : MonoBehaviour
         if (collision.gameObject.name.Contains("Crew"))
         {
             isAttackOk = true;
+            JM_ImposterUI.instance.isAttackOK = true;
             ps = collision.gameObject.transform.GetComponent<JM_PlayerStatus>();
         }
 
@@ -110,5 +114,11 @@ public class JM_ImposterStatus : MonoBehaviour
         isAttackOk = false;
         isVent = false;
         isMission = false;
+    }
+
+    // 공격함수
+    public void Attack()
+    {
+        ps.Dead();
     }
 }

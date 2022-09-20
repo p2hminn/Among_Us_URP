@@ -80,6 +80,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         {
             //camPos를 활성화한다
             camPos.gameObject.SetActive(true);
+
             // 시작할때 다른 얘들 말고 나만 스폰애니 ㄱ하고 그 애니 다른 얘들한테 공유
             Spawn();
             anim.SetTrigger("Spawn");
@@ -109,7 +110,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         if (!JM_GameManager.instance.isGameRoom)
         {
             // 크루도 아니고 
-            playerCode.enabled = true;
+            playerCode.enabled = false;
             // 임포스터도 아님
             imposterCode.enabled = false;
         }
@@ -187,7 +188,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         // 데이터 보내기
-        if (stream.IsWriting) // isMine == true
+        if (stream.IsWriting) // isMine == trueS
         {
             // position, rotation
             stream.SendNext(transform.position);
@@ -268,6 +269,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     }
 
     // 죽음
+
     [PunRPC]
     void RPC_Dead()
     {

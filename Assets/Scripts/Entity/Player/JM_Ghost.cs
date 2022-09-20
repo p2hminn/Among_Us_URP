@@ -11,6 +11,7 @@ public class JM_Ghost : MonoBehaviour
 
     Material mat;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,7 @@ public class JM_Ghost : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         mat = GetComponent<SpriteRenderer>().material;
         mat.SetColor("_PlayerColor", color);
+
     }
 
     // Update is called once per frame
