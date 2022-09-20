@@ -40,6 +40,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 로컬 플레이어가 임포스터인지 아닌지 여부
     public bool isLocalImposter;
 
+    // 로컬 임포스터UI 코드 및 크루UI 코드
+    JM_ImposterUI imposterUICode;
+    JM_CrewUI crewUICode;
+
     void Start()
     {
         // 방이름 UI text
@@ -50,6 +54,12 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         {
             btn_Start.gameObject.SetActive(true);
         }
+
+        // 크루UI 임포스터UI 시작할때는 둘다 꺼져있는 상태 추후에 게임으로 넘어갈때 상태 판단해서 킨다
+        imposterUICode = GetComponent<JM_ImposterUI>();
+        crewUICode = GetComponent<JM_CrewUI>();
+        imposterUICode.enabled = false;
+        crewUICode.enabled = false;
     }
 
 
@@ -100,12 +110,18 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         isStart = true;
         // UI 보이게할 카메라 활성화
-        cam.gameObject.SetActive(true);
+        // cam.gameObject.SetActive(true);
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
+ 
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
+        
+        
+        
+
+        // 
 
         /*
         if (isStart && JM_PlayerMove.instance.introStart)
@@ -176,12 +192,22 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-    public GameObject gameUI;
+    public GameObject imposterGameUI;
+    public GameObject crewGameUI;
 
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
-        gameUI.SetActive(true);
+        if (isLocalImposter)
+        {
+            imposterGameUI.SetActive(true);
+            imposterUICode.enabled = true;
+        }
+        else
+        {
+            crewGameUI.SetActive(true);
+            crewUICode.enabled = true;
+        }
     }
 
 

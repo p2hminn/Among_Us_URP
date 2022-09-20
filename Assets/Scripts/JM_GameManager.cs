@@ -47,10 +47,12 @@ public class JM_GameManager : MonoBehaviourPun
         {
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
+            
             for (int i = 0; i < playerList.Count; i++)
             {
                 playerList[i].gameObject.SetActive(false);
             }
+            
             isOnce = false;
         }
 

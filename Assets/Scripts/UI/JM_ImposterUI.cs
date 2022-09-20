@@ -1,0 +1,77 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class JM_ImposterUI : MonoBehaviour
+{
+    // singleton
+    public static JM_ImposterUI instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    // 임포스터 상태 코드
+    public JM_ImposterStatus imposterCode;
+
+    // 현재시간
+    float currentTime;
+
+    // ** 임포스터 공격 관련 **
+
+    // 공격버튼 활성화 가능 여부
+    public bool isButtonActivate;
+
+    // 임포스터 공격가능여부
+    public bool isAttackOK;
+    // 공격버튼 
+    public Button attackButton;
+    // 공격 쿨타임
+    public float attackCoolTime;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // 원래 커스텀에서 조정이 가능하지만 일단 어택쿨타임 지정 10초로
+        attackCoolTime = 10f;
+
+        attackButton.interactable = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // 공격버튼 사용 불가능 상태일때 쿨타임 함수 실행
+        if (!isButtonActivate)
+            AttackTimeCount();
+
+        if (isAttackOK && isButtonActivate)
+        {
+            attackButton.interactable = true;
+        }
+        else
+        {
+            attackButton.interactable = false;
+        }
+    }
+
+    // 공격버튼 누르면 임포스터코드에서 공격함수 실행
+    public void ClickAttack()
+    {
+        imposterCode.Attack();
+        isButtonActivate = false;
+    }
+
+    // 임포스터 공격을 할 수 있는 상태가 되려면 쿨타임이 있어야된다
+    // 버튼 쿨타임 숫자 카운트다운은 나중에 추가 예정
+    void AttackTimeCount()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime >= attackCoolTime)
+        {
+            isButtonActivate = true;
+        } 
+    }
+}
