@@ -60,6 +60,7 @@ MonoBehaviour:
   - RPC_Test
   - RPC_SetIndividualPos
   - RPC_Spawn
+  - RpcAddChat
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
