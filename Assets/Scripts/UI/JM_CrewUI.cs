@@ -88,9 +88,6 @@ public class JM_CrewUI : MonoBehaviour
                 currentTime = 0;
             }
         }
-
-        print(onReport + "하게 리포트");
-
     }
 
     // 미션 UI 
@@ -100,14 +97,15 @@ public class JM_CrewUI : MonoBehaviour
         missionTrigger.StartMission();
     }
 
+    // 시체의 색깔
+    public Color dieColor;
     // 리포트 버튼 누르면 UI 활성화
     public void OnReportButton()
     {
         SH_RoomUI.instance.Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
     }
 
-    // 시체의 색깔
-    public Color dieColor;
+    
 
     // 크루 죽는 UI
     public void Die(float crewR, float crewG, float crewB, float crewA,
