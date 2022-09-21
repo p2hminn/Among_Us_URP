@@ -106,7 +106,6 @@ public class JM_GameManager : MonoBehaviourPun
             playerList[i].gameObject.transform.position = startPos[i];
             print("로테이트 좀 되라고");
             transform.Rotate(0, 0, angle);
-            print("ㅅㅂ 왜 안되는건데 대체");
 
             playerList[i].gameObject.GetComponent<JM_PlayerMove>().SetIndividualPos(startPos[i].x, startPos[i].y, startPos[i].z);
         }

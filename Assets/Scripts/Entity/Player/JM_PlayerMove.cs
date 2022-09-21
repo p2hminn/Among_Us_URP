@@ -42,7 +42,7 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 플레이어 색상
     [SerializeField]
-    Color color;
+    public Color color;
 
     GameObject deadBody;
 
@@ -270,8 +270,16 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 죽음
 
+    public void Dead(float crewR, float crewG, float crewB, float crewA, 
+        float imposterR, float imposterG, float imposterB, float imposterA)
+    {
+        photonView.RPC("RPC_Dead", RpcTarget.All, crewR, crewG, crewB, crewA, 
+            imposterR, imposterG, imposterB, imposterA );
+    }
+
     [PunRPC]
-    void RPC_Dead()
+    void RPC_Dead(float crewR, float crewG, float crewB, float crewA, 
+        float imposterR, float imposterG, float imposterB, float imposterA)
     {
         if (photonView.IsMine)
         {
@@ -283,8 +291,11 @@ public class JM_PlayerMove : MonoBehaviourPun
             ghost.transform.position = transform.position;
             JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
             ghostCode.SetColor(color);
+
+            // crewUI 에서 죽는 UI 재생
+            JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
+                imposterR, imposterG, imposterB, imposterG);
         }
-        // gameObject.SetActive(false);
         Destroy(gameObject);
     }
 

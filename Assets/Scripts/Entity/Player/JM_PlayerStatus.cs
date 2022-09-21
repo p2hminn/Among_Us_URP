@@ -39,10 +39,17 @@ public class JM_PlayerStatus : MonoBehaviourPun
         
     }
 
-    public void Dead()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 여기까지 문제 ㄴ
-        photonView.RPC("RPC_Dead", RpcTarget.AllBuffered);
-        JM_CrewUI.instance.Die();
-    } 
+        if (collision.gameObject.name.Contains("DeadBody"))
+        {
+            JM_CrewUI.instance.isReportAble = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        JM_CrewUI.instance.isReportAble = false;
+    }
+
 }

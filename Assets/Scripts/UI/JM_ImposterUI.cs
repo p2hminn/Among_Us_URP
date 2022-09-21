@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class JM_ImposterUI : MonoBehaviour
+public class JM_ImposterUI : MonoBehaviourPun
 {
     // singleton
     public static JM_ImposterUI instance;
@@ -30,12 +31,21 @@ public class JM_ImposterUI : MonoBehaviour
     // 공격 쿨타임
     public float attackCoolTime;
 
+    // 공격당하는 크루
+    public GameObject victimCrew;
+
+    // 임포스터 및 크루 색상
+    [SerializeField]
+    public Color imposterColor;
+    [SerializeField]
+    public Color crewColor;
+
 
     // Start is called before the first frame update
     void Start()
     {
         // 원래 커스텀에서 조정이 가능하지만 일단 어택쿨타임 지정 10초로
-        attackCoolTime = 10f;
+        attackCoolTime = 3;
 
         attackButton.interactable = false;
     }
@@ -51,7 +61,7 @@ public class JM_ImposterUI : MonoBehaviour
         {
             attackButton.interactable = true;
         }
-        else
+        else if (!isAttackOK)
         {
             attackButton.interactable = false;
         }
@@ -60,7 +70,10 @@ public class JM_ImposterUI : MonoBehaviour
     // 공격버튼 누르면 임포스터코드에서 공격함수 실행
     public void ClickAttack()
     {
-        imposterCode.Attack();
+        // imposterCode.Attack();
+        victimCrew.GetComponent<JM_PlayerMove>().Dead(crewColor.r, crewColor.g, crewColor.b, crewColor.a, 
+            imposterColor.r, imposterColor.g, imposterColor.b, imposterColor.a);
+
         isButtonActivate = false;
     }
 

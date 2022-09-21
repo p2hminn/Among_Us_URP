@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JM_UnfoldTrigger : MonoBehaviour
+public class JM_MissionTrigger : MonoBehaviour
 {
     Color defaultColor;
     Color triggerColor;
@@ -33,19 +33,32 @@ public class JM_UnfoldTrigger : MonoBehaviour
     public GameObject gameUI;
     bool isAble;
 
+
+    public void StartMission()
+    {
+        gameUI.SetActive(true);
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
+        // 트리거 상대가 크루일때
         if (collision.gameObject.name.Contains("Crew") && collision.gameObject.GetComponent<JM_PlayerStatus>().enabled)
         {
             GetComponent<SpriteRenderer>().color = triggerColor;
             isAble = true;
 
-        }
+            // 해당 코드를 크루UI에 던져줌 --> 이 크루에 달린 미션을 실행할 예정
+            JM_CrewUI.instance.missionTrigger = this;
 
+            JM_CrewUI.instance.isMissionAble = true;
+
+
+        }
 
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         GetComponent<SpriteRenderer>().color = defaultColor;
+        JM_CrewUI.instance.isMissionAble = false;
     }
 }
