@@ -6,7 +6,7 @@ using Photon.Pun;
 public class JM_DeadBody : MonoBehaviourPun
 {
     [SerializeField]
-    Color color;
+    public Color color;
 
     Material mat;
 
