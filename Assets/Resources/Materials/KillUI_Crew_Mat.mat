@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Crew_Material
+  m_Name: KillUI_Crew_Mat
   m_Shader: {fileID: -6465566751694194690, guid: d426e27e49a1541f3b2bd211638a4ffc, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -89,5 +89,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PlayerColor: {r: 0.84313726, g: 0.39215687, b: 0.39215687, a: 0}
+    - _PlayerColor: {r: 0.24705882, g: 0.2784314, b: 0.30588236, a: 0}
   m_BuildTextureStacks: []

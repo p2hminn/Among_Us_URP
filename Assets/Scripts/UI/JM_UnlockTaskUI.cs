@@ -16,6 +16,9 @@ public class JM_UnlockTaskUI : MonoBehaviour
 
     public GameObject taskUI;
 
+    // 성공여부
+    bool isSuccess;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,7 @@ public class JM_UnlockTaskUI : MonoBehaviour
         if (ansList.Count >= 10)
         {
             taskUI.SetActive(false);
+            isSuccess = true;
         }
     }
     public void OnClick()
@@ -53,6 +57,7 @@ public class JM_UnlockTaskUI : MonoBehaviour
                 ansList[i].GetComponent<Image>().color = defaultColor;
             }
             ansList.Clear();
+            Reset();
             return;
         }
     }
@@ -64,6 +69,23 @@ public class JM_UnlockTaskUI : MonoBehaviour
             ansList[i].GetComponent<Image>().color = defaultColor;
         }
         ansList.Clear();
+        Reset();
         taskUI.SetActive(false);
+    }
+
+    // 숫자 리셋
+    public void Reset()
+    {
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            textList.Add(i);
+        }
+
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            int randomNum = UnityEngine.Random.Range(0, textList.Count);
+            buttonList[i].text = textList[randomNum].ToString();
+            textList.RemoveAt(randomNum);
+        }
     }
 }

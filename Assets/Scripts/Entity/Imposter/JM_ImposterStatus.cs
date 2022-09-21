@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class JM_ImposterStatus : MonoBehaviour
+public class JM_ImposterStatus : MonoBehaviourPun
 {
 
     JM_PlayerStatus ps;
@@ -20,6 +21,9 @@ public class JM_ImposterStatus : MonoBehaviour
     // 가짜미션 여부
     bool isMission;
 
+    // 임포스터 색
+    Color imposterColor;
+
     public enum State
     {
         idle,
@@ -33,8 +37,8 @@ public class JM_ImposterStatus : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        pm = GetComponent<JM_PlayerMove>();
-        curPlayerSpeed = pm.playerSpeed;
+
+        // imposterColor = pm.color;
         state = State.idle;
 
         // 시작할때 코드정보 공유
@@ -44,6 +48,7 @@ public class JM_ImposterStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         // 공격 가능한 상황일때
         if (isAttackOk)
         {
@@ -78,13 +83,13 @@ public class JM_ImposterStatus : MonoBehaviour
                 state = State.mission;
             }
         }
-
+        */
 
 
 
 
     }
-
+    
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -92,6 +97,11 @@ public class JM_ImposterStatus : MonoBehaviour
         {
             isAttackOk = true;
             JM_ImposterUI.instance.isAttackOK = true;
+            JM_ImposterUI.instance.victimCrew = collision.gameObject;
+
+            JM_ImposterUI.instance.imposterColor = GetComponent<JM_PlayerMove>().color;
+            JM_ImposterUI.instance.crewColor = collision.gameObject.transform.GetComponent<JM_PlayerMove>().color;
+            
             ps = collision.gameObject.transform.GetComponent<JM_PlayerStatus>();
         }
 
@@ -107,18 +117,13 @@ public class JM_ImposterStatus : MonoBehaviour
         }
         
     }
-
+    
     // 닿아있다가 떨어지면 공격 불가능
     private void OnTriggerExit2D(Collider2D collision)
     {
+        JM_ImposterUI.instance.isAttackOK = false;
         isAttackOk = false;
         isVent = false;
         isMission = false;
-    }
-
-    // 공격함수
-    public void Attack()
-    {
-        ps.Dead();
     }
 }

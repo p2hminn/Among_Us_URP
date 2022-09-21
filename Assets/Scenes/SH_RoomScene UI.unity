@@ -516,6 +516,13 @@ MonoBehaviour:
   imposter: {fileID: 714761894}
   crew: {fileID: 320467246}
   crewDieUI: {fileID: 297807634}
+  imposterColor: {r: 0, g: 0, b: 0, a: 0}
+  crewColor: {r: 0, g: 0, b: 0, a: 0}
+  missionButton: {fileID: 178698937}
+  isMissionAble: 0
+  missionTrigger: {fileID: 0}
+  reportButton: {fileID: 887796956}
+  isReportAble: 0
 --- !u!114 &107687086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +540,9 @@ MonoBehaviour:
   isAttackOK: 0
   attackButton: {fileID: 1028608590}
   attackCoolTime: 0
+  victimCrew: {fileID: 0}
+  imposterColor: {r: 0, g: 0, b: 0, a: 0}
+  crewColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &109311153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,7 +1118,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 178698938}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107687085}
+        m_TargetAssemblyTypeName: JM_CrewUI, Assembly-CSharp
+        m_MethodName: onClickMission
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &178698938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2707,7 +2729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 758864ebc28394040884ddbd8cb5e599, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3421,7 +3443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: fe75d7dff421540208f05ffaa58907d9, type: 2}
+  m_Material: {fileID: 2100000, guid: 83241e466ef2b2a4a80080e5c4f1e053, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -5114,9 +5136,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Sabotage
-
-'
+  m_Text: 
 --- !u!222 &1288401189
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10205,7 +10225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: fe75d7dff421540208f05ffaa58907d9, type: 2}
+  m_Material: {fileID: 2100000, guid: 9c372c94e5ac2a34d9796b0b8355c02a, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

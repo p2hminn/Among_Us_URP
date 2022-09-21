@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1522875784025858696}
   - component: {fileID: -7195554174701276940}
   - component: {fileID: 3448405664217357489}
+  - component: {fileID: 1400385958347242914}
   m_Layer: 0
   m_Name: DeadBody
   m_TagString: Untagged
@@ -142,3 +143,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
+--- !u!58 &1400385958347242914
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522875784025858697}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.5

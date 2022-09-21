@@ -203,7 +203,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             imposterGameUI.SetActive(true);
             imposterUICode.enabled = true;
         }
-        else
+        else if (!isLocalImposter)
         {
             crewGameUI.SetActive(true);
             crewUICode.enabled = true;
