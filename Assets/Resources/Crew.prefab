@@ -244,7 +244,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadBodyGenerator: {fileID: 1522875784025858697, guid: 03c5a01ba03482c439b2e199b9a5bfc6, type: 3}
+  reportUI: {fileID: 0}
   state: 0
+  deadColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &3059736370986691481
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -110,19 +110,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         isStart = true;
         // UI 보이게할 카메라 활성화
-        // cam.gameObject.SetActive(true);
+        cam.gameObject.SetActive(true);
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
- 
+
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
-        
-        
-        
-
-        // 
-
         /*
         if (isStart && JM_PlayerMove.instance.introStart)
         {
@@ -210,62 +204,30 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Report(float deadR, float deadG, float deadB, float deadA)
+    {
+        photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
+    }
 
-    // GameIntro 코루틴
-    //IEnumerator GameIntro()
-    //{
-    //    //yield return new WaitForSeconds(2);
-    //    float currTime = 0;
-    //    float delayTime = 5000;
-    //    shhh.SetActive(true);
-    //    while (currTime < delayTime)
-    //    {
-    //        currTime += introSpeed * Time.deltaTime;
-    //        print($"currTime : {currTime}");
-    //    }
-    //    shhh.SetActive(false);
+    [PunRPC]
+    public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
+    {
+        // 로컬인 아이들만 Canvas의 Report UI 활성화시키기
+        Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
+        StartReportUI(diedCrewColor);
+        
+    }
 
-    //    // 크루일 경우
-    //    if (!JM_PlayerMove.instance.isImposter)
-    //    {
-    //        float a = 0;
-    //        crews.SetActive(true);
-    //        CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
-    //        // 만약에 로컬이라면 player 오브젝트 활성화하기
-    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-    //        while (a < 1)
-    //        {
-    //            print($"crewsAlpha : {a}");
-    //            a += introSpeed * Time.deltaTime;
-    //            crewsAlpha.alpha = a;
-    //            yield return null;
-    //        }
-    //        crewsAlpha.alpha = 1;
-    //        yield return new WaitForSeconds(2);
-    //        crews.SetActive(false);
-    //    }
+    // 리포트 UI 호출 함수
+    public GameObject reportUI;
+    public GameObject diedCrew;
 
-    //    // 임포스터일 경우
-    //    else
-    //    {
-    //        float a = 0;
-    //        imposters.SetActive(true);
-    //        CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
-    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-    //        while (a < 1)
-    //        {
-    //            print($"impostersAlpha : {a}");
-    //            a += introSpeed * Time.deltaTime;
-    //            impostersAlpha.alpha = a;
-    //            yield return null;
-    //        }
-    //        impostersAlpha.alpha = 1;
-    //        yield return new WaitForSeconds(2);
-    //        imposters.SetActive(false);
-    //    }
-
-    //    yield return new WaitForSeconds(2);
+    void StartReportUI(Color diedCrewColor)
+    {
+        Material mat = diedCrew.GetComponent<Image>().material;
+        mat.SetColor("_PlayerColor", diedCrewColor);
+        reportUI.SetActive(true);
+    }
 
 
-    //}
 }

@@ -14,9 +14,8 @@ public class JM_PlayerStatus : MonoBehaviourPun
 
     // 시체 생성공장
     public GameObject deadBodyGenerator;
-
-    
-
+    // 리포트 UI
+    public GameObject reportUI;
 
     public enum State
     {
@@ -39,17 +38,34 @@ public class JM_PlayerStatus : MonoBehaviourPun
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField]
+    Color deadColor;
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.name.Contains("DeadBody"))
         {
-            JM_CrewUI.instance.isReportAble = true;
+            JM_CrewUI.instance.isReportAble = true; 
+            JM_CrewUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
+
+            /*
+            // Report 버튼이 눌리면
+            if (JM_CrewUI.instance.onReport && 추가조건)
+            {
+                // 시체의 색깔 가져오기
+                deadColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
+                // RPC로 모든 리포트 UI 활성화
+                // photonView.RPC("RPC_Report", RpcTarget.All, deadColor.r, deadColor.g, deadColor.b, deadColor.a);
+                SH_RoomUI.instance.Report(deadColor.r, deadColor.g, deadColor.b, deadColor.a);
+            }
+            */
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         JM_CrewUI.instance.isReportAble = false;
     }
+
+    
 
 }

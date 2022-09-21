@@ -33,8 +33,9 @@ public class JM_CrewUI : MonoBehaviour
 
     // ** 리포트 관련 **
     public Button reportButton;
-
     public bool isReportAble;
+    public GameObject reportUI;
+    public bool onReport;
 
 
     private void Awake()
@@ -70,12 +71,13 @@ public class JM_CrewUI : MonoBehaviour
         {
             // 리포트 버튼 활성화
             reportButton.interactable = true;
+
         }
         else if (!isReportAble)
         {
             reportButton.interactable = false;
         }
-
+   
         if (!dieUIEnd && crewDieUI.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             currentTime += Time.deltaTime;
@@ -87,7 +89,7 @@ public class JM_CrewUI : MonoBehaviour
             }
         }
 
-        
+        print(onReport + "하게 리포트");
 
     }
 
@@ -97,6 +99,15 @@ public class JM_CrewUI : MonoBehaviour
         // 미션버튼 누르면 받은 미션트리거 코드의 미션실행 함수 호출
         missionTrigger.StartMission();
     }
+
+    // 리포트 버튼 누르면 UI 활성화
+    public void OnReportButton()
+    {
+        SH_RoomUI.instance.Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
+    }
+
+    // 시체의 색깔
+    public Color dieColor;
 
     // 크루 죽는 UI
     public void Die(float crewR, float crewG, float crewB, float crewA,
@@ -109,5 +120,7 @@ public class JM_CrewUI : MonoBehaviour
         crewDieUI.transform.Find("Imposter").gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", imposterColor);
         crewDieUI.transform.Find("Crew").gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", crewColor);
     }
+
+    
 
 }
