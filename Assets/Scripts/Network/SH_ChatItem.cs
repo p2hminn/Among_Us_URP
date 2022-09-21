@@ -6,21 +6,21 @@ using UnityEngine.UI;
 public class SH_ChatItem : MonoBehaviour
 {
     // Text
-    Text chatText;
+    public Text chatText;
     // RectTransform
     RectTransform rt;
     // preferredHeight
     float preferredH;
 
-    void Start()
+    void Awake()
     {
-        chatText = GetComponent<Text>();
         rt = GetComponent<RectTransform>();
     }
 
     
     void Update()
     {
+        // preferredH 업데이트될 때만
         if (preferredH != chatText.preferredHeight)
         {
             // chatText.text의 크기에 맞게 ContentSize 변경

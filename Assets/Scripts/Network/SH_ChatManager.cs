@@ -22,11 +22,12 @@ public class SH_ChatManager : MonoBehaviourPun
         inputChat.onSubmit.AddListener(OnSubmit);
     }
 
-    
-    void Update()
+    // 버튼 누르면 채팅 생성
+    public void OnSendChat()
     {
-        
+
     }
+
 
     // InputField에서 Enter쳤을 때 호출
     public void OnSubmit(string s)
@@ -34,7 +35,7 @@ public class SH_ChatManager : MonoBehaviourPun
         // <color=#FFFFFF> 닉네임 </color>
         string chatText = "<color=#" + ColorUtility.ToHtmlStringRGB(Color.white) + ">" + PhotonNetwork.NickName + "</color>" + ":" + s;
         // 채팅 내용 동기화
-        photonView.RPC("RPCAddChat", RpcTarget.All, chatText);
+        photonView.RPC("RpcAddChat", RpcTarget.All, chatText);
         // InputChat 내용 초기화
         inputChat.text = "";
         // InputChat에 Focusing
