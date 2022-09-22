@@ -1456,7 +1456,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameRoom: 0
-  playerList: []
+  playerList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spawnPosList: []
   gameStartOrigin: {fileID: 0}
   startPos: []

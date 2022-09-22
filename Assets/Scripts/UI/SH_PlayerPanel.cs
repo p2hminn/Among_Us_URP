@@ -25,7 +25,7 @@ public class SH_PlayerPanel : MonoBehaviourPun
     {
         // 플레이어 색상
         Color color = photonView.gameObject.GetComponent<JM_PlayerMove>().color;
-        Material mat = transform.GetChild(0).GetComponent<Material>();
+        Material mat = transform.GetChild(0).GetComponent < Image >().material;
         mat.SetColor("_PlayerColor", color);
 
         // 플레이어 닉네임
