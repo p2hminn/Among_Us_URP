@@ -47,7 +47,8 @@ public class JM_CrewUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Report 버튼 끄고 시작
+        reportButton.interactable = false;
     }
 
     // Update is called once per frame
@@ -66,7 +67,7 @@ public class JM_CrewUI : MonoBehaviour
         }
 
         // ** 리포트 **
-        // 리포트 가능한 상태일때
+        // 리포트 가능한 상태(
         if (isReportAble)
         {
             // 리포트 버튼 활성화
@@ -97,13 +98,7 @@ public class JM_CrewUI : MonoBehaviour
         missionTrigger.StartMission();
     }
 
-    // 시체의 색깔
-    public Color dieColor;
-    // 리포트 버튼 누르면 UI 활성화
-    public void OnReportButton()
-    {
-        SH_RoomUI.instance.Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
-    }
+
 
     
 

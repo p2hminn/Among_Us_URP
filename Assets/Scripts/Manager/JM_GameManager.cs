@@ -104,7 +104,6 @@ public class JM_GameManager : MonoBehaviourPun
         {
             startPos[i] = gameStartOrigin.position + transform.up * 2.5f;
             playerList[i].gameObject.transform.position = startPos[i];
-            print("로테이트 좀 되라고");
             transform.Rotate(0, 0, angle);
 
             playerList[i].gameObject.GetComponent<JM_PlayerMove>().SetIndividualPos(startPos[i].x, startPos[i].y, startPos[i].z);
@@ -115,10 +114,9 @@ public class JM_GameManager : MonoBehaviourPun
 
 
 
-    // 플레이어 생성될 때 호출됨 (PlayerMove.cs의 Start)
+    // 플레이어 생성될 때 플레이어 리스트에 플레이어 포톤 뷰 저장 (PlayerMove.cs의 Start)
     public void AddPlayer(PhotonView pv)
     {
-        // 플레이어 리스트에 플레이어 포톤 뷰 저장
         playerList.Add(pv);
     }
 
@@ -178,4 +176,9 @@ public class JM_GameManager : MonoBehaviourPun
             }
         }
     }
+
+    // 현재 게임 내에 있는 플레이어만큼 패널 추가
+    public Transform panels;
+    public GameObject panelFactory;
+    
 }

@@ -24,30 +24,23 @@ public class JM_PlayerStatus : MonoBehaviourPun
     }
 
     public State state;
-
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-        
-    }
-
     [SerializeField]
     Color deadColor;
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.name.Contains("DeadBody"))
         {
-            JM_CrewUI.instance.isReportAble = true; 
-            JM_CrewUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
-
+            // 로컬 플레이어만 리포트 활성화 가능
+            if (photonView.IsMine)
+            {
+                JM_CrewUI.instance.isReportAble = true;
+                SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
+            }
             /*
             // Report 버튼이 눌리면
             if (JM_CrewUI.instance.onReport && 추가조건)

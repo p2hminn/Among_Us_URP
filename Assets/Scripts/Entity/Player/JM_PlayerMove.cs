@@ -124,12 +124,14 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterCode.enabled = true;
                 playerCode.enabled = false;
                 nickName.color = Color.red;
+                GetComponent<JM_ImposterStatus>().enabled = true;
                 print("빨간색 지정 완료");
             }
             else
             {
                 imposterCode.enabled = false;
                 playerCode.enabled = true;
+                GetComponent<JM_PlayerStatus>().enabled = true;
             }
             isOnce = false;
         }
@@ -269,7 +271,6 @@ public class JM_PlayerMove : MonoBehaviourPun
     }
 
     // 죽음
-
     public void Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class JM_ImposterStatus : MonoBehaviourPun
@@ -24,6 +25,9 @@ public class JM_ImposterStatus : MonoBehaviourPun
     // 임포스터 색
     Color imposterColor;
 
+    // 리포트 버튼
+    Button reportButton;
+
     public enum State
     {
         idle,
@@ -43,6 +47,8 @@ public class JM_ImposterStatus : MonoBehaviourPun
 
         // 시작할때 코드정보 공유
         JM_ImposterUI.instance.imposterCode = this;
+
+        reportButton = GameObject.Find("Report_Imposter").GetComponent<Button>();
     }
 
     // Update is called once per frame
@@ -115,15 +121,34 @@ public class JM_ImposterStatus : MonoBehaviourPun
         {
             isMission = true;
         }
-        
+
+        // 임포스터도 시체와  충돌할 경우 리포트할 수 있다.
+        else if (collision.gameObject.name.Contains("DeadBody"))
+        {
+            // 로컬 임포스터만 리포트 활성화 가능
+            if (photonView.IsMine)
+            {
+                reportButton.interactable = true;
+            }
+        }
+
     }
     
-    // 닿아있다가 떨어지면 공격 불가능
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
-        JM_ImposterUI.instance.isAttackOK = false;
-        isAttackOk = false;
-        isVent = false;
-        isMission = false;
+        // 닿아있다가 떨어지면 공격 불가능
+        if (collision.gameObject.name.Contains("Crew"))
+        {
+            JM_ImposterUI.instance.isAttackOK = false;
+            isAttackOk = false;
+            isVent = false;
+            isMission = false;
+        }
+        // 시체와 떨어질 경우 리포트 불가능
+        else if (collision.gameObject.name.Contains("DeadBody"))
+        {
+            reportButton.interactable = false;
+        }
     }
 }

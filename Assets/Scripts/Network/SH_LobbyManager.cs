@@ -113,6 +113,7 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
     }
     // roomCache의 value값으로 룸 아이템 생성
     public GameObject roomItemFactory;
+    // 룸 캐시 정보로 RoomItem 생성
     void CreateRoomListUI()
     {
         foreach (RoomInfo info in roomCache.Values)
@@ -128,11 +129,10 @@ public class SH_LobbyManager : MonoBehaviourPunCallbacks
             item.onClickAction = (room) => { roomName.text = room; };
         }
     }
-
-    void SetRoomName(string room)
-    {
-        roomName.text = room;
-    }
+    //void SetRoomName(string room)
+    //{
+    //    roomName.text = room;
+    //}
 
     
     void Update()
