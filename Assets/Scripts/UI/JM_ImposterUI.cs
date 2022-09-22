@@ -73,6 +73,7 @@ public class JM_ImposterUI : MonoBehaviourPun
     public void ClickAttack()
     {
         // imposterCode.Attack();
+        // 플레이어 죽는 함수 호출
         victimCrew.GetComponent<JM_PlayerMove>().Dead(crewColor.r, crewColor.g, crewColor.b, crewColor.a, 
             imposterColor.r, imposterColor.g, imposterColor.b, imposterColor.a);
 

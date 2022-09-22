@@ -16,7 +16,7 @@ public class SH_VoteManager : MonoBehaviourPun
     // 투표 진행 여부 
     public bool isVote;
     // 투표 UI
-    GameObject voteUI;
+    public GameObject voteUI;
     // 플레이어 패널 프리팹
     public GameObject playerPanelFactory;
     // Player panel 넣을 부모 객체
@@ -28,11 +28,23 @@ public class SH_VoteManager : MonoBehaviourPun
         
     }
 
-    
+    bool isOnce;
     void Update()
     {
-        // 투표 UI 활성화
-        if (isVote) voteUI.SetActive(true);
+
+
+        // 투표 기본 세팅
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        //if (isVote)
+        {
+            voteUI.SetActive(true);
+            if (!isOnce)
+            {
+                PlayerPanelSetting();
+                
+            }
+        }
+            
     }
 
 
@@ -40,14 +52,15 @@ public class SH_VoteManager : MonoBehaviourPun
     void PlayerPanelSetting()
     {
         // 플레이어만큼 패널 세팅하기
-        foreach ( PhotonView photonView in JM_GameManager.instance.playerList )
+        for ( int i=0; i <  JM_GameManager.instance.playerList.Count; i++ )
         {
             GameObject panel = Instantiate(playerPanelFactory, trPanel);
-            // panel 상세 정보 세팅
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
-            playerPanel.SetInfo(photonView);
+            // panel 상세 정보 세팅
+            playerPanel.SetInfo(JM_GameManager.instance.playerList[i]);
             // 10초 지날때까지는 버튼 비활성화
             playerPanel.GetComponent<Button>().interactable = false;
         }
+        isOnce = true;
     }
 }

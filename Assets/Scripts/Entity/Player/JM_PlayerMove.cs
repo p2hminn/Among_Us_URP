@@ -55,8 +55,6 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     void Start()
     {
-       
-
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
         JM_GameManager.instance.AddPlayer(photonView);
 
