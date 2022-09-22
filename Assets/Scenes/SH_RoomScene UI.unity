@@ -375,6 +375,7 @@ MonoBehaviour:
   crewGameUI: {fileID: 320467246}
   reportUI: {fileID: 1178161298}
   diedCrew: {fileID: 435896335}
+  dieColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &107687083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,7 +448,6 @@ MonoBehaviour:
   isReportAble: 0
   reportUI: {fileID: 1178161298}
   onReport: 0
-  dieColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &107687086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +468,7 @@ MonoBehaviour:
   victimCrew: {fileID: 0}
   imposterColor: {r: 0, g: 0, b: 0, a: 0}
   crewColor: {r: 0, g: 0, b: 0, a: 0}
+  reportButton: {fileID: 1869255449}
 --- !u!1 &111753948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,7 +1526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &320467247
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3288,7 +3289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &714761895
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3718,7 +3719,7 @@ GameObject:
   - component: {fileID: 887796957}
   - component: {fileID: 887796956}
   m_Layer: 5
-  m_Name: Report
+  m_Name: Report_Crew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3783,13 +3784,13 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 887796957}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 107687085}
-        m_TargetAssemblyTypeName: JM_CrewUI, Assembly-CSharp
+      - m_Target: {fileID: 107687082}
+        m_TargetAssemblyTypeName: SH_RoomUI, Assembly-CSharp
         m_MethodName: OnReportButton
         m_Mode: 1
         m_Arguments:
@@ -3987,7 +3988,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &946817240
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5319,7 +5320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1349587796
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -10132,7 +10133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1352611270
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10473,6 +10474,8 @@ MonoBehaviour:
   - {fileID: 1877264321}
   gameStartOrigin: {fileID: 655705883}
   startPos: []
+  panels: {fileID: 0}
+  panelFactory: {fileID: 0}
 --- !u!4 &1453532440
 Transform:
   m_ObjectHideFlags: 0
@@ -10921,7 +10924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1572552766
 Transform:
   m_ObjectHideFlags: 0
@@ -11730,7 +11733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1831687539
 Transform:
   m_ObjectHideFlags: 0
@@ -11981,7 +11984,7 @@ GameObject:
   - component: {fileID: 1869255450}
   - component: {fileID: 1869255449}
   m_Layer: 5
-  m_Name: Report
+  m_Name: Report_Imposter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12046,11 +12049,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1869255450}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107687082}
+        m_TargetAssemblyTypeName: SH_RoomUI, Assembly-CSharp
+        m_MethodName: OnReportButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1869255450
 MonoBehaviour:
   m_ObjectHideFlags: 0

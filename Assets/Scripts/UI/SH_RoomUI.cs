@@ -14,6 +14,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         instance = this;
     }
+
+
     // Start 버튼
     public Button btn_Start;
     // 방 이름 Text
@@ -22,6 +24,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public Text txt_PlayerNum;
     // 방장 게임 Start 버튼 누름 여부
     public bool isStart = false;
+
+
     // 게임 Start 버튼 누를 시 비활성화해야 하는 오브젝트들
     [Header("GameStart 시 비활성화해야 하는 오브젝트")]
     public List<GameObject> toOff = new List<GameObject>();
@@ -32,7 +36,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public GameObject crews;
     public GameObject imposters;
     public float introSpeed;
-
     bool isSelectionUI;
     public bool isGameScene;
     public GameObject gameMap;
@@ -43,6 +46,14 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 로컬 임포스터UI 코드 및 크루UI 코드
     JM_ImposterUI imposterUICode;
     JM_CrewUI crewUICode;
+
+    public GameObject imposterGameUI;
+    public GameObject crewGameUI;
+    public GameObject reportUI;
+    public GameObject diedCrew;
+
+    // 시체 색깔
+    public Color dieColor;
 
     void Start()
     {
@@ -61,8 +72,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         imposterUICode.enabled = false;
         crewUICode.enabled = false;
     }
-
-
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
@@ -71,6 +80,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             btn_Start.interactable = true;
         }
 
+        // 게임 인트로
         if (isStart)
         {
             JM_GameIntro();
@@ -84,8 +94,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_GameEnable();
         }
 
-
     }
+
 
     // 플레이어가 방에 들어올 때 & 나갈 때 방 인원 수 업데이트
     public override void OnPlayerEnteredRoom(Player newPlayer) => PlayerNumUpdate();
@@ -127,8 +137,9 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         */
     }
 
-    float currentTime = 0;
 
+    // 게임 인트로 
+    float currentTime = 0;
     void JM_GameIntro()
     {
         shhh.SetActive(true);
@@ -142,7 +153,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
-
     void JM_ShowPlayerRole()
     {
         currentTime += Time.deltaTime;
@@ -185,10 +195,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
-
-    public GameObject imposterGameUI;
-    public GameObject crewGameUI;
-
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
@@ -204,30 +210,44 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
+
+
+    // 시체 발견 후 리포트 버튼 누르면 UI 활성화
+    public void OnReportButton()
+    {
+        Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
+    }
+    // RPC로 시체 색깔 넘기기
     public void Report(float deadR, float deadG, float deadB, float deadA)
     {
         photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
     }
-
     [PunRPC]
     public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
     {
-        // 로컬인 아이들만 Canvas의 Report UI 활성화시키기
         Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
         StartReportUI(diedCrewColor);
-        
     }
-
-    // 리포트 UI 호출 함수
-    public GameObject reportUI;
-    public GameObject diedCrew;
-
+    // 시체 색 변환 후 리포트 UI 활성화 + 투표 시작
     void StartReportUI(Color diedCrewColor)
     {
         Material mat = diedCrew.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", diedCrewColor);
-        reportUI.SetActive(true);
+        // 리포트 UI 2초간 활성화
+        StartCoroutine("ActivateReportUI");
+        // 투표 시작
+        SH_VoteManager.instance.isVote = true;
     }
-
-
+    IEnumerator ActivateReportUI()
+    {
+        float currTime = 0;
+        float activateTime = 2;
+        while (currTime < activateTime)
+        {
+            currTime += Time.deltaTime;
+            reportUI.SetActive(true);
+            yield return null;
+        }
+        reportUI.SetActive(false);
+    }
 }
