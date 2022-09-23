@@ -19,8 +19,7 @@ public class JM_Ghost : MonoBehaviourPun
     {
         // 스프라이트 렌더러                                                                                                                                                                                                                                    
         sr = GetComponent<SpriteRenderer>();
-        mat = GetComponent<SpriteRenderer>().material;
-        mat.SetColor("_PlayerColor", color);
+        
 
         //// 닉네임 설정
         //photonView.Owner.NickName = PhotonNetwork.NickName;
@@ -39,8 +38,8 @@ public class JM_Ghost : MonoBehaviourPun
         // 이동 인풋이 있을 경우 
         if (h != 0f || v != 0f)
         
-            // 이동함수 실행
-            Move(h, v);
+        // 이동함수 실행
+        Move(h, v);
     }
 
     public void SetColor(Color settingColor)
@@ -50,6 +49,8 @@ public class JM_Ghost : MonoBehaviourPun
         float g = color.g;
         float b = color.b;
         float a = color.a;
+        mat = GetComponent<SpriteRenderer>().material;
+        mat.SetColor("_PlayerColor", color);
     }
 
     // 이동 함수

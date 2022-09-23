@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 4326509646114621149}
   - component: {fileID: 1696363349739315947}
   m_Layer: 0
-  m_Name: Crew2
+  m_Name: Crew_Test
   m_TagString: Crew
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,7 +249,6 @@ MonoBehaviour:
   deadBodyGenerator: {fileID: 1522875784025858697, guid: 03c5a01ba03482c439b2e199b9a5bfc6, type: 3}
   reportUI: {fileID: 0}
   state: 0
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
   deadColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &3059736370986691481
 MonoBehaviour:

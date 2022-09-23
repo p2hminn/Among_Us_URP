@@ -815,7 +815,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.18867922, g: 0.16642931, b: 0.16642931, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -846,3 +846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba68edb9d2d16c34abfc9374d187b910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerImg: {fileID: 6822739006661373831}
+  NickNametxt: {fileID: 6822739005808674745}
+  diedImg: {fileID: 6822739006679970570}
+  voteMatFactory: {fileID: 2100000, guid: 1cccbaee8572cf94d846ccad65b9902c, type: 2}

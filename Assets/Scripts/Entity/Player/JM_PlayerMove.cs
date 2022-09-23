@@ -295,19 +295,6 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterR, imposterG, imposterB, imposterG);
         }
         GetComponent<JM_PlayerStatus>().ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
-        // 닉네임 넘겨주기
-        //PhotonNetwork.NickName = photonView.Owner.NickName;
-        //print("1 : " + photonView.Owner.NickName);
-        //print("2 :" + JM_GameManager.instance.playerList.Count);
-        // Ghost의 포톤뷰 GameManager의 playerList에 넣기
-        //JM_GameManager.instance.playerList.Add(ghost.GetPhotonView());
-        //print("3 :" + JM_GameManager.instance.playerList.Count);
-        // 죽은 player 포톤뷰 GameManager의 playerList에서 제거
-        //JM_GameManager.instance.playerList.Remove(photonView);
-        //print("4 :" + JM_GameManager.instance.playerList.Count);
-
-
-
     }
 
 

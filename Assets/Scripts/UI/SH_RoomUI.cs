@@ -215,6 +215,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 시체 발견 후 리포트 버튼 누르면 UI 활성화
     public void OnReportButton()
     {
+        print("Report");
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
     }
     // RPC로 시체 색깔 넘기기
@@ -231,23 +232,41 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 시체 색 변환 후 리포트 UI 활성화 + 투표 시작
     void StartReportUI(Color diedCrewColor)
     {
+        print("StartReportUI");
         Material mat = diedCrew.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", diedCrewColor);
         // 리포트 UI 2초간 활성화
         StartCoroutine("ActivateReportUI");
-        // 투표 시작
-        SH_VoteManager.instance.PlayerPanelSetting();
     }
     IEnumerator ActivateReportUI()
     {
-        float currTime = 0;
-        float activateTime = 2;
-        while (currTime < activateTime)
-        {
-            currTime += Time.deltaTime;
-            reportUI.SetActive(true);
-            yield return null;
-        }
+        print("ActivateReportUI");
+        reportUI.SetActive(true);
+        yield return new WaitForSeconds(2);
         reportUI.SetActive(false);
+        // 투표 시작
+        SH_VoteManager.instance.PlayerPanelSetting();
     }
+
+
+
+    // 채팅 오픈, 닫기
+    public GameObject chatView;
+    public bool open = false;
+    public void OnClickChat()                                
+    {
+        if (!open)
+        {
+            print("open");
+            chatView.SetActive(true);
+            open = true;
+        }
+        else
+        {
+            print("close");
+            chatView.SetActive(false);
+            open = false;
+        }
+    }
+
 }
