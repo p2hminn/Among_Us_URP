@@ -236,7 +236,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         // 리포트 UI 2초간 활성화
         StartCoroutine("ActivateReportUI");
         // 투표 시작
-        SH_VoteManager.instance.isVote = true;
+        SH_VoteManager.instance.PlayerPanelSetting();
     }
     IEnumerator ActivateReportUI()
     {

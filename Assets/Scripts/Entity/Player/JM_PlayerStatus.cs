@@ -29,6 +29,13 @@ public class JM_PlayerStatus : MonoBehaviourPun
         anim = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+
+    }
+
+
+    // 시체와 충돌 시 리포트 
     [SerializeField]
     Color deadColor;
     private void OnTriggerStay2D(Collider2D collision)
@@ -57,6 +64,36 @@ public class JM_PlayerStatus : MonoBehaviourPun
     private void OnTriggerExit2D(Collider2D collision)
     {
         JM_CrewUI.instance.isReportAble = false;
+    }
+
+
+
+    // 플레이어 고스트로 변신!
+    public void ToGhost()
+    {
+        // 로컬 플레이어 -> 고스트, 리모트 플레이어 -> 비활성화
+        if (!photonView.IsMine)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        // 상태 업데이트
+        state = State.ghost;
+
+        // 비활성화 및 활성화
+        GetComponent<BoxCollider2D>().enabled = false;
+        Destroy(GetComponent<Rigidbody2D>());
+        GetComponent<JM_PlayerMove>().enabled = false;
+        if (GetComponent<JM_PlayerMove>().isImposter) GetComponent<JM_PlayerStatus>().enabled = false;
+        else GetComponent<JM_ImposterStatus>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<JM_Ghost>().enabled = true;
+
+        // Animator 변경
+        anim.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("Animator/JM_GhostAnimator", typeof(RuntimeAnimatorController)));
+        // Sprite 변경
+        GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("GhostSprite");
     }
 
     

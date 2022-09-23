@@ -23,12 +23,35 @@ public class SH_PlayerPanel : MonoBehaviourPun
     // 패널 상세 정보 세팅
     public void SetInfo(PhotonView photonView)
     {
-        // 플레이어 색상
-        Color color = photonView.gameObject.GetComponent<JM_PlayerMove>().color;
-        Material mat = transform.GetChild(0).GetComponent < Image >().material;
-        mat.SetColor("_PlayerColor", color);
+         // 플레이어 색상
+         Color color = photonView.gameObject.GetComponent<JM_PlayerMove>().color;
+         Material mat = transform.GetChild(0).GetComponent<Image>().material;
+         mat.SetColor("_PlayerColor", color);
 
-        // 플레이어 닉네임
-        transform.GetChild(1).GetComponent<Text>().text = photonView.Owner.NickName;
+         // 플레이어 닉네임
+         transform.GetChild(1).GetComponent<Text>().text = photonView.Owner.NickName;
+
+        print("color : " + color);
+        print("nickname : " + photonView.Owner.NickName);
     }
+    //public void SetInfo(PhotonView photonView)
+    //{
+    //    // 크루
+    //    if (photonView.gameObject.CompareTag("Crew"))
+    //    {
+    //        print("Crew : " + photonView.Owner.NickName);
+    //        // 플레이어 색상
+    //        Color color = photonView.gameObject.GetComponent<JM_PlayerMove>().color;
+    //        Material mat = transform.GetChild(0).GetComponent<Image>().material;
+    //        mat.SetColor("_PlayerColor", color);
+
+    //        // 플레이어 닉네임
+    //        transform.GetChild(1).GetComponent<Text>().text = photonView.Owner.NickName;
+    //    }
+    //    // 고스트
+    //    else if (photonView.gameObject.CompareTag("Ghost"))
+    //    {
+    //        print("Ghost : ");//+ photonView.Owner.NickName);
+    //    }
+    //}
 }

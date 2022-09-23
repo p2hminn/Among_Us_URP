@@ -13,6 +13,8 @@ public class SH_VoteManager : MonoBehaviourPun
         instance = this;
     }
 
+
+
     // 투표 진행 여부 
     public bool isVote;
     // 투표 UI
@@ -23,34 +25,12 @@ public class SH_VoteManager : MonoBehaviourPun
     public Transform trPanel;
 
 
-    void Start()
-    {
-        
-    }
-
-    bool isOnce;
-    void Update()
-    {
-
-
-        // 투표 기본 세팅
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        //if (isVote)
-        {
-            voteUI.SetActive(true);
-            if (!isOnce)
-            {
-                PlayerPanelSetting();
-                
-            }
-        }
-            
-    }
-
 
     // 플레이어 패널 세팅
-    void PlayerPanelSetting()
+    public void PlayerPanelSetting()
     {
+        isVote = true;
+        voteUI.SetActive(true);
         // 플레이어만큼 패널 세팅하기
         for ( int i=0; i <  JM_GameManager.instance.playerList.Count; i++ )
         {
@@ -61,6 +41,5 @@ public class SH_VoteManager : MonoBehaviourPun
             // 10초 지날때까지는 버튼 비활성화
             playerPanel.GetComponent<Button>().interactable = false;
         }
-        isOnce = true;
     }
 }

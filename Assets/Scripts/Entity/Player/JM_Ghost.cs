@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class JM_Ghost : MonoBehaviour
+public class JM_Ghost : MonoBehaviourPun
 {
     Color color;
     SpriteRenderer sr;
@@ -19,6 +21,12 @@ public class JM_Ghost : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         mat = GetComponent<SpriteRenderer>().material;
         mat.SetColor("_PlayerColor", color);
+
+        //// 닉네임 설정
+        //photonView.Owner.NickName = PhotonNetwork.NickName;
+
+        //// 게임 매니저 플레이어리스트에 자기 포톤뷰 올리기
+        //JM_GameManager.instance.playerList.Add(photonView);
 
     }
 
