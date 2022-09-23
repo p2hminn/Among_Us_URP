@@ -73,7 +73,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         }
         
         // 내 카메라 켜주기
-         
         if (photonView.IsMine)
         {
             //camPos를 활성화한다
@@ -255,7 +254,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 해당 플레이어에게 저장
         photonView.RPC("RPC_SaveColor", RpcTarget.AllBuffered, r, g, b, a);
 
-        // 머티리얼에 플레이어 컬러를 지정
+        // 머티리얼에 플레이어 컬러를 지정                          
         mat.SetColor("_PlayerColor", color);
 
         // 컬러매니저의 컬러 리스트를 업데이트
@@ -276,26 +275,39 @@ public class JM_PlayerMove : MonoBehaviourPun
             imposterR, imposterG, imposterB, imposterA );
     }
 
+    public string myNickName;
     [PunRPC]
     void RPC_Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
         if (photonView.IsMine)
         {
-            deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);
+            deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);  // 모든 화면에서 생성
             JM_DeadBody deadBodyCode = deadBody.GetComponent<JM_DeadBody>();
             deadBodyCode.SetColor(color);
 
-            ghost = GameObject.Instantiate(ghostGenerator);
-            ghost.transform.position = transform.position;
-            JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
-            ghostCode.SetColor(color);
+            //ghost = PhotonNetwork.Instantiate("Ghost", transform.position, Quaternion.identity);  // 모든 화면에서 생성 후 자기 자신이 아닐때는 ghost 끔
+            //JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
+            //ghostCode.SetColor(color);
 
             // crewUI 에서 죽는 UI 재생
             JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
                 imposterR, imposterG, imposterB, imposterG);
         }
-        Destroy(gameObject);
+        GetComponent<JM_PlayerStatus>().ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
+        // 닉네임 넘겨주기
+        //PhotonNetwork.NickName = photonView.Owner.NickName;
+        //print("1 : " + photonView.Owner.NickName);
+        //print("2 :" + JM_GameManager.instance.playerList.Count);
+        // Ghost의 포톤뷰 GameManager의 playerList에 넣기
+        //JM_GameManager.instance.playerList.Add(ghost.GetPhotonView());
+        //print("3 :" + JM_GameManager.instance.playerList.Count);
+        // 죽은 player 포톤뷰 GameManager의 playerList에서 제거
+        //JM_GameManager.instance.playerList.Remove(photonView);
+        //print("4 :" + JM_GameManager.instance.playerList.Count);
+
+
+
     }
 
 

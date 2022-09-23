@@ -36,7 +36,7 @@ public class JM_GameManager : MonoBehaviourPun
         // 방 인원 수 text 업데이트
         SH_RoomUI.instance.PlayerNumUpdate();
 
-        GameObject crew = PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
+        GameObject crew = PhotonNetwork.Instantiate("Crew2", spawnPosList[randomNum].position, Quaternion.identity);
     }
 
     bool isOnce = true;
@@ -176,9 +176,5 @@ public class JM_GameManager : MonoBehaviourPun
             }
         }
     }
-
-    // 현재 게임 내에 있는 플레이어만큼 패널 추가
-    public Transform panels;
-    public GameObject panelFactory;
     
 }
