@@ -62,6 +62,8 @@ MonoBehaviour:
   - RPC_Spawn
   - RpcAddChat
   - RPC_Report
+  - RPC_PanelSync
+  - RPC_SetPanel
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -422,6 +422,8 @@ MonoBehaviour:
   reportUI: {fileID: 1178161298}
   diedCrew: {fileID: 435896335}
   dieColor: {r: 0, g: 0, b: 0, a: 0}
+  chatView: {fileID: 2011994645}
+  open: 0
 --- !u!114 &107687083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,8 +1631,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: -20, y: -13}
+  m_AnchoredPosition: {x: -21.096191, y: -0.5}
+  m_SizeDelta: {x: -80.4916, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &302573275
 MonoBehaviour:
@@ -2975,7 +2977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &528962616
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3121,17 +3123,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2011994645}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 107687082}
+        m_TargetAssemblyTypeName: SH_RoomUI, Assembly-CSharp
+        m_MethodName: OnClickChat
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &537514972
 MonoBehaviour:
@@ -4027,8 +4029,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -101.76999, y: -18.2}
-  m_SizeDelta: {x: 28.5, y: -124.2}
+  m_AnchoredPosition: {x: -105.716644, y: -18.200012}
+  m_SizeDelta: {x: 24.5533, y: -49.3263}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &793921519
 MonoBehaviour:
@@ -5623,8 +5625,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: -20, y: -13}
+  m_AnchoredPosition: {x: -17.28003, y: -0.5}
+  m_SizeDelta: {x: -88.123, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173122856
 MonoBehaviour:
@@ -11550,8 +11552,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -46, y: -318}
-  m_SizeDelta: {x: 1083.8, y: 88}
+  m_AnchoredPosition: {x: -39.013565, y: -346}
+  m_SizeDelta: {x: 1072.7429, y: 86.3093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1391518942
 MonoBehaviour:
@@ -12103,7 +12105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 504, y: -1}
+  m_AnchoredPosition: {x: 498, y: -1}
   m_SizeDelta: {x: 41, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524270531
@@ -12150,10 +12152,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1652708224}
         m_TargetAssemblyTypeName: SH_ChatManager, Assembly-CSharp
-        m_MethodName: OnSubmit
-        m_Mode: 5
+        m_MethodName: OnSendChat
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13900,7 +13902,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -25.5, y: 0}
+  m_SizeDelta: {x: -21.5533, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1928191166
 MonoBehaviour:
@@ -14269,8 +14271,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70, y: -14}
-  m_SizeDelta: {x: 1205.5, y: 719.9}
+  m_AnchoredPosition: {x: 42.5826, y: 25.3264}
+  m_SizeDelta: {x: 1150.7412, y: 596.8273}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2011994647
 MonoBehaviour:
@@ -14315,7 +14317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5764706}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

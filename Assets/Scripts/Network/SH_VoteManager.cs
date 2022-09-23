@@ -38,8 +38,12 @@ public class SH_VoteManager : MonoBehaviourPun
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
             // panel 상세 정보 세팅
             playerPanel.SetInfo(JM_GameManager.instance.playerList[i]);
-            // 10초 지날때까지는 버튼 비활성화
-            playerPanel.GetComponent<Button>().interactable = false;
+            // 죽은 크루의 경우 투표 못하도록 막기
+            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost"))
+            {
+
+            }
+            //playerPanel.GetComponent<Button>().interactable = false;
         }
     }
 }
