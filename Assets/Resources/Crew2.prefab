@@ -251,6 +251,7 @@ MonoBehaviour:
   state: 0
   playerColor: {r: 0, g: 0, b: 0, a: 0}
   deadColor: {r: 0, g: 0, b: 0, a: 0}
+  ghostSprite: {fileID: 0}
 --- !u!114 &3059736370986691481
 MonoBehaviour:
   m_ObjectHideFlags: 0

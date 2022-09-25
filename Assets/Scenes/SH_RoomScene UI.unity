@@ -1384,7 +1384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &47836127
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19115,6 +19115,7 @@ MonoBehaviour:
   playerPanelFactory: {fileID: 6822739007070042393, guid: e930f8136f20a484ba9d60df6ecd9e91, type: 3}
   trPanel: {fileID: 573991287}
   reportViewID: 0
+  voteResult: 
   voteCompleteNum: 0
 --- !u!4 &744588872
 Transform:
@@ -21516,7 +21517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &858180096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38773,6 +38774,7 @@ MonoBehaviour:
   - {fileID: 804500792}
   - {fileID: 1877264321}
   gameStartOrigin: {fileID: 655705883}
+  localPv: {fileID: 0}
   startPos: []
 --- !u!4 &1453532440
 Transform:
