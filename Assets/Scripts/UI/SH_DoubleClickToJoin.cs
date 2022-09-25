@@ -7,7 +7,6 @@ public class SH_DoubleClickToJoin : MonoBehaviour, IPointerClickHandler
 {
     float interval = 0.25f;
     float doubleClickedTime = -1.0f;
-    bool isDoubleClicked = false;
     
     SH_LobbyManager lobbyManager;
 
@@ -21,7 +20,6 @@ public class SH_DoubleClickToJoin : MonoBehaviour, IPointerClickHandler
         // 두번째 클릭
         if (Time.time - doubleClickedTime < interval)
         {
-            isDoubleClicked = true;
             doubleClickedTime = -1.0f;
 
             // 방목록 더블 클릭할 경우 방 참가
@@ -30,7 +28,6 @@ public class SH_DoubleClickToJoin : MonoBehaviour, IPointerClickHandler
         // 첫번째 클릭
         else
         {
-            isDoubleClicked = false;
             doubleClickedTime = Time.time;
         }
     }

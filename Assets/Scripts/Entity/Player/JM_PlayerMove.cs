@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
@@ -133,23 +134,28 @@ public class JM_PlayerMove : MonoBehaviourPun
             isOnce = false;
         }
 
-        // 이동 인풋 받기
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        // 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // 이동 인풋 받기
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
-        // 이동 인풋이 있을 경우 
-        if (h != 0f || v != 0f)
-        {
-            // 이동함수 실행
-            Move(h, v);
-            // 이동 중 
-            isMoving = true;
+            // 이동 인풋이 있을 경우 
+            if (h != 0f || v != 0f)
+            {
+                // 이동함수 실행
+                Move(h, v);
+                // 이동 중 
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            SetBool(isMoving);
         }
-        else
-        {
-            isMoving = false;
-        }
-        SetBool(isMoving);
+        
     }
 
     // 스폰
@@ -329,5 +335,16 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void SetIndividualPos(float x, float y, float z)
     {
         photonView.RPC("RPC_SetIndividualPos", RpcTarget.All, x, y, z);
+    }
+
+    // 리포트 버튼 누르면 VoteManager에게 리포트한 사실 알려주기
+    public void SendReportPlayer()
+    {
+        photonView.RPC("RPC_SendReportPlayer", RpcTarget.All, photonView.ViewID);
+    }
+    [PunRPC]
+    void RPC_SendReportPlayer(int id)
+    {
+        SH_VoteManager.instance.reportViewID = id;
     }
 }

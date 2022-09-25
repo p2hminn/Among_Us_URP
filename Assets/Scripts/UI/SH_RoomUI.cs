@@ -75,7 +75,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
         }
@@ -215,7 +215,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 시체 발견 후 리포트 버튼 누르면 UI 활성화
     public void OnReportButton()
     {
-        print("Report");
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
     }
     // RPC로 시체 색깔 넘기기
@@ -232,7 +231,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 시체 색 변환 후 리포트 UI 활성화 + 투표 시작
     void StartReportUI(Color diedCrewColor)
     {
-        print("StartReportUI");
         Material mat = diedCrew.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", diedCrewColor);
         // 리포트 UI 2초간 활성화
@@ -240,7 +238,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     }
     IEnumerator ActivateReportUI()
     {
-        print("ActivateReportUI");
         reportUI.SetActive(true);
         yield return new WaitForSeconds(2);
         reportUI.SetActive(false);
@@ -253,7 +250,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 채팅 오픈, 닫기
     public GameObject chatView;
     public bool open = false;
-    public void OnClickChat()                                
+    public void OnClickChat() 
     {
         if (!open)
         {

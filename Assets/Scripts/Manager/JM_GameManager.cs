@@ -40,8 +40,10 @@ public class JM_GameManager : MonoBehaviourPun
     }
 
     bool isOnce = true;
+    bool isOnce2 = true;
     void Update()
     {
+        Debug.Log(playerList.Count);
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
         if (SH_RoomUI.instance.isStart && isOnce)
         {
@@ -62,8 +64,14 @@ public class JM_GameManager : MonoBehaviourPun
             isGameRoom = true; 
         }
 
+        // 게임 시작되면 플레이어 포톤뷰 정렬
+        if (isGameRoom && isOnce2)
+        {
+            playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
+        }
 
-        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 
+
+        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 destroy
         //if (SH_RoomUI.instance.isStart && )
         //{
         //    isGameRoom = true
