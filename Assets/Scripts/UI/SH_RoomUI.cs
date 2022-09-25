@@ -195,9 +195,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
+    public GameObject missionStatusUI;
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
+        missionStatusUI.SetActive(true);
         if (isLocalImposter)
         {
             imposterGameUI.SetActive(true);

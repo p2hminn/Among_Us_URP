@@ -16,6 +16,8 @@ public class JM_Refuel_Engines_St1 : MonoBehaviour
     public bool isMissionComplete;
     float currentTime;
 
+    public GameObject taskCompletedUI;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,10 +48,13 @@ public class JM_Refuel_Engines_St1 : MonoBehaviour
             isMissionComplete = true;
             currentTime += Time.deltaTime;
             greenlightOn.SetActive(true);
+
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
+
             if (currentTime >= 1)
             {
                 refuelEnginesSt1UI.SetActive(false);
-                greenlightOn.SetActive(false);
             }
         }
     }

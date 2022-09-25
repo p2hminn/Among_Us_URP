@@ -57,7 +57,7 @@ public class Start_ReactorUI : MonoBehaviour
     bool isFifthInput;
 
     public bool isMissionComplete;
-
+    public GameObject taskCompletedUI;
 
 
 
@@ -429,8 +429,6 @@ public class Start_ReactorUI : MonoBehaviour
         }
     }
 
-
-
     void ActivateDial()
     {
         // 다이얼 버튼 전부 활성화
@@ -572,6 +570,9 @@ public class Start_ReactorUI : MonoBehaviour
         {
             // 버튼 비활성화하고
             DeActivateDial();
+            isMissionComplete = true;
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
 
             currentTime += Time.deltaTime;
             // 1초 후에 3단계 실행
@@ -589,7 +590,8 @@ public class Start_ReactorUI : MonoBehaviour
                 isThirdCorrect = false;
                 isFourthCorrect = false;
                 isFifthCorrect = false;
-                isMissionComplete = true;
+                
+
                 currentTime = 0;
                 ansInputList.Clear();
                 startReactorUI.SetActive(false);
