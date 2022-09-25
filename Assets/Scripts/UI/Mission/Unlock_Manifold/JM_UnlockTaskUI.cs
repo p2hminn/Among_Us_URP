@@ -41,9 +41,12 @@ public class JM_UnlockTaskUI : MonoBehaviour
     {
         if (ansList.Count >= 10)
         {
-            taskUI.SetActive(false);
             isSuccess = true;
-            JM_MissionStatus.instance.isMissionDone = true;
+            //JM_MissionStatus.instance.isMissionDone = true;
+            JM_MissionStatus.instance.SetMissionDone();
+
+            JM_CrewMapManager.instance.UnlockManifold();
+
             taskCompletedUI.SetActive(true);
         }
         if (isSuccess)

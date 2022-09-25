@@ -44,7 +44,34 @@ public class JM_UploadFolder1UI : MonoBehaviour
                 isStart = false;
                 isDone = true;
 
-                JM_MissionStatus.instance.isMissionDone = true;
+                //JM_MissionStatus.instance.isMissionDone = true;
+                JM_MissionStatus.instance.SetMissionDone();
+
+                if (gameObject.name.Contains("Admin"))
+                {
+                    JM_CrewMapManager.instance.UploadAdmin();
+                }
+                if (gameObject.name.Contains("Electric"))
+                {
+                    JM_CrewMapManager.instance.UploadElectrics();
+                }
+                if (gameObject.name.Contains("Navigation"))
+                {
+                    JM_CrewMapManager.instance.UploadNavigation();
+                }
+                if (gameObject.name.Contains("Cafeteria"))
+                {
+                    JM_CrewMapManager.instance.UploadCafeteria();
+                }
+                if (gameObject.name.Contains("Communications"))
+                {
+                    JM_CrewMapManager.instance.UploadCommunications();
+                }
+                if (gameObject.name.Contains("Weapons"))
+                {
+                    JM_CrewMapManager.instance.UploadWeapons();
+                }
+
                 taskCompletedUI.SetActive(true);
             }
         }

@@ -18,7 +18,7 @@ public class JM_TaskCompletedUI : MonoBehaviour
         if (gameObject.activeSelf)
         {
             currentTime += Time.deltaTime;
-            if (currentTime >= 2)
+            if (currentTime >= 3)
             {
                 gameObject.SetActive(false);
             }

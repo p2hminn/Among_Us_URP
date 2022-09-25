@@ -69,6 +69,24 @@ MonoBehaviour:
   - VoteResult
   - SendVoted
   - SendGhostVote
+  - RPC_UpdateMissionSlider
+  - RPC_SetMissionDone
+  - RPC_UnlockManifold
+  - RPC_StartReactor
+  - RPC_SwipeCard
+  - RPC_CleanO2Filter
+  - RPc_CalibrateDistributor
+  - RPC_FuelSt1
+  - RPC_FuelSt2Lower
+  - RPC_FuelSt2Upper
+  - RPC_PrimeShield
+  - RPC_UploadCafeteria
+  - RPC_UploadWeapons
+  - RPC_UploadNavigation
+  - RPC_UploadAdmin
+  - RPC_UploadCommunications
+  - RPC_UploadElectrics
+  - RPC_UploadSt2Admin
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

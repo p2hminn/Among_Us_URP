@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class JM_MissionStatus : MonoBehaviour
+public class JM_MissionStatus : MonoBehaviourPun
 {
     public static JM_MissionStatus instance;
 
@@ -11,7 +12,7 @@ public class JM_MissionStatus : MonoBehaviour
 
     public bool isMissionDone;
     float currentTime;
-    float sliderValue;
+    //float sliderValue;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class JM_MissionStatus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sliderValue = 0;
+        //sliderValue = 0;
         // test
         //isMissionDone = true;
     }
@@ -39,11 +40,36 @@ public class JM_MissionStatus : MonoBehaviour
     {
         currentTime += Time.deltaTime;
         missionSlider.value = currentTime;
-        if (missionSlider.value - sliderValue >= 1)
+        if (currentTime >= 1)
         {
             isMissionDone = false;
-            sliderValue = missionSlider.value;
+            //sliderValue = missionSlider.value;
         }
+
+    }
+
+    [PunRPC]
+    void RPC_UpdateMissionSlider()
+    {
+        currentTime += Time.deltaTime;
+        missionSlider.value = currentTime;
+        if (currentTime >= 1)
+        {
+            print("けいしかいしかいしぉ");
+            photonView.RPC("RPC_SetMissionDone", RpcTarget.All);
+            //sliderValue = missionSlider.value;
+        }
+    }
+
+    public void SetMissionDone()
+    {
+        photonView.RPC("RPC_SetMissionDone", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_SetMissionDone()
+    {
+        isMissionDone = true;        
     }
 
 }

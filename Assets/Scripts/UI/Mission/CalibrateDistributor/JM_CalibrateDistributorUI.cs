@@ -94,7 +94,11 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
         {
             print("done");
             //calibrateDistributorUI.SetActive(false);
-            JM_MissionStatus.instance.isMissionDone = true;
+            //JM_MissionStatus.instance.isMissionDone = true;
+            JM_MissionStatus.instance.SetMissionDone();
+
+            JM_CrewMapManager.instance.CalibrateDistributor();
+
             taskCompletedUI.SetActive(true);
             currentTime += Time.deltaTime;
             if (currentTime >= 1)
@@ -142,5 +146,10 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
         }
     }
 
+    public void OnClickCancel()
+    {
+        Reset();
+        calibrateDistributorUI.SetActive(false);
+    }
 
 }
