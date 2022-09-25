@@ -4469,10 +4469,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 858180095}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2226451863960658470, guid: e930f8136f20a484ba9d60df6ecd9e91, type: 3}
+        m_TargetAssemblyTypeName: SH_PlayerPanel, Assembly-CSharp
+        m_MethodName: PanelOff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -92,7 +92,8 @@ public class JM_PlayerStatus : MonoBehaviourPun
         GetComponent<JM_Ghost>().enabled = true;
 
         // Animator 변경
-        anim.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("Animator/JM_GhostAnimator", typeof(RuntimeAnimatorController)));
+        //anim.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("Animator/JM_GhostAnimator", typeof(RuntimeAnimatorController)));
+        anim.runtimeAnimatorController = Resources.Load("Animator/JM_GhostAnimator") as RuntimeAnimatorController;
         // Sprite 변경
         GetComponent<SpriteRenderer>().sprite = (Sprite) Resources.Load("GhostSprite");
         // 유령 색상 변경

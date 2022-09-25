@@ -13,6 +13,12 @@ public class SH_PlayerPanel : MonoBehaviourPun
     public Material voteMatFactory;
     public Image blackImg;
     public Image reportImg;
+    public Transform trPanel;
+
+    //private void Start()
+    //{
+    //    trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
+    //}
 
     // 패널 상세 정보 세팅 
     public void SetInfo(PhotonView photonView, int reportViewID = 0)
@@ -56,16 +62,13 @@ public class SH_PlayerPanel : MonoBehaviourPun
     public Button btnVoteCancel;
 
     // 플레이어 패널 클릭할 때 투표 버튼 나오게 하기
-    public int n;
     public void OnClickPanel()
     {
         // 투표 완료했을 경우에는 투표 버튼 안나오게 하기
         if (voteComplete) return;
 
-        Transform trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
-
-        
         // 내가 선택한 패널이 아닐 경우 나머지 패널들의 투표 버튼 비활성화
+        trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
         foreach (Transform panel in trPanel)
         {
             if (panel.gameObject != gameObject)
@@ -89,8 +92,8 @@ public class SH_PlayerPanel : MonoBehaviourPun
     public void OnClickVote()
     {
         voteComplete = true;
-        // 투표완료하면  모든 패널들 자기 자신의 버튼 interactable 비활성화
-        //GetComponent<Button>().interactable = false;
+        // 투표완료하면  모든 패널들 투표 버튼 비활성화
+        SH_VoteManager.instance.PanelOff();
 
         // 투표 완료 이미지 활성화 + 동기화
         photonView.RPC("SendVoted", RpcTarget.All);
@@ -102,14 +105,13 @@ public class SH_PlayerPanel : MonoBehaviourPun
         voteForImg.gameObject.SetActive(true);
 
     }
-    // 모두에게 투표완료했음 표시
+    // 투표 완료했을 경우
     [PunRPC]
     public void SendVoted()
     {
-        // 활성화/비활성화 + 동기화
-        transform.GetChild(3).gameObject.SetActive(false);  // Voted
-        transform.GetChild(7).gameObject.SetActive(false);  // Btn_Vote
-        transform.GetChild(8).gameObject.SetActive(false);  // Btn_VoteCancel
+        // 투표 완료 표시 모두에게~
+        transform.GetChild(3).gameObject.SetActive(true);  // Voted
+        
         //btnVote.gameObject.SetActive(false);
         //btnVoteCancel.gameObject.SetActive(false);
         //votedImg.gameObject.SetActive(true);
@@ -121,13 +123,15 @@ public class SH_PlayerPanel : MonoBehaviourPun
         SH_VoteManager.instance.voteResultDic[g] += 1;
         SH_VoteManager.instance.voteCompleteNum++;
     }
-
-
     // 투표 취소 버튼 누를 경우
     public void OnClickVoteCancel()
     {
         btnVote.gameObject.SetActive(false);
         btnVoteCancel.gameObject.SetActive(false);
     }
+
+
+
+    
 
 }
