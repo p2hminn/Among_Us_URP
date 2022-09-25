@@ -495,6 +495,7 @@ MonoBehaviour:
   missionTrigger: {fileID: 0}
   reportButton: {fileID: 887796956}
   isReportAble: 0
+  isDeadAnimationEnding: 0
   reportUI: {fileID: 1178161298}
   onReport: 0
 --- !u!114 &107687086
@@ -4690,8 +4691,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3059736370986691483, guid: d787d8de892dcca4b8614b1ed7290c05, type: 3}
-        m_TargetAssemblyTypeName: JM_PlayerMove, Assembly-CSharp
+      - m_Target: {fileID: 1453532439}
+        m_TargetAssemblyTypeName: JM_GameManager, Assembly-CSharp
         m_MethodName: SendReportPlayer
         m_Mode: 1
         m_Arguments:
@@ -13868,8 +13869,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3059736370986691483, guid: d787d8de892dcca4b8614b1ed7290c05, type: 3}
-        m_TargetAssemblyTypeName: JM_PlayerMove, Assembly-CSharp
+      - m_Target: {fileID: 1453532439}
+        m_TargetAssemblyTypeName: JM_GameManager, Assembly-CSharp
         m_MethodName: SendReportPlayer
         m_Mode: 1
         m_Arguments:
