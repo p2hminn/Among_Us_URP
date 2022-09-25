@@ -40,13 +40,15 @@ public class JM_ImposterUI : MonoBehaviourPun
     [SerializeField]
     public Color crewColor;
 
+    // 리포트 버튼
+    public Button reportButton;
 
     // Start is called before the first frame update
     void Start()
     {
+        reportButton.interactable = false;
         // 원래 커스텀에서 조정이 가능하지만 일단 어택쿨타임 지정 10초로
         attackCoolTime = 3;
-
         attackButton.interactable = false;
     }
 
@@ -71,6 +73,7 @@ public class JM_ImposterUI : MonoBehaviourPun
     public void ClickAttack()
     {
         // imposterCode.Attack();
+        // 플레이어 죽는 함수 호출
         victimCrew.GetComponent<JM_PlayerMove>().Dead(crewColor.r, crewColor.g, crewColor.b, crewColor.a, 
             imposterColor.r, imposterColor.g, imposterColor.b, imposterColor.a);
 

@@ -61,6 +61,13 @@ MonoBehaviour:
   - RPC_SetIndividualPos
   - RPC_Spawn
   - RpcAddChat
+  - RPC_Report
+  - RPC_PanelSync
+  - RPC_SetPanel
+  - RPC_SendReportPlayer
+  - SendVoteResult
+  - VoteResult
+  - SendVoted
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

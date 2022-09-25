@@ -25,7 +25,7 @@ public class SH_RoomItem : MonoBehaviour
         SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
     }
 
-    // 방목록 누를 때 해당 방으로 이동
+    // 방 이름 세팅
     public void OnClick()
     {
         // onClickAction이 null이 아니라면(어떤 함수가 들어가있다면)

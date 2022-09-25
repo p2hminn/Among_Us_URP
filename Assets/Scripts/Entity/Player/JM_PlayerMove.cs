@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
@@ -55,8 +56,6 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     void Start()
     {
-       
-
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
         JM_GameManager.instance.AddPlayer(photonView);
 
@@ -75,7 +74,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         }
         
         // 내 카메라 켜주기
-         
         if (photonView.IsMine)
         {
             //camPos를 활성화한다
@@ -124,33 +122,40 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterCode.enabled = true;
                 playerCode.enabled = false;
                 nickName.color = Color.red;
+                GetComponent<JM_ImposterStatus>().enabled = true;
                 print("빨간색 지정 완료");
             }
             else
             {
                 imposterCode.enabled = false;
                 playerCode.enabled = true;
+                GetComponent<JM_PlayerStatus>().enabled = true;
             }
             isOnce = false;
         }
 
-        // 이동 인풋 받기
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        // 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // 이동 인풋 받기
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
-        // 이동 인풋이 있을 경우 
-        if (h != 0f || v != 0f)
-        {
-            // 이동함수 실행
-            Move(h, v);
-            // 이동 중 
-            isMoving = true;
+            // 이동 인풋이 있을 경우 
+            if (h != 0f || v != 0f)
+            {
+                // 이동함수 실행
+                Move(h, v);
+                // 이동 중 
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            SetBool(isMoving);
         }
-        else
-        {
-            isMoving = false;
-        }
-        SetBool(isMoving);
+        
     }
 
     // 스폰
@@ -255,7 +260,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 해당 플레이어에게 저장
         photonView.RPC("RPC_SaveColor", RpcTarget.AllBuffered, r, g, b, a);
 
-        // 머티리얼에 플레이어 컬러를 지정
+        // 머티리얼에 플레이어 컬러를 지정                          
         mat.SetColor("_PlayerColor", color);
 
         // 컬러매니저의 컬러 리스트를 업데이트
@@ -269,7 +274,6 @@ public class JM_PlayerMove : MonoBehaviourPun
     }
 
     // 죽음
-
     public void Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
@@ -277,26 +281,26 @@ public class JM_PlayerMove : MonoBehaviourPun
             imposterR, imposterG, imposterB, imposterA );
     }
 
+    public string myNickName;
     [PunRPC]
     void RPC_Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
         if (photonView.IsMine)
         {
-            deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);
+            deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);  // 모든 화면에서 생성
             JM_DeadBody deadBodyCode = deadBody.GetComponent<JM_DeadBody>();
             deadBodyCode.SetColor(color);
 
-            ghost = GameObject.Instantiate(ghostGenerator);
-            ghost.transform.position = transform.position;
-            JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
-            ghostCode.SetColor(color);
+            //ghost = PhotonNetwork.Instantiate("Ghost", transform.position, Quaternion.identity);  // 모든 화면에서 생성 후 자기 자신이 아닐때는 ghost 끔
+            //JM_Ghost ghostCode = ghost.GetComponent<JM_Ghost>();
+            //ghostCode.SetColor(color);
 
             // crewUI 에서 죽는 UI 재생
             JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
                 imposterR, imposterG, imposterB, imposterG);
         }
-        Destroy(gameObject);
+        GetComponent<JM_PlayerStatus>().ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
     }
 
 
@@ -331,5 +335,16 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void SetIndividualPos(float x, float y, float z)
     {
         photonView.RPC("RPC_SetIndividualPos", RpcTarget.All, x, y, z);
+    }
+
+    // 리포트 버튼 누르면 VoteManager에게 리포트한 사실 알려주기
+    public void SendReportPlayer()
+    {
+        photonView.RPC("RPC_SendReportPlayer", RpcTarget.All, photonView.ViewID);
+    }
+    [PunRPC]
+    void RPC_SendReportPlayer(int id)
+    {
+        SH_VoteManager.instance.reportViewID = id;
     }
 }

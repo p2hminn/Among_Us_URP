@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.EventSystems;
 
-public class JM_Ghost : MonoBehaviour
+public class JM_Ghost : MonoBehaviourPun
 {
     Color color;
     SpriteRenderer sr;
@@ -17,22 +20,31 @@ public class JM_Ghost : MonoBehaviour
     {
         // 스프라이트 렌더러                                                                                                                                                                                                                                    
         sr = GetComponent<SpriteRenderer>();
-        mat = GetComponent<SpriteRenderer>().material;
-        mat.SetColor("_PlayerColor", color);
+        
+
+        //// 닉네임 설정
+        //photonView.Owner.NickName = PhotonNetwork.NickName;
+
+        //// 게임 매니저 플레이어리스트에 자기 포톤뷰 올리기
+        //JM_GameManager.instance.playerList.Add(photonView);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        // 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
-        // 이동 인풋이 있을 경우 
-        if (h != 0f || v != 0f)
-        
+            // 이동 인풋이 있을 경우 
+            if (h != 0f || v != 0f)
+            
             // 이동함수 실행
             Move(h, v);
+        }
     }
 
     public void SetColor(Color settingColor)
@@ -42,6 +54,8 @@ public class JM_Ghost : MonoBehaviour
         float g = color.g;
         float b = color.b;
         float a = color.a;
+        mat = GetComponent<SpriteRenderer>().material;
+        mat.SetColor("_PlayerColor", color);
     }
 
     // 이동 함수

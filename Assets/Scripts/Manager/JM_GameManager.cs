@@ -36,12 +36,14 @@ public class JM_GameManager : MonoBehaviourPun
         // 방 인원 수 text 업데이트
         SH_RoomUI.instance.PlayerNumUpdate();
 
-        GameObject crew = PhotonNetwork.Instantiate("Crew", spawnPosList[randomNum].position, Quaternion.identity);
+        GameObject crew = PhotonNetwork.Instantiate("Crew2", spawnPosList[randomNum].position, Quaternion.identity);
     }
 
     bool isOnce = true;
+    bool isOnce2 = true;
     void Update()
     {
+        Debug.Log(playerList.Count);
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
         if (SH_RoomUI.instance.isStart && isOnce)
         {
@@ -62,8 +64,14 @@ public class JM_GameManager : MonoBehaviourPun
             isGameRoom = true; 
         }
 
+        // 게임 시작되면 플레이어 포톤뷰 정렬
+        if (isGameRoom && isOnce2)
+        {
+            playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
+        }
 
-        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 
+
+        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 destroy
         //if (SH_RoomUI.instance.isStart && )
         //{
         //    isGameRoom = true
@@ -104,7 +112,6 @@ public class JM_GameManager : MonoBehaviourPun
         {
             startPos[i] = gameStartOrigin.position + transform.up * 2.5f;
             playerList[i].gameObject.transform.position = startPos[i];
-            print("로테이트 좀 되라고");
             transform.Rotate(0, 0, angle);
 
             playerList[i].gameObject.GetComponent<JM_PlayerMove>().SetIndividualPos(startPos[i].x, startPos[i].y, startPos[i].z);
@@ -115,10 +122,9 @@ public class JM_GameManager : MonoBehaviourPun
 
 
 
-    // 플레이어 생성될 때 호출됨 (PlayerMove.cs의 Start)
+    // 플레이어 생성될 때 플레이어 리스트에 플레이어 포톤 뷰 저장 (PlayerMove.cs의 Start)
     public void AddPlayer(PhotonView pv)
     {
-        // 플레이어 리스트에 플레이어 포톤 뷰 저장
         playerList.Add(pv);
     }
 
@@ -178,4 +184,5 @@ public class JM_GameManager : MonoBehaviourPun
             }
         }
     }
+    
 }

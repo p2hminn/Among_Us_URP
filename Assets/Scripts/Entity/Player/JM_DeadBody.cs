@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class JM_DeadBody : MonoBehaviourPun
 {
     [SerializeField]
-    Color color;
+    public Color color;
 
     Material mat;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         mat = GetComponent<SpriteRenderer>().material;
         mat.SetColor("_PlayerColor", color);
+
+        // 플레이어가 죽으면 Report 버튼 비활성화
+        if (photonView.IsMine)
+        {
+            GameObject.FindWithTag("Canvas").GetComponent<JM_CrewUI>().isReportAble = false;
+        }
 
     }
 

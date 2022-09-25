@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SH_RoomScene UI.unity
     guid: 1e71bdc6985ed6b4fad13a82bd6729ca
   - enabled: 1
-    path: Assets/Scenes/SH_ChattingTest.unity
+    path: Assets/Scenes/SH_Test.unity
     guid: 21262a0aa25a9eb49aa44af6c2994b04
   m_configObjects: {}

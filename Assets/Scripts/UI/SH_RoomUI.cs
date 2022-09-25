@@ -14,6 +14,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         instance = this;
     }
+
+
     // Start 버튼
     public Button btn_Start;
     // 방 이름 Text
@@ -22,6 +24,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public Text txt_PlayerNum;
     // 방장 게임 Start 버튼 누름 여부
     public bool isStart = false;
+
+
     // 게임 Start 버튼 누를 시 비활성화해야 하는 오브젝트들
     [Header("GameStart 시 비활성화해야 하는 오브젝트")]
     public List<GameObject> toOff = new List<GameObject>();
@@ -32,7 +36,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public GameObject crews;
     public GameObject imposters;
     public float introSpeed;
-
     bool isSelectionUI;
     public bool isGameScene;
     public GameObject gameMap;
@@ -43,6 +46,14 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 로컬 임포스터UI 코드 및 크루UI 코드
     JM_ImposterUI imposterUICode;
     JM_CrewUI crewUICode;
+
+    public GameObject imposterGameUI;
+    public GameObject crewGameUI;
+    public GameObject reportUI;
+    public GameObject diedCrew;
+
+    // 시체 색깔
+    public Color dieColor;
 
     void Start()
     {
@@ -61,16 +72,15 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         imposterUICode.enabled = false;
         crewUICode.enabled = false;
     }
-
-
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
         }
 
+        // 게임 인트로
         if (isStart)
         {
             JM_GameIntro();
@@ -84,8 +94,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_GameEnable();
         }
 
-
     }
+
 
     // 플레이어가 방에 들어올 때 & 나갈 때 방 인원 수 업데이트
     public override void OnPlayerEnteredRoom(Player newPlayer) => PlayerNumUpdate();
@@ -110,19 +120,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         isStart = true;
         // UI 보이게할 카메라 활성화
-        // cam.gameObject.SetActive(true);
+        cam.gameObject.SetActive(true);
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
- 
+
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
-        
-        
-        
-
-        // 
-
         /*
         if (isStart && JM_PlayerMove.instance.introStart)
         {
@@ -133,8 +137,9 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         */
     }
 
-    float currentTime = 0;
 
+    // 게임 인트로 
+    float currentTime = 0;
     void JM_GameIntro()
     {
         shhh.SetActive(true);
@@ -148,7 +153,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
-
     void JM_ShowPlayerRole()
     {
         currentTime += Time.deltaTime;
@@ -191,10 +195,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
-
-    public GameObject imposterGameUI;
-    public GameObject crewGameUI;
-
     void JM_GameEnable()
     {
         gameMap.SetActive(true);
@@ -211,61 +211,59 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     }
 
 
-    // GameIntro 코루틴
-    //IEnumerator GameIntro()
-    //{
-    //    //yield return new WaitForSeconds(2);
-    //    float currTime = 0;
-    //    float delayTime = 5000;
-    //    shhh.SetActive(true);
-    //    while (currTime < delayTime)
-    //    {
-    //        currTime += introSpeed * Time.deltaTime;
-    //        print($"currTime : {currTime}");
-    //    }
-    //    shhh.SetActive(false);
 
-    //    // 크루일 경우
-    //    if (!JM_PlayerMove.instance.isImposter)
-    //    {
-    //        float a = 0;
-    //        crews.SetActive(true);
-    //        CanvasGroup crewsAlpha = crews.GetComponent<CanvasGroup>();
-    //        // 만약에 로컬이라면 player 오브젝트 활성화하기
-    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-    //        while (a < 1)
-    //        {
-    //            print($"crewsAlpha : {a}");
-    //            a += introSpeed * Time.deltaTime;
-    //            crewsAlpha.alpha = a;
-    //            yield return null;
-    //        }
-    //        crewsAlpha.alpha = 1;
-    //        yield return new WaitForSeconds(2);
-    //        crews.SetActive(false);
-    //    }
-
-    //    // 임포스터일 경우
-    //    else
-    //    {
-    //        float a = 0;
-    //        imposters.SetActive(true);
-    //        CanvasGroup impostersAlpha = imposters.GetComponent<CanvasGroup>();
-    //        if (JM_PlayerMove.instance.photonView.IsMine) JM_PlayerMove.instance.gameObject.SetActive(true);
-    //        while (a < 1)
-    //        {
-    //            print($"impostersAlpha : {a}");
-    //            a += introSpeed * Time.deltaTime;
-    //            impostersAlpha.alpha = a;
-    //            yield return null;
-    //        }
-    //        impostersAlpha.alpha = 1;
-    //        yield return new WaitForSeconds(2);
-    //        imposters.SetActive(false);
-    //    }
-
-    //    yield return new WaitForSeconds(2);
+    // 시체 발견 후 리포트 버튼 누르면 UI 활성화
+    public void OnReportButton()
+    {
+        Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
+    }
+    // RPC로 시체 색깔 넘기기
+    public void Report(float deadR, float deadG, float deadB, float deadA)
+    {
+        photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
+    }
+    [PunRPC]
+    public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
+    {
+        Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
+        StartReportUI(diedCrewColor);
+    }
+    // 시체 색 변환 후 리포트 UI 활성화 + 투표 시작
+    void StartReportUI(Color diedCrewColor)
+    {
+        Material mat = diedCrew.GetComponent<Image>().material;
+        mat.SetColor("_PlayerColor", diedCrewColor);
+        // 리포트 UI 2초간 활성화
+        StartCoroutine("ActivateReportUI");
+    }
+    IEnumerator ActivateReportUI()
+    {
+        reportUI.SetActive(true);
+        yield return new WaitForSeconds(2);
+        reportUI.SetActive(false);
+        // 투표 시작
+        SH_VoteManager.instance.PlayerPanelSetting();
+    }
 
 
-    //}
+
+    // 채팅 오픈, 닫기
+    public GameObject chatView;
+    public bool open = false;
+    public void OnClickChat() 
+    {
+        if (!open)
+        {
+            print("open");
+            chatView.SetActive(true);
+            open = true;
+        }
+        else
+        {
+            print("close");
+            chatView.SetActive(false);
+            open = false;
+        }
+    }
+
 }
