@@ -30,10 +30,7 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
     bool isBlueCorrect;
     bool isMintCorrect;
 
-
     JM_CalibrateTrigger calibrateTrigger;
-
-    
 
     // 링들은 계속 돈다. 돌다가 CalibrateTrigger에서 이즈옐로우 등이 트루일때 버튼을 누르면 그때 해당 링의 이동을 멈춘다. 
 
@@ -43,6 +40,8 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
     float mintRotSpeed;
 
     float currentTime;
+
+    public GameObject taskCompletedUI;
 
 
     // Start is called before the first frame update
@@ -78,10 +77,7 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
         {
             mintSlider.value += 20;
             //mintButton.interactable = false;
-        }
-
-
-        
+        }      
         if (!calibrateTrigger.isYellow)
         {
             yellowSlider.value -= 10;       
@@ -97,6 +93,14 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
         if (isYellowCorrect && isBlueCorrect && isMintCorrect)
         {
             print("done");
+            //calibrateDistributorUI.SetActive(false);
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
+            currentTime += Time.deltaTime;
+            if (currentTime >= 1)
+            {
+                calibrateDistributorUI.SetActive(false);
+            }
         }
 
     }

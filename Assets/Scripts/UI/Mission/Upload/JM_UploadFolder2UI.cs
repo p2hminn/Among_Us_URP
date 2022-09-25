@@ -20,6 +20,7 @@ public class JM_UploadFolder2UI : MonoBehaviour
     float currentTime;
 
     public GameObject missionCompleteUI;
+    public GameObject taskCompletedUI;
 
     // Start is called before the first frame update
     void Start()
@@ -43,15 +44,18 @@ public class JM_UploadFolder2UI : MonoBehaviour
                 print("done");
                 isStart = false;
                 isDone = true;
-                missionCompleteUI.SetActive(true);
+
+                JM_MissionStatus.instance.isMissionDone = true;
+                taskCompletedUI.SetActive(true);
+                //missionCompleteUI.SetActive(true);
             }
         }
         if (isDone)
         {      
             currentTime += Time.deltaTime;
-            if (currentTime >= 2)
+            if (currentTime >= 1)
             {
-                Reset();
+                missionUI.SetActive(false);
             }
         }
         

@@ -20,6 +20,7 @@ public class JM_UploadFolder1UI : MonoBehaviour
     float currentTime;
 
     public GameObject missionCompleteUI;
+    public GameObject taskCompletedUI;
 
     void Start()
     {
@@ -42,15 +43,17 @@ public class JM_UploadFolder1UI : MonoBehaviour
                 print("done");
                 isStart = false;
                 isDone = true;
-                missionCompleteUI.SetActive(true);
+
+                JM_MissionStatus.instance.isMissionDone = true;
+                taskCompletedUI.SetActive(true);
             }
         }
         if (isDone)
         {
             currentTime += Time.deltaTime;
-            if (currentTime >= 2)
+            if (currentTime >= 1)
             {
-                Reset();
+                missionUI.SetActive(false);
             }
         }
     }

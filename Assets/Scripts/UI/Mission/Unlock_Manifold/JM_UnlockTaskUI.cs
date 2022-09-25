@@ -19,6 +19,9 @@ public class JM_UnlockTaskUI : MonoBehaviour
     // 성공여부
     bool isSuccess;
 
+    float currentTime;
+
+    public GameObject taskCompletedUI;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +43,16 @@ public class JM_UnlockTaskUI : MonoBehaviour
         {
             taskUI.SetActive(false);
             isSuccess = true;
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
+        }
+        if (isSuccess)
+        {
+            currentTime += Time.deltaTime;
+            if (currentTime >= 1)
+            {
+                taskUI.SetActive(false);
+            }
         }
     }
     public void OnClick()

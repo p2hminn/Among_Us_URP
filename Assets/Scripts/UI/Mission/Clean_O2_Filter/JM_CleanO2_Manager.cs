@@ -16,6 +16,8 @@ public class JM_CleanO2_Manager : MonoBehaviour
 
     float currentTime;
 
+    public GameObject taskCompletedUI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class JM_CleanO2_Manager : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             isMissionComplete = true;
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
             if (currentTime >= 1)
             {
                 cleanO2FilterUI.SetActive(false);

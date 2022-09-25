@@ -21,7 +21,11 @@ public class CardSlideDemo : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public GameObject greenDark;
     public GameObject redDark;
 
+    public JM_MissionStatus missionStatus;
+
     public bool isMissionDone;
+
+    public GameObject taskCompletedUI;
 
     void Start()
     {
@@ -149,7 +153,9 @@ public class CardSlideDemo : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         print("Àß ±Ü¾ú´Ù");
         greenDark.SetActive(false);
+        JM_MissionStatus.instance.isMissionDone = true;
         isMissionDone = true;
+        taskCompletedUI.SetActive(true);
     }
 
     void Fail()

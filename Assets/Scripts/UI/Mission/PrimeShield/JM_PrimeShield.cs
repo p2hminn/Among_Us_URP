@@ -20,6 +20,8 @@ public class JM_PrimeShield : MonoBehaviour
 
     float currentTime;
 
+    public GameObject taskCompletedUI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,16 +37,16 @@ public class JM_PrimeShield : MonoBehaviour
         {
             shieldStatus.GetComponent<Image>().color = Color.white;
             shieldStatus.transform.Rotate(0, 0, 0.5f);
+            isMissionComplete = true;
+            JM_MissionStatus.instance.isMissionDone = true;
+            taskCompletedUI.SetActive(true);
 
             currentTime += Time.deltaTime;
 
             if (currentTime >= 1)
             {
-                isMissionComplete = true;
                 primeShieldUI.SetActive(false);
-            }
-            
-            
+            }           
         }
     }
 
