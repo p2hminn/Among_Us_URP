@@ -106,10 +106,13 @@ public class SH_PlayerPanel : MonoBehaviourPun
     [PunRPC]
     public void SendVoted()
     {
-        // 투표 버튼 비활성화 + 동기화
-        btnVote.gameObject.SetActive(false);
-        btnVoteCancel.gameObject.SetActive(false);
-        votedImg.gameObject.SetActive(true);
+        // 활성화/비활성화 + 동기화
+        transform.GetChild(3).gameObject.SetActive(false);  // Voted
+        transform.GetChild(7).gameObject.SetActive(false);  // Btn_Vote
+        transform.GetChild(8).gameObject.SetActive(false);  // Btn_VoteCancel
+        //btnVote.gameObject.SetActive(false);
+        //btnVoteCancel.gameObject.SetActive(false);
+        //votedImg.gameObject.SetActive(true);
     }
     // MasterClient에게만 투표 결과 보내기
     [PunRPC]
