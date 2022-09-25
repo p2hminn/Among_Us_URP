@@ -80,7 +80,7 @@ public class Start_ReactorUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isStart)
+        if (isStart && gameObject.activeSelf)
         {
             currentTime += Time.deltaTime;
             if (currentTime >= 1)
@@ -571,7 +571,11 @@ public class Start_ReactorUI : MonoBehaviour
             // 버튼 비활성화하고
             DeActivateDial();
             isMissionComplete = true;
-            JM_MissionStatus.instance.isMissionDone = true;
+            //JM_MissionStatus.instance.isMissionDone = true;
+            JM_MissionStatus.instance.SetMissionDone();
+
+            JM_CrewMapManager.instance.StartReactor();
+
             taskCompletedUI.SetActive(true);
 
             currentTime += Time.deltaTime;
@@ -795,6 +799,12 @@ public class Start_ReactorUI : MonoBehaviour
         }
 
         isStart = true;
+    }
+
+    public void OnClickCancel()
+    {
+        Reset();
+        startReactorUI.SetActive(false);
     }
 
 }

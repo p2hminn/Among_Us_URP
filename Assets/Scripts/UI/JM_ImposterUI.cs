@@ -90,4 +90,12 @@ public class JM_ImposterUI : MonoBehaviourPun
             isButtonActivate = true;
         } 
     }
+
+    public GameObject map;
+
+    public void OnClickMap()
+    {
+        map.SetActive(true);
+    }
+
 }

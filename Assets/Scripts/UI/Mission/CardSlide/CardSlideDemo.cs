@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public class CardSlideDemo : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardSlideDemo : MonoBehaviourPun, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public GameObject cardSlideUI;
 
@@ -153,7 +154,11 @@ public class CardSlideDemo : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         print("잘 긁었다");
         greenDark.SetActive(false);
-        JM_MissionStatus.instance.isMissionDone = true;
+        //JM_MissionStatus.instance.isMissionDone = true;
+
+        JM_MissionStatus.instance.SetMissionDone();
+        JM_CrewMapManager.instance.SwipeCard();
+
         isMissionDone = true;
         taskCompletedUI.SetActive(true);
     }
@@ -162,5 +167,10 @@ public class CardSlideDemo : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         print("실패");
         redDark.SetActive(false);
+    }
+
+    public void OnClickCancel()
+    {
+        cardSlideUI.SetActive(false);
     }
 }

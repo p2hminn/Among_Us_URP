@@ -38,7 +38,11 @@ public class JM_PrimeShield : MonoBehaviour
             shieldStatus.GetComponent<Image>().color = Color.white;
             shieldStatus.transform.Rotate(0, 0, 0.5f);
             isMissionComplete = true;
-            JM_MissionStatus.instance.isMissionDone = true;
+            // JM_MissionStatus.instance.isMissionDone = true;
+            JM_MissionStatus.instance.SetMissionDone();
+
+            JM_CrewMapManager.instance.PrimeShield();
+
             taskCompletedUI.SetActive(true);
 
             currentTime += Time.deltaTime;
@@ -71,5 +75,15 @@ public class JM_PrimeShield : MonoBehaviour
         GameObject button = EventSystem.current.currentSelectedGameObject;
         button.GetComponent<Button>().interactable = false;
         
+    }
+
+    public void OnClickCancel()
+    {
+        for (int i = 0; i < shieldList.Count; i++)
+        {
+            shieldList[i].interactable = false;
+        }
+        SetShield();
+        primeShieldUI.SetActive(false);
     }
 }

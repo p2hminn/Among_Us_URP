@@ -45,7 +45,11 @@ public class JM_UploadFolder2UI : MonoBehaviour
                 isStart = false;
                 isDone = true;
 
-                JM_MissionStatus.instance.isMissionDone = true;
+                //JM_MissionStatus.instance.isMissionDone = true;
+                JM_MissionStatus.instance.SetMissionDone();
+
+                JM_CrewMapManager.instance.UploadSt2Admin();
+
                 taskCompletedUI.SetActive(true);
                 //missionCompleteUI.SetActive(true);
             }

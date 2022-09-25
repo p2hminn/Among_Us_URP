@@ -8,6 +8,8 @@ public class JM_CrewUI : MonoBehaviour
     // singleton
     public  static JM_CrewUI instance;
 
+    public GameObject map;
+
     // UI 사용될 크루 및 임포스터 오브젝트
     public GameObject imposter;
     public GameObject crew;
@@ -96,6 +98,11 @@ public class JM_CrewUI : MonoBehaviour
     {
         // 미션버튼 누르면 받은 미션트리거 코드의 미션실행 함수 호출
         missionTrigger.StartMission();
+    }
+
+    public void OnClickMap()
+    {
+        map.SetActive(true);
     }
 
 
