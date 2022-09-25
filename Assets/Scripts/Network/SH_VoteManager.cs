@@ -60,14 +60,26 @@ public class SH_VoteManager : MonoBehaviourPun
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
             // panel 상세 정보 세팅
             playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID);
-            // 죽은 크루 투표했다고 치기
-            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
+            // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
+            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) 
             // 신고한 사람 표시하기
             //if (JM_GameManager.instance.playerList[i].ViewID == reportViewID) reportImg.gameObject.SetActive(true);
             if (reportViewID != 0) reportViewID = 0;
         }
-        // 죽은 크루의 경우 모든 패널 버튼 비활성화
+        // 죽은 크루의 경우 모든 패널 버튼 비활성화해서 투표 못하게 하기
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        {
+            if (JM_GameManager.instance.playerList[i].IsMine && JM_GameManager.instance.playerList[i].CompareTag("Ghost"))
+            {
+                PanelOff();
+            }
+        }
+    }
 
+    [PunRPC]
+    public void SendGhostVote()
+    {
+        voteCompleteNum++;
     }
 
     // 투표 결과 발표
@@ -84,5 +96,22 @@ public class SH_VoteManager : MonoBehaviourPun
         // 투표 끝
         //voteUI.SetActive(false);
         //isVote = false;
+    }
+
+    // 전체 패널 투표 버튼 비활성화
+    Button btnSKipVote;
+    public void PanelOff()
+    {
+        trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
+        foreach (Transform panel in trPanel)
+        {
+            panel.GetComponent<Button>().interactable = false;
+            panel.GetChild(7).gameObject.SetActive(false);  // Btn_Vote
+            panel.GetChild(8).gameObject.SetActive(false);  // Btn_VoteCancel
+        }
+        // 스킵 버튼 비활성화
+        btnSKipVote = GameObject.Find("Btn_SkipVote").GetComponent<Button>();
+        btnSKipVote.gameObject.SetActive(false);
+        print("다 비활성화함");
     }
 }

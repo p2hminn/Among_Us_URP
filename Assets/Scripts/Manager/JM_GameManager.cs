@@ -43,7 +43,6 @@ public class JM_GameManager : MonoBehaviourPun
     bool isOnce2 = true;
     void Update()
     {
-        Debug.Log(playerList.Count);
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
         if (SH_RoomUI.instance.isStart && isOnce)
         {
@@ -107,7 +106,6 @@ public class JM_GameManager : MonoBehaviourPun
 
         startPos = new Vector3[playerList.Count];
         float angle = 360 / playerList.Count;
-        print(angle);
         for (int i = 0; i < playerList.Count; i++)
         {
             startPos[i] = gameStartOrigin.position + transform.up * 2.5f;
@@ -158,7 +156,7 @@ public class JM_GameManager : MonoBehaviourPun
                     randomNum = Random.Range(0, playerList.Count);
                 }
             }
-            print("ChooseImposter");
+            //print("ChooseImposter");
             ChooseImposter(imposterIndexList);
         }
     }
@@ -174,12 +172,12 @@ public class JM_GameManager : MonoBehaviourPun
                 {  
                     // RPC 함수로 해당 인덱스 플레이어는 임포스터 할당
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
-                    print("얘는 임포스터임" + i);
+                    //print("임포스터 인덱스 : " + i);
                 }                                                             
                 else
                 {
                     playerList[i].RPC("RPC_SetCrew", RpcTarget.All);
-                    print("얘는 크루임" + i);
+                    //print("크루 인덱스 : " + i);
                 }
             }
         }

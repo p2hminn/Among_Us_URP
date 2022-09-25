@@ -123,7 +123,7 @@ public class JM_PlayerMove : MonoBehaviourPun
                 playerCode.enabled = false;
                 nickName.color = Color.red;
                 GetComponent<JM_ImposterStatus>().enabled = true;
-                print("빨간색 지정 완료");
+                //print("빨간색 지정 완료");
             }
             else
             {
