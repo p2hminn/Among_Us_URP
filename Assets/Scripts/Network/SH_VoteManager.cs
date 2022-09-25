@@ -59,6 +59,7 @@ public class SH_VoteManager : MonoBehaviourPun
             GameObject panel = Instantiate(playerPanelFactory, trPanel);
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
             // panel 상세 정보 세팅
+            print("11111111, " + reportViewID);
             playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID);
             // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
             if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) 

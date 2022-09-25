@@ -1043,6 +1043,7 @@ MonoBehaviour:
   voteMatFactory: {fileID: 2100000, guid: 1cccbaee8572cf94d846ccad65b9902c, type: 2}
   blackImg: {fileID: 6074330723536958141}
   reportImg: {fileID: 6153468821634841240}
+  trPanel: {fileID: 0}
   btnVote: {fileID: 6822739005744511061}
   btnVoteCancel: {fileID: 6822739006721045810}
   voteForImg: {fileID: 6822739006577331141}

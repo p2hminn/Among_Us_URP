@@ -20,11 +20,13 @@ public class SH_PlayerPanel : MonoBehaviourPun
     //    trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
     //}
 
+    public int playerViewId;
     // 패널 상세 정보 세팅 
-    public void SetInfo(PhotonView photonView, int reportViewID = 0)
+    public void SetInfo(PhotonView pv, int reportViewID = 0)
     {
+        playerViewId = pv.ViewID;
         // 죽은 크루의 경우
-        if (photonView.gameObject.CompareTag("Ghost"))
+        if (pv.gameObject.CompareTag("Ghost"))
         {
             // 버튼 비활성화
             GetComponent<Button>().interactable = false;
@@ -35,23 +37,27 @@ public class SH_PlayerPanel : MonoBehaviourPun
         }
 
         // 플레이어 색상
-        Color color = photonView.gameObject.GetComponent<JM_PlayerMove>().color;
+        Color color = pv.gameObject.GetComponent<JM_PlayerMove>().color;
         // 새로 생성한 머티리얼 파일 넣기
         Material mat = Instantiate(voteMatFactory);
         mat.SetColor("_PlayerColor", color);
         playerImg.material = mat;
 
         // 플레이어 닉네임
-        NickNametxt.GetComponent<Text>().text = photonView.Owner.NickName;
+        NickNametxt.GetComponent<Text>().text = pv.Owner.NickName;
 
         // 신고한 사람 
-        if (reportViewID == photonView.ViewID) photonView.RPC("RPC_SetPanel", RpcTarget.All, reportViewID);
+        if (reportViewID == pv.ViewID && pv.IsMine)
+        {
+            pv.RPC("RPC_SetPanel", RpcTarget.All);
+        }
+        print("여기임 : " + reportViewID + pv.ViewID);
+
     }
     
 
     // 플레이어 투표 패널과 관련된 모든 사항 동기화
-    [PunRPC]
-    void RPC_SetPanel()
+    public void SetPanel()
     {
         // 리포트한 사람 표시
         reportImg.gameObject.SetActive(true);
@@ -96,7 +102,7 @@ public class SH_PlayerPanel : MonoBehaviourPun
         SH_VoteManager.instance.PanelOff();
 
         // 투표 완료 이미지 활성화 + 동기화
-        photonView.RPC("SendVoted", RpcTarget.All);
+        //photonView.RPC("SendVoted", RpcTarget.All);
 
         // 자신의 투표 결과를 MasterClient VoteManager에게 보내기
         photonView.RPC("SendVoteResult", RpcTarget.MasterClient, gameObject);
@@ -110,11 +116,8 @@ public class SH_PlayerPanel : MonoBehaviourPun
     public void SendVoted()
     {
         // 투표 완료 표시 모두에게~
-        transform.GetChild(3).gameObject.SetActive(true);  // Voted
-        
-        //btnVote.gameObject.SetActive(false);
-        //btnVoteCancel.gameObject.SetActive(false);
-        //votedImg.gameObject.SetActive(true);
+        votedImg.gameObject.SetActive(true);  // Voted
+        print("투표완료 표시 됐음");
     }
     // MasterClient에게만 투표 결과 보내기
     [PunRPC]
