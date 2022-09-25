@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.EventSystems;
 
 public class JM_Ghost : MonoBehaviourPun
 {
@@ -32,14 +33,18 @@ public class JM_Ghost : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        // 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
-        // 이동 인풋이 있을 경우 
-        if (h != 0f || v != 0f)
-        
-        // 이동함수 실행
-        Move(h, v);
+            // 이동 인풋이 있을 경우 
+            if (h != 0f || v != 0f)
+            
+            // 이동함수 실행
+            Move(h, v);
+        }
     }
 
     public void SetColor(Color settingColor)
