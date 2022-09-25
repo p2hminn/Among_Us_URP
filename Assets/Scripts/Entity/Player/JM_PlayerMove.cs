@@ -54,6 +54,8 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     SpriteRenderer sr;
 
+
+
     void Start()
     {
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
@@ -337,11 +339,8 @@ public class JM_PlayerMove : MonoBehaviourPun
         photonView.RPC("RPC_SetIndividualPos", RpcTarget.All, x, y, z);
     }
 
-    // 리포트 버튼 누르면 VoteManager에게 리포트한 사실 알려주기
-    public void SendReportPlayer()
-    {
-        photonView.RPC("RPC_SendReportPlayer", RpcTarget.All, photonView.ViewID);
-    }
+    
+    // 로컬 플레이어의 ViewID 저장
     [PunRPC]
     void RPC_SendReportPlayer(int id)
     {

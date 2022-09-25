@@ -25,14 +25,19 @@ public class SH_VoteManager : MonoBehaviourPun
     public Transform trPanel;
     // 리포트한 사람 포톤뷰 ID
     public int reportViewID;
-    // 투표 결과 (방장이 수집)
-    public Dictionary<GameObject, int> voteResultDic = new Dictionary<GameObject, int>();
+    // 투표 결과 (방장이 수집) : 패널 인덱스, 투표수
+    //public Dictionary<GameObject, int> voteResultDic = new Dictionary<GameObject, int>();
+    public List<int> voteResult = new List<int>(); // 인덱스 : 몇 번째 패널인지, int : 몇 표를 받았는지
     public int voteCompleteNum;
 
     bool isOnce;
     private void Update()
     {
-        print("투표한 사람 : " + voteCompleteNum);
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            print("투표한 사람 : " + voteCompleteNum);
+        }
+        
 
         // 모두 투표완료하면 모두에게 투표 결과 보여주기
         if (voteCompleteNum == JM_GameManager.instance.playerList.Count && !isOnce)
@@ -47,7 +52,7 @@ public class SH_VoteManager : MonoBehaviourPun
     {
         isVote = true;
         // 초기화
-        voteResultDic.Clear();
+        voteResult.Clear();
         voteCompleteNum = 0;
         isOnce = false;
 
@@ -59,13 +64,13 @@ public class SH_VoteManager : MonoBehaviourPun
             GameObject panel = Instantiate(playerPanelFactory, trPanel);
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
             // panel 상세 정보 세팅
-            print("11111111, " + reportViewID);
+            print("11111111 => " + reportViewID);
             playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID);
             // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
-            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) 
+            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
             // 신고한 사람 표시하기
             //if (JM_GameManager.instance.playerList[i].ViewID == reportViewID) reportImg.gameObject.SetActive(true);
-            if (reportViewID != 0) reportViewID = 0;
+            //if (reportViewID != 0) reportViewID = 0;
         }
         // 죽은 크루의 경우 모든 패널 버튼 비활성화해서 투표 못하게 하기
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)

@@ -20,6 +20,9 @@ public class JM_GameManager : MonoBehaviourPun
     // 게임씬 스폰위치 기준
     public Transform gameStartOrigin;
 
+    // 로컬 플레이어 photonView
+    public PhotonView localPv;
+
     private void Awake()
     {
         instance = this;
@@ -37,6 +40,14 @@ public class JM_GameManager : MonoBehaviourPun
         SH_RoomUI.instance.PlayerNumUpdate();
 
         GameObject crew = PhotonNetwork.Instantiate("Crew2", spawnPosList[randomNum].position, Quaternion.identity);
+        // 로컬 플레이어의 photonView 저장
+        localPv = crew.GetComponent<PhotonView>();
+
+    }
+    // 리포트 버튼 누르면 로컬 플레이어의 ViewID 저장하도록 뿌리기
+    public void SendReportPlayer()
+    {
+        localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, localPv.ViewID);
     }
 
     bool isOnce = true;

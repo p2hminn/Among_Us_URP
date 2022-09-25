@@ -29,7 +29,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
     void Start()
     {
         anim = GetComponent<Animator>();
-        playerColor = GetComponent<SpriteRenderer>().material.color;
+        playerColor = GetComponent<JM_PlayerMove>().color;
     }
 
 
@@ -67,6 +67,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
 
 
     // 플레이어 고스트로 변신!
+    public Sprite ghostSprite;
     public void ToGhost()
     {
         // 오브젝트 태그 바꿔주기
@@ -95,7 +96,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
         //anim.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("Animator/JM_GhostAnimator", typeof(RuntimeAnimatorController)));
         anim.runtimeAnimatorController = Resources.Load("Animator/JM_GhostAnimator") as RuntimeAnimatorController;
         // Sprite 변경
-        GetComponent<SpriteRenderer>().sprite = (Sprite) Resources.Load("GhostSprite");
+        GetComponent<SpriteRenderer>().sprite = ghostSprite;
         // 유령 색상 변경
         GetComponent<JM_Ghost>().SetColor(playerColor);
     }
