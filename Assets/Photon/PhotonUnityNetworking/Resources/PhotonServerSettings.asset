@@ -87,6 +87,8 @@ MonoBehaviour:
   - RPC_UploadCommunications
   - RPC_UploadElectrics
   - RPC_UploadSt2Admin
+  - RPC_SendVoted
+  - RPC_SendVoteResult
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
