@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SH_PlayerPanel : MonoBehaviourPun
+public class SH_PlayerPanel : MonoBehaviour
 {
     public Image playerImg;
     public Text NickNametxt;
@@ -17,10 +17,12 @@ public class SH_PlayerPanel : MonoBehaviourPun
 
 
     public int playerViewId;
+    public PhotonView photonView;
     // 패널 상세 정보 세팅 
     public void SetInfo(PhotonView pv, int reportViewID)
     {
         playerViewId = pv.ViewID;
+        photonView = pv;
         // 죽은 크루의 경우
         if (pv.gameObject.CompareTag("Ghost"))
         {
@@ -97,29 +99,17 @@ public class SH_PlayerPanel : MonoBehaviourPun
         SH_VoteManager.instance.PanelOff();
 
         // 투표 완료 이미지 활성화 + 동기화
-        //photonView.RPC("SendVoted", RpcTarget.All);
+        photonView.RPC("RPC_SendVoted", RpcTarget.All, transform.GetSiblingIndex());
 
-        // 자신의 투표 결과를 MasterClient VoteManager에게 보내기
-        photonView.RPC("SendVoteResult", RpcTarget.MasterClient, transform.GetSiblingIndex());
+        // 자신의 투표 결과를 VoteManager에게 보내기
+        photonView.RPC("RPC_SendVoteResult", RpcTarget.All, transform.GetSiblingIndex());
 
         // VoteFor 이미지 활성화
         transform.GetChild(5).gameObject.SetActive(true);
 
     }
-    // 투표 완료했을 경우
-    [PunRPC]
-    public void SendVoted()
-    {
-        // 투표 완료 표시 모두에게~
-        transform.GetChild(3).gameObject.SetActive(true);
-    }
-    // MasterClient에게만 투표 결과 보내기
-    [PunRPC]
-    public void SendVoteResult(int idx)
-    {
-        SH_VoteManager.instance.voteResult[idx] += 1;
-        SH_VoteManager.instance.voteCompleteNum++;
-    }
+    
+
     // 투표 취소 버튼 누를 경우
     public void OnClickVoteCancel()
     {
