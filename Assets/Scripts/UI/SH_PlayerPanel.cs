@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SH_PlayerPanel : MonoBehaviourPun
+public class SH_PlayerPanel : MonoBehaviour
 {
     public Image playerImg;
     public Text NickNametxt;
@@ -15,16 +15,14 @@ public class SH_PlayerPanel : MonoBehaviourPun
     public Image reportImg;
     public Transform trPanel;
 
-    //private void Start()
-    //{
-    //    trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
-    //}
 
     public int playerViewId;
+    public PhotonView photonView;
     // 패널 상세 정보 세팅 
-    public void SetInfo(PhotonView pv, int reportViewID = 0)
+    public void SetInfo(PhotonView pv, int reportViewID)
     {
         playerViewId = pv.ViewID;
+        photonView = pv;
         // 죽은 크루의 경우
         if (pv.gameObject.CompareTag("Ghost"))
         {
@@ -47,25 +45,24 @@ public class SH_PlayerPanel : MonoBehaviourPun
         NickNametxt.GetComponent<Text>().text = pv.Owner.NickName;
 
         // 신고한 사람 
-        if (reportViewID == pv.ViewID && pv.IsMine)
+        if (reportViewID == pv.ViewID) //&& pv.IsMine)
         {
-            pv.RPC("RPC_SetPanel", RpcTarget.All);
+            transform.GetChild(9).gameObject.SetActive(true);  // Img_Report
+            //pv.RPC("RPC_SetPanel", RpcTarget.All);
         }
-        print("여기임 : " + reportViewID + pv.ViewID);
+        //print("reportViewID : " + reportViewID +"  /  pv.ViewID : " + pv.ViewID);
 
     }
-    
-
     // 플레이어 투표 패널과 관련된 모든 사항 동기화
-    public void SetPanel()
-    {
-        // 리포트한 사람 표시
-        reportImg.gameObject.SetActive(true);
-    }
+    //[PunRPC]
+    //public void RPC_SetPanel()
+    //{
+    //    // 리포트한 사람 표시
+    //    transform.GetChild(9).gameObject.SetActive(true);  // Img_Report
+    //    print("SetPanel");
+    //}
 
 
-    public Button btnVote;
-    public Button btnVoteCancel;
 
     // 플레이어 패널 클릭할 때 투표 버튼 나오게 하기
     public void OnClickPanel()
@@ -91,50 +88,32 @@ public class SH_PlayerPanel : MonoBehaviourPun
     }
 
     
-    public Image voteForImg;
-    public Image votedImg;
+    
     bool voteComplete;
     // 투표 확인 버튼 누를 경우 
     public void OnClickVote()
     {
+        //print(gameObject.transform.GetChild(1).GetComponent<Text>().text);  => 누른 확인 버튼이 달려있는 패널
         voteComplete = true;
         // 투표완료하면  모든 패널들 투표 버튼 비활성화
         SH_VoteManager.instance.PanelOff();
 
         // 투표 완료 이미지 활성화 + 동기화
-        //photonView.RPC("SendVoted", RpcTarget.All);
+        photonView.RPC("RPC_SendVoted", RpcTarget.All, transform.GetSiblingIndex());
 
-        // 자신의 투표 결과를 MasterClient VoteManager에게 보내기
-        photonView.RPC("SendVoteResult", RpcTarget.MasterClient, gameObject);
+        // 자신의 투표 결과를 VoteManager에게 보내기
+        photonView.RPC("RPC_SendVoteResult", RpcTarget.All, transform.GetSiblingIndex());
 
         // VoteFor 이미지 활성화
-        voteForImg.gameObject.SetActive(true);
+        transform.GetChild(5).gameObject.SetActive(true);
 
     }
-    // 투표 완료했을 경우
-    [PunRPC]
-    public void SendVoted()
-    {
-        // 투표 완료 표시 모두에게~
-        votedImg.gameObject.SetActive(true);  // Voted
-        print("투표완료 표시 됐음");
-    }
-    // MasterClient에게만 투표 결과 보내기
-    [PunRPC]
-    public void SendVoteResult(GameObject g)
-    {
-        SH_VoteManager.instance.voteResultDic[g] += 1;
-        SH_VoteManager.instance.voteCompleteNum++;
-    }
+    
+
     // 투표 취소 버튼 누를 경우
     public void OnClickVoteCancel()
     {
-        btnVote.gameObject.SetActive(false);
-        btnVoteCancel.gameObject.SetActive(false);
+        transform.GetChild(7).gameObject.SetActive(false);
+        transform.GetChild(8).gameObject.SetActive(false);
     }
-
-
-
-    
-
 }

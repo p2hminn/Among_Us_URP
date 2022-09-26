@@ -20,6 +20,9 @@ public class JM_GameManager : MonoBehaviourPun
     // 게임씬 스폰위치 기준
     public Transform gameStartOrigin;
 
+    // 로컬 플레이어 photonView
+    public PhotonView localPv;
+
     private void Awake()
     {
         instance = this;
@@ -37,6 +40,14 @@ public class JM_GameManager : MonoBehaviourPun
         SH_RoomUI.instance.PlayerNumUpdate();
 
         GameObject crew = PhotonNetwork.Instantiate("Crew2", spawnPosList[randomNum].position, Quaternion.identity);
+        // 로컬 플레이어의 photonView 저장
+        localPv = crew.GetComponent<PhotonView>();
+
+    }
+    // 리포트 버튼 누르면 로컬 플레이어의 ViewID 저장하도록 뿌리기
+    public void SendReportPlayer()
+    {
+        localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, localPv.ViewID);
     }
 
     bool isOnce = true;
@@ -140,8 +151,8 @@ public class JM_GameManager : MonoBehaviourPun
             for (int i = 0; i < imposterAmt; i++)
             {
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
-                // int randomNum = Random.Range(0, playerList.Count);
-                int randomNum = 0;
+                int randomNum = Random.Range(0, playerList.Count);
+                //int randomNum = 0;
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))

@@ -54,6 +54,8 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     SpriteRenderer sr;
 
+
+
     void Start()
     {
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
@@ -337,14 +339,27 @@ public class JM_PlayerMove : MonoBehaviourPun
         photonView.RPC("RPC_SetIndividualPos", RpcTarget.All, x, y, z);
     }
 
-    // 리포트 버튼 누르면 VoteManager에게 리포트한 사실 알려주기
-    public void SendReportPlayer()
-    {
-        photonView.RPC("RPC_SendReportPlayer", RpcTarget.All, photonView.ViewID);
-    }
+    
+    // 로컬 플레이어의 ViewID 저장
     [PunRPC]
     void RPC_SendReportPlayer(int id)
     {
         SH_VoteManager.instance.reportViewID = id;
+    }
+
+    // 투표 완료했을 경우
+    [PunRPC]
+    public void RPC_SendVoted(int childIdx)
+    {
+        // 투표 완료 표시 모두에게~
+        GameObject panels = GameObject.FindWithTag("Panels");
+        panels.transform.GetChild(childIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
+    }
+    // 투표 결과 보내기
+    [PunRPC]
+    public void RPC_SendVoteResult(int idx)
+    {
+        SH_VoteManager.instance.voteResult[idx] += 1;
+        SH_VoteManager.instance.voteCompleteNum++;  
     }
 }

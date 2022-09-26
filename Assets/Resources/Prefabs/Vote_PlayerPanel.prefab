@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 175.7, y: 47}
+  m_AnchoredPosition: {x: -181, y: 47}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1992098021351955837
@@ -1044,10 +1044,7 @@ MonoBehaviour:
   blackImg: {fileID: 6074330723536958141}
   reportImg: {fileID: 6153468821634841240}
   trPanel: {fileID: 0}
-  btnVote: {fileID: 6822739005744511061}
-  btnVoteCancel: {fileID: 6822739006721045810}
-  voteForImg: {fileID: 6822739006577331141}
-  votedImg: {fileID: 6822739006988280657}
+  playerViewId: 0
 --- !u!114 &5625353252681272376
 MonoBehaviour:
   m_ObjectHideFlags: 0
