@@ -151,8 +151,8 @@ public class JM_GameManager : MonoBehaviourPun
             for (int i = 0; i < imposterAmt; i++)
             {
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
-                // int randomNum = Random.Range(0, playerList.Count);
-                int randomNum = 0;
+                int randomNum = Random.Range(0, playerList.Count);
+                //int randomNum = 0;
                 print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))

@@ -355,14 +355,10 @@ public class JM_PlayerMove : MonoBehaviourPun
         GameObject panels = GameObject.FindWithTag("Panels");
         panels.transform.GetChild(childIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
     }
-    // MasterClient에게만 투표 결과 보내기
+    // 투표 결과 보내기
     [PunRPC]
     public void RPC_SendVoteResult(int idx)
     {
-        if(SH_VoteManager.instance.voteResult == null)
-        {
-            SH_VoteManager.instance.voteResult = new int[PhotonNetwork.CurrentRoom.PlayerCount];
-        }
         SH_VoteManager.instance.voteResult[idx] += 1;
         SH_VoteManager.instance.voteCompleteNum++;  
     }

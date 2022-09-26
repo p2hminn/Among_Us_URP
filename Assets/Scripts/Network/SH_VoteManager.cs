@@ -31,13 +31,14 @@ public class SH_VoteManager : MonoBehaviourPun
     public int voteCompleteNum;  // 모두 투표 완료했는지 알기 위해 수 세기
 
     bool isOnce;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             print("투표한 사람 : " + voteCompleteNum);
         }
-        
+
 
         // 모두 투표완료하면 모두에게 투표 결과 보여주기
         if (voteCompleteNum == PhotonNetwork.CurrentRoom.PlayerCount && !isOnce && JM_GameManager.instance.isGameRoom)
@@ -58,6 +59,10 @@ public class SH_VoteManager : MonoBehaviourPun
         }
         voteCompleteNum = 0;
         isOnce = false;
+        if (voteResult == null)
+        {
+            voteResult = new int[PhotonNetwork.CurrentRoom.PlayerCount];
+        }
 
         // 투표 UI 활성화
         voteUI.SetActive(true);
@@ -152,6 +157,7 @@ public class SH_VoteManager : MonoBehaviourPun
         voteResultUI.SetActive(false);
         voteUI.SetActive(false);
         isVote = false;
+        isOnce = false;
     }
 
     // 전체 패널 투표 버튼 비활성화
