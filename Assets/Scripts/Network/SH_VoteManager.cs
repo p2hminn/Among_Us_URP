@@ -59,11 +59,17 @@ public class SH_VoteManager : MonoBehaviourPun
         }
         voteCompleteNum = 0;
         isOnce = false;
-        if (voteResult == null)
+        if (voteResult == null || voteResult.Length==0)
         {
             voteResult = new int[PhotonNetwork.CurrentRoom.PlayerCount];
         }
+        // 패널 초기화
+        foreach( Transform t in trPanel )
+        {
+            Destroy(t.gameObject);
+        }
 
+        
         // 투표 UI 활성화
         voteUI.SetActive(true);
         // 플레이어만큼 패널 세팅하기
@@ -103,17 +109,7 @@ public class SH_VoteManager : MonoBehaviourPun
     {
         voteTitle.text = "투표 결과";
         panels = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
-        // Array돌면서 VotingCrew의 자식으로 넣어주기
-        for (int i=0; i < panels.childCount; i++)
-        {
-            GameObject votingCrew = panels.GetChild(i).GetChild(4).gameObject;
-            for (int j=0; j < voteResult[i]; j++)
-            {
-                GameObject vote = Instantiate(voteCheckCrewFactory);
-                vote.transform.SetParent(panels, false); // VotingCrew의 자식으로 투표 받은 만큼 voteCheckCrew 프리팹 만들어 넣어주기
-            }
-        }
-
+        StartCoroutine("ShowVoteResult");
         // 가장 투표 많이 받은 결과 
         int maxVote = voteResult.Max();
         maxVoteIndex = voteResult.ToList().IndexOf(maxVote);
@@ -125,7 +121,6 @@ public class SH_VoteManager : MonoBehaviourPun
                 maxVoteNum++;
             }
         }
-
 
         // 최다 득표자가 다수인 경우
         if (maxVoteNum > 1)
@@ -140,25 +135,49 @@ public class SH_VoteManager : MonoBehaviourPun
             // 임포스터인 경우
             if (pm.isImposter)
             {
-                voteResultText.text = $"{pm.nickName}님은 임포스터였습니다.";
+                voteResultText.text = $"{pm.nickName.text}님은 임포스터였습니다.";
+                pm.GetComponent<JM_PlayerStatus>().ToGhost();
             }
             // 임포스터 아닌 경우
             else
             {
-                voteResultText.text = $"{pm.nickName}님은 임포스터가 아니었습니다.";
+                voteResultText.text = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
+                pm.GetComponent<JM_PlayerStatus>().ToGhost();
             }
         }
-        StartCoroutine("ActivateVoteResultUI");
+        //StartCoroutine("ActivateVoteResultUI");
     }
-    IEnumerator ActivateVoteResultUI()
+    IEnumerator ShowVoteResult()
     {
+        // Array돌면서 VotingCrew의 자식으로 넣어주기
+        for (int i = 0; i < panels.childCount; i++)
+        {
+            Transform tr = panels.GetChild(i);
+            tr = tr.GetChild(4);
+            GameObject votingCrew = panels.GetChild(i).GetChild(4).gameObject;
+            for (int j = 0; j < voteResult[i]; j++)
+            {
+                GameObject vote = Instantiate(voteCheckCrewFactory);
+                vote.transform.SetParent(tr, false); // VotingCrew의 자식으로 투표 받은 만큼 voteCheckCrew 프리팹 만들어 넣어주기
+            }
+        }
+        yield return new WaitForSeconds(2);
         voteResultUI.SetActive(true);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(3);
         voteResultUI.SetActive(false);
         voteUI.SetActive(false);
         isVote = false;
         isOnce = false;
     }
+    //void ActivateVoteResultUI()
+    //{
+    //    voteResultUI.SetActive(true);
+    //    yield return new WaitForSeconds(10);
+    //    voteResultUI.SetActive(false);
+    //    voteUI.SetActive(false);
+    //    isVote = false;
+    //    isOnce = false;
+    //}
 
     // 전체 패널 투표 버튼 비활성화
     Button btnSKipVote;
@@ -176,4 +195,6 @@ public class SH_VoteManager : MonoBehaviourPun
         //btnSKipVote.gameObject.SetActive(false);
         print("다 비활성화함");
     }
+
+    
 }
