@@ -16,6 +16,7 @@ public class JM_Refuel_Engines_St2 : MonoBehaviour
     bool isRefuelEnd;
     public bool isMissionComplete;
     float currentTime;
+    float currentTime2;
 
     public GameObject taskCompletedUI;
 
@@ -32,8 +33,9 @@ public class JM_Refuel_Engines_St2 : MonoBehaviour
         if (isRefuelStart)
         {
             currentTime += Time.deltaTime;
+            currentTime2 -= Time.deltaTime;
             fuelGage.value = currentTime * 0.5f;
-            fuelGage2.value -= Time.deltaTime * 0.5f;
+            fuelGage2.value = fuelGage2.maxValue - (currentTime * 0.5f);
             redlightOn.SetActive(true);
 
             if (fuelGage.value >= fuelGage.maxValue)
