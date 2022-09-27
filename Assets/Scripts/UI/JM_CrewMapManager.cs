@@ -28,7 +28,11 @@ public class JM_CrewMapManager : MonoBehaviourPun
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+       
     }
 
     public void UnlockManifold()
