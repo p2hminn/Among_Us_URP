@@ -234,6 +234,7 @@ MonoBehaviour:
   nickName: {fileID: 7082993974185885838}
   color: {r: 0, g: 0, b: 0, a: 0}
   ghostGenerator: {fileID: 2706727727444221988, guid: b1e708f22304f7b42b520689b65188e8, type: 3}
+  body: {fileID: 0}
   myNickName: 
 --- !u!114 &3059736370986691482
 MonoBehaviour:
@@ -249,8 +250,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deadBodyGenerator: {fileID: 1522875784025858697, guid: 03c5a01ba03482c439b2e199b9a5bfc6, type: 3}
   reportUI: {fileID: 0}
+  body: {fileID: 0}
   state: 0
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  emergency: {fileID: 0}
+  emergencyBtn: {fileID: 0}
+  btnUse: {fileID: 0}
   deadColor: {r: 0, g: 0, b: 0, a: 0}
   ghostSprite: {fileID: 0}
 --- !u!114 &3059736370986691481
@@ -418,7 +423,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3059736371520065649}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &3059736371520065651
 MonoBehaviour:
   m_ObjectHideFlags: 0
