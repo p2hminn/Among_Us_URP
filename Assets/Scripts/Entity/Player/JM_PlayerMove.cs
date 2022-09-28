@@ -73,6 +73,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         {
             //print(JM_ColorManager.instance.colorList.Count);
             int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
+            print(randomNum);
             photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
         }
         
@@ -126,6 +127,7 @@ public class JM_PlayerMove : MonoBehaviourPun
                 playerCode.enabled = false;
                 nickName.color = Color.red;
                 GetComponent<JM_ImposterStatus>().enabled = true;
+                
                 //print("빨간색 지정 완료");
             }
             else
@@ -271,8 +273,9 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 해당 플레이어에게 저장
         photonView.RPC("RPC_SaveColor", RpcTarget.AllBuffered, r, g, b, a);
 
-        // 머티리얼에 플레이어 컬러를 지정                          
-        mat.SetColor("_PlayerColor", color);
+        // 머티리얼에 플레이어 컬러를 지정
+        body.GetComponent<SpriteRenderer>().material.SetColor("_PlayerColor", settingColor);
+        //mat.SetColor("_PlayerColor", color);
 
         // 컬러매니저의 컬러 리스트를 업데이트
         JM_ColorManager.instance.UpdateColorInfo(colorIndex);
