@@ -219,7 +219,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ddba97952ddf8aa499985c47672ff9a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eee88c038cb145442b110c71de5d71a1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5ba42d1d3cbc266478c915706bee2ba1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa3bdce647323d148a554d8f500c1b24, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1045,6 +1045,7 @@ MonoBehaviour:
   reportImg: {fileID: 6153468821634841240}
   trPanel: {fileID: 0}
   playerViewId: 0
+  photonView: {fileID: 0}
 --- !u!114 &5625353252681272376
 MonoBehaviour:
   m_ObjectHideFlags: 0

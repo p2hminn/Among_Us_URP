@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class JM_PlayerStatus : MonoBehaviourPun
 {
@@ -27,11 +28,15 @@ public class JM_PlayerStatus : MonoBehaviourPun
 
     public State state;
     public Color playerColor;
+    GameObject emergencyBtn;
+    Button btnUse;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         playerColor = GetComponent<JM_PlayerMove>().color;
+        emergencyBtn = GameObject.Find("'EmergencyButton");
+        btnUse = GameObject.Find("Use").GetComponent<Button>();
     }
 
 
@@ -50,10 +55,20 @@ public class JM_PlayerStatus : MonoBehaviourPun
                 SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
             }
         }
+        
+        // 긴급회의 
+        if (collision.gameObject.CompareTag("Emergency"))
+        {
+            emergencyBtn.SetActive(true);
+            btnUse.interactable = true;
+            SH_RoomUI.instance.isEmergency = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         JM_CrewUI.instance.isReportAble = false;
+        btnUse.interactable = false;
+        SH_RoomUI.instance.isEmergency = false;
     }
 
 

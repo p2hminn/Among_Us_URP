@@ -55,6 +55,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     // 시체 색깔
     public Color dieColor;
 
+    public bool isEmergency;
+
     void Start()
     {
         // 방이름 UI text
@@ -75,7 +77,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
-        if (PhotonNetwork.CurrentRoom.PlayerCount ==  2 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount ==  1 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
         }
@@ -270,4 +272,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
+    // 채팅 
+    public GameObject emergencyImg;
+    [PunRPC]
+    public void EmergencyMeeting()
+    {
+        emergencyImg.SetActive(true);
+    }
 }
