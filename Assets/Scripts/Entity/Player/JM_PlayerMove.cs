@@ -13,7 +13,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     float originSpeed;
 
     // Rigidbody2D
-    // Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     // 움직이는지 여부
     bool isMoving;
@@ -54,6 +54,7 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     SpriteRenderer sr;
 
+    public GameObject body;
 
 
     void Start()
@@ -88,7 +89,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         
         
         // 최초 속도 저장
-        originSpeed = playerSpeed;
+        originSpeed = 3;
 
         // rb = GetComponent<Rigidbody2D>();
         imposterCode = GetComponent<JM_ImposterStatus>();
@@ -150,14 +151,17 @@ public class JM_PlayerMove : MonoBehaviourPun
                 Move(h, v);
                 // 이동 중 
                 isMoving = true;
+                print("isMoving");
             }
             else
             {
                 isMoving = false;
+                rb.velocity = Vector2.zero;
             }
             SetBool(isMoving);
         }
         
+
     }
 
     // 스폰
@@ -188,7 +192,12 @@ public class JM_PlayerMove : MonoBehaviourPun
         ChangeDir(playerDir);
 
         // 이동
-        transform.position += playerDir * playerSpeed * Time.deltaTime;
+        // transform.position += playerDir * 3 * Time.deltaTime;
+        rb.velocity = playerDir * playerSpeed;
+        print("moving well");
+        //rb.MovePosition(p
+        //layerDir);
+       
 
     }
 
@@ -234,13 +243,13 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         if (dir.x > 0f)
         {
-            sr.flipX = false;
+            body.GetComponent<SpriteRenderer>().flipX = false;
         }
         //transform.localScale = new Vector3(-1f, 1f, 1f);
 
         else if (dir.x < 0f)
         {
-            sr.flipX = true;
+            body.GetComponent<SpriteRenderer>().flipX = true;
         }
         transform.localScale = new Vector3(1f, 1f, 1f);
     }
@@ -362,4 +371,16 @@ public class JM_PlayerMove : MonoBehaviourPun
         SH_VoteManager.instance.voteResult[idx] += 1;
         SH_VoteManager.instance.voteCompleteNum++;  
     }
+
+    /*
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        playerSpeed = 0.5f;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        playerSpeed = originSpeed;
+    }
+    */
+    
 }

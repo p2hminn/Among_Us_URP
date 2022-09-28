@@ -39,7 +39,7 @@ public class JM_GameManager : MonoBehaviourPun
         // 방 인원 수 text 업데이트
         SH_RoomUI.instance.PlayerNumUpdate();
 
-        GameObject crew = PhotonNetwork.Instantiate("Crew2", spawnPosList[randomNum].position, Quaternion.identity);
+        GameObject crew = PhotonNetwork.Instantiate("Crew2_New", spawnPosList[randomNum].position, Quaternion.identity);
         // 로컬 플레이어의 photonView 저장
         localPv = crew.GetComponent<PhotonView>();
 
