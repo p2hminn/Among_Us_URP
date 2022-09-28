@@ -8,7 +8,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
 {
 
     JM_PlayerStatus ps;
-    Animator anim;
+    public Animator anim;
     JM_PlayerMove pm;
     // 기존 속도를 저장할 변수 생성
     float curPlayerSpeed;

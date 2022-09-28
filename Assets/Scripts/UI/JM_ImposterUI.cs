@@ -43,6 +43,12 @@ public class JM_ImposterUI : MonoBehaviourPun
     // 리포트 버튼
     public Button reportButton;
 
+    // 임포스터 벤트 여부
+    public bool isVent;
+
+    public Button ventButton;
+    public Button sabotageButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +73,17 @@ public class JM_ImposterUI : MonoBehaviourPun
         {
             attackButton.interactable = false;
         }
+        else if (isVent)
+        {
+            sabotageButton.gameObject.SetActive(false);
+            ventButton.gameObject.SetActive(true);
+            ventButton.interactable = true;
+        }
+        if (!isVent)
+        {
+            sabotageButton.gameObject.SetActive(true);
+            ventButton.gameObject.SetActive(false);
+        }
     }
 
     // 공격버튼 누르면 임포스터코드에서 공격함수 실행
@@ -78,6 +95,11 @@ public class JM_ImposterUI : MonoBehaviourPun
             imposterColor.r, imposterColor.g, imposterColor.b, imposterColor.a);
 
         isButtonActivate = false;
+    }
+
+    public void ClickVent()
+    {
+        imposterCode.anim.SetTrigger("Vent");
     }
 
     // 임포스터 공격을 할 수 있는 상태가 되려면 쿨타임이 있어야된다
