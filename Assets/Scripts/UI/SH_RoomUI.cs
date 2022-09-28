@@ -213,11 +213,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     }
 
 
-
+    public GameObject reportedDeadBody;
     // 시체 발견 후 리포트 버튼 누르면 UI 활성화
     public void OnReportButton()
     {
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
+        // 신고된 시체 Destroy
+        Destroy(reportedDeadBody);
     }
     // RPC로 시체 색깔 넘기기
     public void Report(float deadR, float deadG, float deadB, float deadA)
