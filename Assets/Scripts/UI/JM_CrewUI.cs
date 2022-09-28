@@ -16,6 +16,7 @@ public class JM_CrewUI : MonoBehaviour
 
     // Å©·ç Á×´Â UI
     public GameObject crewDieUI;
+    public Animator anim;
 
     [SerializeField]
     Color imposterColor;
@@ -81,7 +82,7 @@ public class JM_CrewUI : MonoBehaviour
             reportButton.interactable = false;
         }
    
-        if (!dieUIEnd && crewDieUI.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        if (!dieUIEnd && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             currentTime += Time.deltaTime;
             if (currentTime >= 1)

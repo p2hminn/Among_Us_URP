@@ -17,6 +17,8 @@ public class JM_PlayerStatus : MonoBehaviourPun
     // 리포트 UI
     public GameObject reportUI;
 
+    public GameObject body;
+
     public enum State
     {
         crew,
@@ -74,19 +76,22 @@ public class JM_PlayerStatus : MonoBehaviourPun
         state = State.ghost;
 
         // 비활성화 및 활성화
-        GetComponent<BoxCollider2D>().enabled = false;
+        //GetComponent<BoxCollider2D>().enabled = false;
+        body.GetComponent<BoxCollider2D>().enabled = false;
         Destroy(GetComponent<Rigidbody2D>());
         GetComponent<JM_PlayerMove>().enabled = false;
         if (GetComponent<JM_PlayerMove>().isImposter) GetComponent<JM_PlayerStatus>().enabled = false;
         else GetComponent<JM_ImposterStatus>().enabled = false;
         GetComponent<CapsuleCollider2D>().enabled = false;
         GetComponent<JM_Ghost>().enabled = true;
+        
 
         // Animator 변경
         //anim.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("Animator/JM_GhostAnimator", typeof(RuntimeAnimatorController)));
         anim.runtimeAnimatorController = Resources.Load("Animator/JM_GhostAnimator") as RuntimeAnimatorController;
         // Sprite 변경
-        GetComponent<SpriteRenderer>().sprite = ghostSprite;
+        //GetComponent<SpriteRenderer>().sprite = ghostSprite;
+        body.GetComponent<SpriteRenderer>().sprite = ghostSprite;
         // 유령 색상 변경
         GetComponent<JM_Ghost>().SetColor(playerColor);
     }
