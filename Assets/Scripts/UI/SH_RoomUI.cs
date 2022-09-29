@@ -51,11 +51,15 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public GameObject crewGameUI;
     public GameObject reportUI;
     public GameObject diedCrew;
+    public GameObject voteUI;
+    public GameObject btnEmergency;
+    public Button btnCrewUse;
 
     // 시체 색깔
     public Color dieColor;
 
     public bool isEmergency;
+    public bool isChat;
 
     void Start()
     {
@@ -96,6 +100,15 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_GameEnable();
         }
 
+        // Vote UI 활성화 중인지 체크
+        if (voteUI.activeSelf)
+        {
+            isChat = true;
+        }
+        else
+        {
+            isChat = false;
+        }
     }
 
 

@@ -38,16 +38,7 @@ public class SH_GameOVer : MonoBehaviourPun
         }
     }
 
-    bool isOnce;
-    private void Update()
-    {
-        if (Input.GetButtonDown("Jump'") && !isOnce)
-        {
-            isOnce = true;
-            Crew(true);   // 크루가 이긴 경우 & 로컬 플레이어가 크루인 경우
-            Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
-        }
-    }
+    
 
     // 크루원 UI
     public void Crew(bool crewWin)
