@@ -104,9 +104,12 @@ public class JM_ImposterStatus : MonoBehaviourPun
         // 긴급회의
         else if (collision.gameObject.CompareTag("Emergency"))
         {
-            SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
-            JM_ImposterUI.instance.isUseable = true;
-            SH_RoomUI.instance.isEmergency = true;
+            if (photonView.IsMine)
+            {
+                SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
+                JM_ImposterUI.instance.isUseable = true;
+                SH_RoomUI.instance.isEmergency = true;
+            }
         }
 
     }

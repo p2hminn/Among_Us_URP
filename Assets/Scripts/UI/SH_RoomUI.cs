@@ -54,6 +54,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public GameObject voteUI;
     public GameObject btnEmergency;
     public Button btnCrewUse;
+    public Transform trPanels;
 
     // ½ÃÃ¼ »ö±ò
     public Color dieColor;

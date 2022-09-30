@@ -57,9 +57,12 @@ public class JM_PlayerStatus : MonoBehaviourPun
         // 긴급회의 
         if (collision.gameObject.CompareTag("Emergency"))
         {
-            SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
-            JM_CrewUI.instance.isMissionAble = true;
-            SH_RoomUI.instance.isEmergency = true;
+            if (photonView.IsMine)
+            {
+                SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
+                JM_CrewUI.instance.isMissionAble = true;
+                SH_RoomUI.instance.isEmergency = true;
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

@@ -14,10 +14,11 @@ public class SH_PlayerPanel : MonoBehaviour
     public Image blackImg;
     public Image reportImg;
     public Transform trPanel;
-
-
     public int playerViewId;
     public PhotonView photonView;
+    public int localPanelIdx;
+
+
     // 패널 상세 정보 세팅 
     public void SetInfo(PhotonView pv, int reportViewID)
     {
@@ -71,7 +72,7 @@ public class SH_PlayerPanel : MonoBehaviour
         if (voteComplete) return;
 
         // 내가 선택한 패널이 아닐 경우 나머지 패널들의 투표 버튼 비활성화
-        trPanel = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
+        trPanel = SH_RoomUI.instance.trPanels;
         foreach (Transform panel in trPanel)
         {
             if (panel.gameObject != gameObject)
@@ -98,8 +99,8 @@ public class SH_PlayerPanel : MonoBehaviour
         // 투표완료하면  모든 패널들 투표 버튼 비활성화
         SH_VoteManager.instance.PanelOff();
 
-        // 투표 완료 이미지 활성화 + 동기화
-        photonView.RPC("RPC_SendVoted", RpcTarget.All, transform.GetSiblingIndex());
+        // 로컬 플레이어를 표시한 패널의 투표 완료 이미지 활성화 + 동기화
+        photonView.RPC("RPC_SendVoted", RpcTarget.All, localPanelIdx);
 
         // 자신의 투표 결과를 VoteManager에게 보내기
         photonView.RPC("RPC_SendVoteResult", RpcTarget.All, transform.GetSiblingIndex());

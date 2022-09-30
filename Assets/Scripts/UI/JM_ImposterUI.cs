@@ -97,12 +97,10 @@ public class JM_ImposterUI : MonoBehaviourPun
         if (isUseable)
         {
             useButton.interactable = true;
-            print("true");
         }
         else if (!isUseable)
         {
             useButton.interactable = false;
-            print("false");
         }
     }
 

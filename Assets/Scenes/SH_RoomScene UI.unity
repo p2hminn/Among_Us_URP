@@ -3148,6 +3148,7 @@ MonoBehaviour:
   voteUI: {fileID: 47836126}
   btnEmergency: {fileID: 1418702554}
   btnCrewUse: {fileID: 178698937}
+  trPanels: {fileID: 573991287}
   dieColor: {r: 0, g: 0, b: 0, a: 0}
   isEmergency: 0
   isChat: 0
@@ -15013,7 +15014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &528962616
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15031,7 +15032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 570, y: -348}
+  m_AnchoredPosition: {x: 572, y: -341}
   m_SizeDelta: {x: 212.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528962617
@@ -15061,13 +15062,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uD22C\uD45C \uC2DC\uC791\uAE4C\uC9C0 : 10\uCD08"
+  m_Text: "\uD68C\uC758 \uC2DC\uAC04 : 10\uCD08"
 --- !u!222 &528962618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18891,7 +18892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &690213614
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20743,10 +20744,14 @@ MonoBehaviour:
   reportViewID: 0
   voteResult: 
   voteCompleteNum: 0
+  txtVoteTime: {fileID: 528962617}
+  discussTime: 10
+  voteTime: 120
   voteTitle: {fileID: 1280306240}
   voteCheckCrewFactory: {fileID: 9166770962288432233, guid: ffc960875072b014d84e4e4d71d2500b, type: 3}
   panels: {fileID: 573991287}
   maxVoteIndex: 0
+  saveVoteResult: 
   voteResultText: {fileID: 1790976083}
   voteResultUI: {fileID: 1523433551}
 --- !u!4 &744588872
@@ -32620,15 +32625,15 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47836127}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 66, y: 239}
-  m_SizeDelta: {x: 519.4905, y: 60.10498}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 48, y: 269}
+  m_SizeDelta: {x: 709.5071, y: 168.3615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1280306239
 MonoBehaviour:
