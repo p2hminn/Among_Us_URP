@@ -63,12 +63,6 @@ public class JM_GameManager : MonoBehaviourPun
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
             
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                playerList[i].gameObject.SetActive(false);
-            }
-            
-            isOnce = false;
         }
 
         // 게임씬이 된 경우 다시 플레이어들 활성화시키기
@@ -81,6 +75,10 @@ public class JM_GameManager : MonoBehaviourPun
         if (isGameRoom && isOnce2)
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
+            for (int i=0;i<playerList.Count; i++)
+            {
+                print(playerList[i].ViewID);
+            }
         }
 
 

@@ -156,7 +156,6 @@ public class JM_PlayerMove : MonoBehaviourPun
                 Move(h, v);
                 // 이동 중 
                 isMoving = true;
-                print("isMoving");
             }
             else
             {
@@ -197,7 +196,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 이동
         // transform.position += playerDir * 3 * Time.deltaTime;
         rb.velocity = playerDir * playerSpeed;
-        print("moving well");
         //rb.MovePosition(p
         //layerDir);
        
@@ -362,11 +360,11 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 투표 완료했을 경우
     [PunRPC]
-    public void RPC_SendVoted(int childIdx)
+    public void RPC_SendVoted(int localIdx)
     {
         // 투표 완료 표시 모두에게~
-        GameObject panels = GameObject.FindWithTag("Panels");
-        panels.transform.GetChild(childIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
+        GameObject panels = SH_RoomUI.instance.trPanels.gameObject;
+        panels.transform.GetChild(localIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
     }
     // 투표 결과 보내기
     [PunRPC]
