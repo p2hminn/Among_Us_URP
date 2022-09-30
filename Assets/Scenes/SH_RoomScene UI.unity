@@ -3253,6 +3253,7 @@ MonoBehaviour:
   crewColor: {r: 0, g: 0, b: 0, a: 0}
   reportButton: {fileID: 1869255449}
   useButton: {fileID: 920089858}
+  isUseable: 0
   isVent: 0
   ventButton: {fileID: 175507372}
   sabotageButton: {fileID: 472257128}
@@ -45507,7 +45508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1572552766
 Transform:
   m_ObjectHideFlags: 0
@@ -51219,7 +51220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1831687539
 Transform:
   m_ObjectHideFlags: 0
