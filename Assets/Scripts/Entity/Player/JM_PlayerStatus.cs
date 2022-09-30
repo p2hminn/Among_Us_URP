@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class JM_PlayerStatus : MonoBehaviourPun
 {
@@ -27,11 +28,15 @@ public class JM_PlayerStatus : MonoBehaviourPun
 
     public State state;
     public Color playerColor;
+    GameObject emergencyBtn;
+    Button btnUse;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         playerColor = GetComponent<JM_PlayerMove>().color;
+        emergencyBtn = GameObject.Find("'EmergencyButton");
+        btnUse = GameObject.Find("Use").GetComponent<Button>();
     }
 
 
@@ -47,23 +52,23 @@ public class JM_PlayerStatus : MonoBehaviourPun
             {
                 JM_CrewUI.instance.isReportAble = true;
                 SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
+                SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
             }
-            /*
-            // Report 버튼이 눌리면
-            if (JM_CrewUI.instance.onReport && 추가조건)
-            {
-                // 시체의 색깔 가져오기
-                deadColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
-                // RPC로 모든 리포트 UI 활성화
-                // photonView.RPC("RPC_Report", RpcTarget.All, deadColor.r, deadColor.g, deadColor.b, deadColor.a);
-                SH_RoomUI.instance.Report(deadColor.r, deadColor.g, deadColor.b, deadColor.a);
-            }
-            */
+        }
+        
+        // 긴급회의 
+        if (collision.gameObject.CompareTag("Emergency"))
+        {
+            emergencyBtn.SetActive(true);
+            btnUse.interactable = true;
+            SH_RoomUI.instance.isEmergency = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         JM_CrewUI.instance.isReportAble = false;
+        btnUse.interactable = false;
+        SH_RoomUI.instance.isEmergency = false;
     }
 
 

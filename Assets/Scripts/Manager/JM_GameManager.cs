@@ -23,6 +23,7 @@ public class JM_GameManager : MonoBehaviourPun
     // 로컬 플레이어 photonView
     public PhotonView localPv;
 
+
     private void Awake()
     {
         instance = this;

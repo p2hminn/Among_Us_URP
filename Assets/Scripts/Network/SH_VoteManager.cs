@@ -107,11 +107,12 @@ public class SH_VoteManager : MonoBehaviourPun
     public GameObject voteResultUI; // 투표 결과 UI
     public void VoteResult()
     {
+        
         voteTitle.text = "투표 결과";
         panels = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
         StartCoroutine("ShowVoteResult");
         // 가장 투표 많이 받은 결과 
-        int maxVote = voteResult.Max(); // 
+        int maxVote = voteResult.Max(); 
         maxVoteIndex = voteResult.ToList().IndexOf(maxVote);
         // 최다 득표자 수 구하기
         for (int i=0; i<voteResult.Length; i++)

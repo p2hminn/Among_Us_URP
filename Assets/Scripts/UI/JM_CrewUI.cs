@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class JM_CrewUI : MonoBehaviour
 {
@@ -94,11 +95,19 @@ public class JM_CrewUI : MonoBehaviour
         }
     }
 
-    // 미션 UI 
+    // Use 버튼 누를 경우
     public void onClickMission()
     {
-        // 미션버튼 누르면 받은 미션트리거 코드의 미션실행 함수 호출
-        missionTrigger.StartMission();
+        if (SH_RoomUI.instance.isEmergency)
+        {
+            SH_RoomUI.instance.photonView.RPC("EmergencyMeeting", RpcTarget.All);
+        }
+        else
+        {
+            // 미션버튼 누르면 받은 미션트리거 코드의 미션실행 함수 호출
+            missionTrigger.StartMission();
+        }
+        
     }
 
     public void OnClickMap()
