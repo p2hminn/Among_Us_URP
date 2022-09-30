@@ -10,6 +10,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
     JM_PlayerStatus ps;
     public Animator anim;
     JM_PlayerMove pm;
+    Rigidbody2D rb;
     // 기존 속도를 저장할 변수 생성
     float curPlayerSpeed;
 
@@ -40,6 +41,8 @@ public class JM_ImposterStatus : MonoBehaviourPun
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         anim = GetComponent<Animator>();
 
         // imposterColor = pm.color;
@@ -53,44 +56,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
 
     // Update is called once per frame
     void Update()
-    {
-        /*
-        // 공격 가능한 상황일때
-        if (isAttackOk)
-        {
-            print("kill ok");
-            // 킬 버튼 활성화되고 킬 버튼 누르면 크루 죽음
-            // 일단 2 누르면 죽는걸로
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                // 플레이어 죽이기
-                ps.Dead();
-                print("정상적으로 죽이기 작동함");
-            }
-        }
-
-        // 벤트 탈 수 있는 상황일때
-        if (isVent)
-        {
-            // 벤트 누르면 (일단 v로 설정하고 나중에 바꿀 예정)
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                // 벤트 타는 상태
-                state = State.vent;
-            }
-        }
-
-        // 가짜미션 가능한 상황일때
-        if (isMission)
-        {
-            // 미션 누르면 
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                state = State.mission;
-            }
-        }
-        */
-
+    { 
 
 
 
@@ -142,8 +108,11 @@ public class JM_ImposterStatus : MonoBehaviourPun
         {
             JM_ImposterUI.instance.isAttackOK = false;
             isAttackOk = false;
-            isVent = false;
             isMission = false;
+        }
+        else if (collision.gameObject.name.Contains("Vent"))
+        {
+            isVent = true;
         }
         // 시체와 떨어질 경우 리포트 불가능
         else if (collision.gameObject.name.Contains("DeadBody"))

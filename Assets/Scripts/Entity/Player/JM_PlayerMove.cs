@@ -43,6 +43,7 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 플레이어 색상
     [SerializeField]
+
     public Color color;
 
     GameObject deadBody;
