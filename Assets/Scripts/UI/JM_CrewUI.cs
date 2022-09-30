@@ -76,7 +76,6 @@ public class JM_CrewUI : MonoBehaviour
         {
             // 리포트 버튼 활성화
             reportButton.interactable = true;
-
         }
         else if (!isReportAble)
         {
@@ -96,7 +95,7 @@ public class JM_CrewUI : MonoBehaviour
     }
 
     // Use 버튼 누를 경우
-    public void onClickMission()
+    public void onClickUse()
     {
         if (SH_RoomUI.instance.isEmergency)
         {

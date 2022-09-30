@@ -43,6 +43,10 @@ public class JM_ImposterUI : MonoBehaviourPun
     // 리포트 버튼
     public Button reportButton;
 
+    // Use 버튼
+    public Button useButton;
+    public bool isUseable;
+
     // 임포스터 벤트 여부
     public bool isVent;
 
@@ -73,6 +77,8 @@ public class JM_ImposterUI : MonoBehaviourPun
         {
             attackButton.interactable = false;
         }
+
+        // 벤트
         if (isVent)
         {
             sabotageButton.gameObject.SetActive(false);
@@ -83,6 +89,20 @@ public class JM_ImposterUI : MonoBehaviourPun
         {
             sabotageButton.gameObject.SetActive(true);
             ventButton.gameObject.SetActive(false);
+        }
+        print(isUseable);
+
+
+        // Use 버튼
+        if (isUseable)
+        {
+            useButton.interactable = true;
+            print("true");
+        }
+        else if (!isUseable)
+        {
+            useButton.interactable = false;
+            print("false");
         }
     }
 
@@ -118,6 +138,14 @@ public class JM_ImposterUI : MonoBehaviourPun
     public void OnClickMap()
     {
         map.SetActive(true);
+    }
+
+    public void onClickUse()
+    {
+        if (SH_RoomUI.instance.isEmergency)
+        {
+            SH_RoomUI.instance.photonView.RPC("EmergencyMeeting", RpcTarget.All);
+        }
     }
 
 }

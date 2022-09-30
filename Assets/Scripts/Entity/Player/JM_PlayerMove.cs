@@ -74,7 +74,6 @@ public class JM_PlayerMove : MonoBehaviourPun
         {
             //print(JM_ColorManager.instance.colorList.Count);
             int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
-            print(randomNum);
             photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
         }
         
@@ -140,8 +139,11 @@ public class JM_PlayerMove : MonoBehaviourPun
             isOnce = false;
         }
 
-        // 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게
-        if (!EventSystem.current.IsPointerOverGameObject())
+
+       
+        // 채팅 중에 마우스 커서 UI 위에 있을 경우 플레이어 안 움직이게 하기
+        if (SH_RoomUI.instance.isChat && EventSystem.current.IsPointerOverGameObject()) { }
+        else
         {
             // 이동 인풋 받기
             float h = Input.GetAxis("Horizontal");
@@ -163,8 +165,6 @@ public class JM_PlayerMove : MonoBehaviourPun
             }
             SetBool(isMoving);
         }
-        
-
     }
 
     // 스폰
