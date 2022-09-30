@@ -107,7 +107,6 @@ public class SH_VoteManager : MonoBehaviourPun
     public GameObject voteResultUI; // 투표 결과 UI
     public void VoteResult()
     {
-        
         voteTitle.text = "투표 결과";
         panels = GameObject.FindGameObjectsWithTag("Panels")[0].transform;
         StartCoroutine("ShowVoteResult");

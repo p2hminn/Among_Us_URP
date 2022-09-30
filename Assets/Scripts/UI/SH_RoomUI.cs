@@ -285,11 +285,19 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-    // 채팅 
+    // 긴급회의 
     public GameObject emergencyImg;
     [PunRPC]
     public void EmergencyMeeting()
     {
+        StartCoroutine("ActivateEmergencyUI");
+    }
+    IEnumerator ActivateEmergencyUI()
+    {
         emergencyImg.SetActive(true);
+        yield return new WaitForSeconds(2);
+        emergencyImg.SetActive(false);
+        // 투표 시작
+        SH_VoteManager.instance.PlayerPanelSetting();
     }
 }

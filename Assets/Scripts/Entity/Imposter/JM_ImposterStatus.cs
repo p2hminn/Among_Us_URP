@@ -132,6 +132,14 @@ public class JM_ImposterStatus : MonoBehaviourPun
             }
         }
 
+        // 긴급회의
+        else if (collision.gameObject.CompareTag("Emergency"))
+        {
+            SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
+            JM_ImposterUI.instance.isUseable = true;
+            SH_RoomUI.instance.isEmergency = true;
+        }
+
     }
     
     
@@ -149,6 +157,13 @@ public class JM_ImposterStatus : MonoBehaviourPun
         else if (collision.gameObject.name.Contains("DeadBody"))
         {
             reportButton.interactable = false;
+        }
+        // 긴급회의
+        else if (collision.gameObject.CompareTag("Emergency"))
+        {
+            SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = false;
+            JM_ImposterUI.instance.isUseable = false;
+            SH_RoomUI.instance.isEmergency = false;
         }
     }
 }

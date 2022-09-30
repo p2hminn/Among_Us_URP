@@ -53,6 +53,8 @@ public class JM_GameManager : MonoBehaviourPun
 
     bool isOnce = true;
     bool isOnce2 = true;
+
+    bool isOnce3;
     void Update()
     {
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
@@ -82,13 +84,15 @@ public class JM_GameManager : MonoBehaviourPun
         }
 
 
-        // 방장이 Start버튼 누르고 gameIntro가 다 끝난 경우 destroy
-        //if (SH_RoomUI.instance.isStart && )
-        //{
-        //    isGameRoom = true
-        //}
-    }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
+        {
+            isOnce3 = true;
+            GameObject g = GameObject.Find("GameOverUI");
+            g.GetComponent<SH_GameOVer>().Crew(true);   // 크루가  이긴 경우 & 로컬 플레이어가 크루인 경우
+                          //Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
+        }
+    }
     // 게임씬 활성화
     [PunRPC]
     public void RPC_EnablePlayers()
