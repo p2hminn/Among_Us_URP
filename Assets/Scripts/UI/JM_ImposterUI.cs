@@ -75,7 +75,6 @@ public class JM_ImposterUI : MonoBehaviourPun
         }
         if (isVent)
         {
-            print("isVent status");
             sabotageButton.gameObject.SetActive(false);
             ventButton.gameObject.SetActive(true);
             ventButton.interactable = true;

@@ -57,10 +57,13 @@ public class JM_ImposterStatus : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     { 
-
+        
 
 
     }
+
+   
+
     
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)

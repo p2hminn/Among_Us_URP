@@ -27,6 +27,7 @@ public class JM_VentTrigger : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = triggerColor;
             JM_ImposterUI.instance.isVent = true;
+            JM_ImposterUI.instance.imposterCode = collision.gameObject.GetComponent<JM_ImposterStatus>();
         }
     }
 
