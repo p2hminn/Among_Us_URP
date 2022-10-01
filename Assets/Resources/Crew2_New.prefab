@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0f196ae7411b343a5bf26673ba7232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
+  playerSpeed: 4
   rb: {fileID: 3059736370986691484}
   isImposter: 0
   introStart: 0
@@ -283,6 +283,8 @@ MonoBehaviour:
   ghostGenerator: {fileID: 2706727727444221988, guid: b1e708f22304f7b42b520689b65188e8, type: 3}
   body: {fileID: 439196306760855065}
   myNickName: 
+  ghostSprite: {fileID: 21300000, guid: 40ffe3ba270406744a03394d18dfce50, type: 3}
+  ghostController: {fileID: 9100000, guid: 52ea6b1e34a869b4ca0a1522a8287e41, type: 2}
 --- !u!114 &3059736370986691482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,11 +299,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deadBodyGenerator: {fileID: 1522875784025858697, guid: 03c5a01ba03482c439b2e199b9a5bfc6, type: 3}
   reportUI: {fileID: 0}
-  body: {fileID: 439196306760855065}
   state: 0
   playerColor: {r: 0, g: 0, b: 0, a: 0}
   deadColor: {r: 0, g: 0, b: 0, a: 0}
-  ghostSprite: {fileID: 21300000, guid: 40ffe3ba270406744a03394d18dfce50, type: 3}
 --- !u!114 &3059736370986691481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,8 +317,15 @@ MonoBehaviour:
   anim: {fileID: 7196491435561891041}
   isUp: 0
   isDown: 0
+  isInVent: 0
+  isOutVent: 0
   originPos: {x: 0, y: 0, z: 0}
   ventCode: {fileID: 0}
+  ventCode2: {fileID: 0}
+  ventCode3: {fileID: 0}
+  isOne: 0
+  isSecond: 0
+  isThird: 0
 --- !u!114 &4692137819838067670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 3
+  body: {fileID: 439196306760855065}
 --- !u!1 &3059736371520065649
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,14 +16,15 @@ public class SH_PlayerPanel : MonoBehaviour
     public Transform trPanel;
     public int playerViewId;
     public PhotonView photonView;
-    public int localPanelIdx;
-
 
     // 패널 상세 정보 세팅 
     public void SetInfo(PhotonView pv, int reportViewID)
     {
+        // 로컬 플레이어의 포톤뷰 ID
         playerViewId = pv.ViewID;
+        // 로컬 플레이어의 포톤뷰
         photonView = pv;
+
         // 죽은 크루의 경우
         if (pv.gameObject.CompareTag("Ghost"))
         {
@@ -54,14 +55,6 @@ public class SH_PlayerPanel : MonoBehaviour
         //print("reportViewID : " + reportViewID +"  /  pv.ViewID : " + pv.ViewID);
 
     }
-    // 플레이어 투표 패널과 관련된 모든 사항 동기화
-    //[PunRPC]
-    //public void RPC_SetPanel()
-    //{
-    //    // 리포트한 사람 표시
-    //    transform.GetChild(9).gameObject.SetActive(true);  // Img_Report
-    //    print("SetPanel");
-    //}
 
 
 
@@ -88,8 +81,8 @@ public class SH_PlayerPanel : MonoBehaviour
         }
     }
 
-    
-    
+
+
     bool voteComplete;
     // 투표 확인 버튼 누를 경우 
     public void OnClickVote()
@@ -100,7 +93,7 @@ public class SH_PlayerPanel : MonoBehaviour
         SH_VoteManager.instance.PanelOff();
 
         // 로컬 플레이어를 표시한 패널의 투표 완료 이미지 활성화 + 동기화
-        photonView.RPC("RPC_SendVoted", RpcTarget.All, localPanelIdx);
+        photonView.RPC("RPC_SendVoted", RpcTarget.All, SH_VoteManager.instance.localPanelIdx);
 
         // 자신의 투표 결과를 VoteManager에게 보내기
         photonView.RPC("RPC_SendVoteResult", RpcTarget.All, transform.GetSiblingIndex());
@@ -109,7 +102,7 @@ public class SH_PlayerPanel : MonoBehaviour
         transform.GetChild(5).gameObject.SetActive(true);
 
     }
-    
+
 
     // 투표 취소 버튼 누를 경우
     public void OnClickVoteCancel()

@@ -90,6 +90,12 @@ MonoBehaviour:
   - RPC_SendVoted
   - RPC_SendVoteResult
   - EmergencyMeeting
+  - RPC_GoToFirstPos
+  - RPC_GoToSecondPos
+  - RPC_GetInsideVent
+  - RPC_GetOutsideVent
+  - RPC_SetInvisible
+  - RPC_SetVisible
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
