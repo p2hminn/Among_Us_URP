@@ -34,6 +34,8 @@ public class SH_VoteManager : MonoBehaviourPun
     public float discussTime = 10;
     // 투표 시간
     public float voteTime = 120;
+    // 로컬 플레이어의 패널 idx
+    public int localPanelIdx;
 
 
     bool isOnce;
@@ -59,16 +61,16 @@ public class SH_VoteManager : MonoBehaviourPun
 
 
         // 초기화
-        for (int i=0; i < voteResult.Length; i++)
+        for (int i = 0; i < voteResult.Length; i++)
         {
             voteResult[i] = 0;
         }
         isOnce = false;
-        if (voteResult == null || voteResult.Length==0)
+        if (voteResult == null || voteResult.Length == 0)
         {
             voteResult = new int[PhotonNetwork.CurrentRoom.PlayerCount];
         }
-        foreach( Transform t in trPanel )
+        foreach (Transform t in trPanel)
         {
             Destroy(t.gameObject);
         }  // 패널
@@ -77,17 +79,19 @@ public class SH_VoteManager : MonoBehaviourPun
         // 투표 세팅
         voteUI.SetActive(true);
         // 플레이어만큼 패널 세팅하기
-        for ( int i=0; i < JM_GameManager.instance.playerList.Count; i++ )
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
             GameObject panel = Instantiate(playerPanelFactory, trPanel);
             SH_PlayerPanel playerPanel = panel.GetComponent<SH_PlayerPanel>();
+            // panel 오브젝트 이름을 플레이어 이름으로 설정
+            playerPanel.gameObject.name = JM_GameManager.instance.playerList[i].Owner.NickName;
             // panel 상세 정보 세팅
             playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID);
-            // 로컬 플레이어의 패널임을 표시
+            // 로컬 플레이어의 패널이 몇 번째인지 표기
             if (JM_GameManager.instance.playerList[i].IsMine)
             {
-                playerPanel.localPanelIdx = i;
-                print("myPanel Index : " + i);
+                localPanelIdx = i;
+                print("myPanelIndex : " + i);
             }
             // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
             if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
@@ -96,8 +100,8 @@ public class SH_VoteManager : MonoBehaviourPun
 
         // 회의 시간
         StartCoroutine("StartDiscuss");
-        
-        
+
+
     }
     IEnumerator StartDiscuss()
     {
@@ -144,21 +148,21 @@ public class SH_VoteManager : MonoBehaviourPun
     public void VoteResult()
     {
         // 투표 결과 구하기
-        // 가장 투표 많이 받은 결과 
-        int maxVote = voteResult.Max(); 
+        // 가장 투표 많이 받은 사람의 득표수
+        int maxVote = voteResult.Max();
         maxVoteIndex = voteResult.ToList().IndexOf(maxVote);
         // 최다 득표자 수 구하기
-        for (int i=0; i<voteResult.Length; i++)
+        for (int i = 0; i < voteResult.Length; i++)
         {
             if (voteResult[i] == maxVote)
             {
                 maxVoteNum++;
             }
         }
-        // 최다 득표자가 다수인 경우
+        // 최다 득표자가 다수인 경우 ( 동점이 발생한 경우 )
         if (maxVoteNum > 1)
         {
-            saveVoteResult = "아무도 방출되지 않았습니다. (건너뜀)";
+            saveVoteResult = "아무도 방출되지 않았습니다. (동점 발생)";
         }
         // 한명만 최다 득표인 경우
         else
@@ -169,13 +173,13 @@ public class SH_VoteManager : MonoBehaviourPun
             if (pm.isImposter)
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
-                pm.GetComponent<JM_PlayerStatus>().ToGhost();
+                pm.GetComponent<JM_PlayerMove>().ToGhost();
             }
             // 임포스터 아닌 경우
             else
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
-                pm.GetComponent<JM_PlayerStatus>().ToGhost();
+                pm.GetComponent<JM_PlayerMove>().ToGhost();
             }
         }
 
@@ -190,10 +194,22 @@ public class SH_VoteManager : MonoBehaviourPun
         float t = 0;
         float size = 5;
         float upSizeTime = 0.3f;
-        if (t <= upSizeTime) voteTitle.transform.localScale = Vector3.one * (1 + size * t);
-        else if (t <= upSizeTime * 2) voteTitle.transform.localScale = Vector3.one * (2 * size * upSizeTime + 1 - size * t);
-        else voteTitle.transform.localScale = Vector3.one;
-        t += Time.deltaTime;
+        while (t <= upSizeTime)
+        {
+            t += Time.deltaTime;
+            voteTitle.transform.localScale = Vector3.one * (1 + size * t);
+            yield return null;
+        }
+        t = 0;
+        while (t <= upSizeTime * 2)
+        {
+            t += Time.deltaTime;
+            voteTitle.transform.localScale = Vector3.one * (2 * size * upSizeTime + 1 - size * t);
+            yield return null;
+        }
+        voteTitle.transform.localScale = Vector3.one;
+        //t += Time.deltaTime;
+
 
         // Array돌면서 VotingCrew의 자식으로 넣어주기
         panels = SH_RoomUI.instance.trPanels;
@@ -206,19 +222,21 @@ public class SH_VoteManager : MonoBehaviourPun
             {
                 GameObject vote = Instantiate(voteCheckCrewFactory);
                 vote.transform.SetParent(tr, false); // VotingCrew의 자식으로 투표 받은 만큼 voteCheckCrew 프리팹 만들어 넣어주기
+                yield return new WaitForSeconds(0.5f);
             }
+            yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(2);
 
         // 투표 결과 타이핑 효과
         voteResultText.text = "";
         voteResultUI.SetActive(true);
-        for (int i=0; i<saveVoteResult.Length; i++)
+        for (int i = 0; i < saveVoteResult.Length; i++)
         {
             voteResultText.text += saveVoteResult[i];
             yield return new WaitForSeconds(0.15f);
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         // 종료
         voteUI.SetActive(false);

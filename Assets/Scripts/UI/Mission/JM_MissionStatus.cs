@@ -14,6 +14,8 @@ public class JM_MissionStatus : MonoBehaviourPun
     float currentTime;
     //float sliderValue;
 
+    public bool isCrewWin;
+
     private void Awake()
     {
         instance = this;
@@ -33,6 +35,10 @@ public class JM_MissionStatus : MonoBehaviourPun
         if (isMissionDone)
         {
             UpdateMissionSlider();
+        }
+        if (missionSlider.value >= missionSlider.maxValue)
+        {
+            isCrewWin = true;
         }
     }
 

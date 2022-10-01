@@ -129,11 +129,15 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         // Start버튼 눌렸다고 RPC 날려주기
         photonView.RPC("GameIntroStart", RpcTarget.All);
-        JM_GameManager.instance.SetStartPos();
     }
+
     [PunRPC]
     void GameIntroStart()
     {
+
+        JM_GameManager.instance.SetStartPos();
+
+
         isStart = true;
         // UI 보이게할 카메라 활성화
         cam.gameObject.SetActive(true);
@@ -192,7 +196,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
 
             // 플레이어 활성화 함수 게임매니저에서 호출
             // photonView.RPC("RPC_EnablePlayers", RpcTarget.All);
-            JM_GameManager.instance.RPC_EnablePlayers();
 
             // 위치도 지정
             
@@ -214,6 +217,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public GameObject missionStatusUI;
     void JM_GameEnable()
     {
+
+
+        JM_GameManager.instance.RPC_EnablePlayers();
+
         gameMap.SetActive(true);
         missionStatusUI.SetActive(true);
         if (isLocalImposter)
@@ -274,13 +281,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     {
         if (!open)
         {
-            print("open");
             chatView.SetActive(true);
             open = true;
         }
         else
         {
-            print("close");
             chatView.SetActive(false);
             open = false;
         }

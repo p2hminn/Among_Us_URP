@@ -32,10 +32,18 @@ public class JM_ImposterStatus : MonoBehaviourPun
     // 벤트
     public bool isUp;
     public bool isDown;
-    bool isInVent;
-    bool isOutVent;
+    public bool isInVent;
+    public bool isOutVent;
     public Vector3 originPos;
     public JM_VentTrigger ventCode;
+    public JM_VentTrigger2 ventCode2;
+    public JM_VentTrigger3 ventCode3;
+
+
+    public bool isOne;
+    public bool isSecond;
+    public bool isThird;
+
 
     public enum State
     {
@@ -60,15 +68,32 @@ public class JM_ImposterStatus : MonoBehaviourPun
         JM_ImposterUI.instance.imposterCode = this;
 
         reportButton = GameObject.Find("Report_Imposter").GetComponent<Button>();
+
+        curPlayerSpeed = gameObject.GetComponent<JM_PlayerMove>().playerSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isOne)
+        {
+            isSecond = false;
+            isThird = false;
+        }
+        if (isSecond)
+        {
+            isOne = false;
+            isThird = false;
+        }
+        if (isThird)
+        {
+            isOne = false;
+            isSecond = false;
+        }
+
         if (isUp)
         {
-            GoUp();
-            
+            GoUp();          
         }
         if (isDown)
         {
@@ -76,31 +101,143 @@ public class JM_ImposterStatus : MonoBehaviourPun
         }
         if (isInVent)
         {
-            //gameObject.SetActive(false);
-            ventCode.isInVent = true;
+            if (isOne)
+            {
+                ventCode.isInVent = true;
+            }
+            if (isSecond)
+            {
+                ventCode2.isInVent = true;
+            }
+            if (isThird)
+            {
+                ventCode3.isInVent = true;
+            }
         }
         if (isOutVent)
         {
-            //gameObject.SetActive(true);
-            ventCode.isInVent = false;
+            if (isOne)
+            {
+                ventCode.isInVent = false;
+            }
+            if (isSecond)
+            {
+                ventCode2.isInVent = false;
+            }
+            if (isThird)
+            {
+                ventCode3.isInVent = false;
+            }
+
+
+            /*
+            if (ventCode != null)
+            {
+                ventCode.isInVent = false;
+
+            }
+            if (ventCode2 != null)
+            {
+                ventCode2.isInVent = false;
+            }
+            if (ventCode3 != null)
+            {
+                ventCode3.isInVent = false;
+            }
+            */
+
         }
+    }
+
+    public void LimitSpeed()
+    {
+        gameObject.GetComponent<JM_PlayerMove>().playerSpeed = 0;
+    }
+
+    public void ReleaseSpeed()
+    {
+        gameObject.GetComponent<JM_PlayerMove>().playerSpeed = curPlayerSpeed;
     }
 
     public void GoUp()
     {
         transform.position += Vector3.up * 2 * Time.deltaTime;
+
     }
 
     public void GoDown()
     {
-        transform.position -= Vector3.up * 5 * Time.deltaTime;
+        transform.position -= Vector3.up * 6 * Time.deltaTime;
         if (Vector3.Distance(originPos, transform.position) <= 0.1f)
         {
             transform.position = originPos;
             isDown = false;
-            isInVent = true;
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("JM_VentUp"))
+            {
+                isOutVent = true;
+                isInVent = false;
+                ReleaseSpeed();
+            }
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("JM_VentDown"))
+            {
+                isOutVent = false;
+                isInVent = true;
+            }
+
+            
         }
     }
+
+    public void SetInvisible()
+    {
+        photonView.RPC("RPC_SetInvisible", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_SetInvisible()
+    {
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        transform.Find("Canvas").gameObject.SetActive(false);
+    }
+
+    public void SetVisible()
+    {
+        photonView.RPC("RPC_SetVisible", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_SetVisible()
+    {
+        GetComponentInChildren<SpriteRenderer>().enabled = true;
+        transform.Find("Canvas").gameObject.SetActive(true);
+    }
+
+
+    public void GetInsideVent()
+    {
+        photonView.RPC("RPC_GetInsideVent", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_GetInsideVent()
+    {
+        anim.SetTrigger("VentDown");
+    }
+
+    public void GetOutsideVent()
+    {
+        photonView.RPC("RPC_GetOutsideVent", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_GetOutsideVent()
+    {
+        anim.SetTrigger("VentUp");
+    }
+
+
 
 
     // 플레이어랑 닿아있는 동안 공격가능

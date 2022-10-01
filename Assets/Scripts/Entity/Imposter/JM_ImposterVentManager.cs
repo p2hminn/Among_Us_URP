@@ -26,13 +26,19 @@ public class JM_ImposterVentManager : MonoBehaviour
     public void GoUp()
     {
         imposterCode.isUp = true;
-        imposterCode.originPos = transform.position;
     }
 
     public void GoDown()
     {
         imposterCode.isUp = false;
         imposterCode.isDown = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        imposterCode.isOne = false;
+        imposterCode.isSecond = false;
+        imposterCode.isThird = false;
     }
 
 }

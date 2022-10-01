@@ -313,7 +313,7 @@ public class JM_PlayerMove : MonoBehaviourPun
             JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
                 imposterR, imposterG, imposterB, imposterG);
         }
-        GetComponent<JM_PlayerStatus>().ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
+        ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
     }
 
 
@@ -360,12 +360,14 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     // 투표 완료했을 경우
     [PunRPC]
-    public void RPC_SendVoted(int localIdx)
+    public void RPC_SendVoted(int localpanelIdx)
     {
         // 투표 완료 표시 모두에게~
-        GameObject panels = SH_RoomUI.instance.trPanels.gameObject;
-        panels.transform.GetChild(localIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
+        print("받은 panelIdx : " + localpanelIdx);
+        GameObject panel = SH_RoomUI.instance.trPanels.gameObject;
+        panel.transform.GetChild(localpanelIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
     }
+
     // 투표 결과 보내기
     [PunRPC]
     public void RPC_SendVoteResult(int idx)
@@ -374,15 +376,53 @@ public class JM_PlayerMove : MonoBehaviourPun
         SH_VoteManager.instance.voteCompleteNum++;  
     }
 
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    // 플레이어 고스트로 변신! (임포스터, 크루 모두 접근하기 위해  PlayerMove 코드에 작성)
+    public Sprite ghostSprite;
+    public RuntimeAnimatorController ghostController;
+    public void ToGhost()
     {
-        playerSpeed = 0.5f;
+        // 오브젝트 태그 바꿔주기
+        gameObject.tag = "Ghost";
+
+        // 로컬 플레이어 -> 고스트, 리모트 플레이어 -> 비활성화
+        if (!photonView.IsMine)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        #region 상태 업데이트
+        //if (isImposter)
+        //{
+        //    JM_ImposterStatus.State stateOfImposter = GetComponent<JM_ImposterStatus>().state;
+        //    stateOfImposter = JM_ImposterStatus.State.ghost;
+        //    print("임포스터 상태 업데이트 : " + GetComponent<JM_ImposterStatus>().state);
+        //}
+        //else
+        //{
+        //    JM_PlayerStatus.State stateOfImposter = GetComponent<JM_PlayerStatus>().state;
+        //    stateOfImposter = JM_PlayerStatus.State.ghost;
+        //    print("플레이어 상태 업데이트 : " + GetComponent<JM_PlayerStatus>().state);
+        //}
+        #endregion
+
+        // 비활성화 및 활성화
+        body.GetComponent<BoxCollider2D>().enabled = false;
+        //Destroy(GetComponent<Rigidbody2D>());
+        if (isImposter) GetComponent<JM_PlayerStatus>().enabled = false;
+        else GetComponent<JM_ImposterStatus>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<JM_Ghost>().enabled = true;
+
+        // Animator 변경
+        body.GetComponent<Animator>().runtimeAnimatorController = (RuntimeAnimatorController)ghostController;
+        // Sprite  변경
+        body.GetComponent<SpriteRenderer>().sprite = ghostSprite;
+        // 유령 색상 변경
+        GetComponent<JM_Ghost>().SetColor(color);
+
+        GetComponent<JM_PlayerMove>().enabled = false;
+        print("GetComponent<JM_PlayerMove>().enabled  : " + GetComponent<JM_PlayerMove>().enabled);
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        playerSpeed = originSpeed;
-    }
-    */
-    
 }

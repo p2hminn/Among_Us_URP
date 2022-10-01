@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class JM_VentTrigger : MonoBehaviourPun
+public class JM_VentTrigger3 : MonoBehaviour
 {
-
     Color defaultColor;
     Color triggerColor;
     Color insideColor;
@@ -40,7 +38,8 @@ public class JM_VentTrigger : MonoBehaviourPun
     {
         if (isInVent)
         {
-            imposterCode.SetInvisible();
+            imposter.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            imposter.transform.Find("Canvas").gameObject.SetActive(false);
 
             GetComponent<SpriteRenderer>().color = insideColor;
 
@@ -61,7 +60,7 @@ public class JM_VentTrigger : MonoBehaviourPun
                 {
                     GoToFirstPos();
                 }
-                else if (Input.GetKeyDown(KeyCode.S))
+                else if (Input.GetKeyDown(KeyCode.A))
                 {
                     GoToSecondPos();
                 }
@@ -72,12 +71,14 @@ public class JM_VentTrigger : MonoBehaviourPun
                 {
                     GoToFirstPos();
                 }
-                else if (Input.GetKeyDown(KeyCode.D))
+                else if (Input.GetKeyDown(KeyCode.S))
                 {
                     GoToSecondPos();
                 }
-            }
-        }        
+            }           
+        }
+
+
 
         if (!isInVent)
         {
@@ -90,9 +91,6 @@ public class JM_VentTrigger : MonoBehaviourPun
         // 위치를 1번 위치로
         imposter.transform.position = new Vector3(pos1.position.x, pos1.position.y + 0.5f, pos1.position.z);
         // 
-        //imposter.GetComponentInChildren<SpriteRenderer>().enabled = true;
-        //imposter.transform.Find("Canvas").gameObject.SetActive(true);
-
         imposterCode.SetVisible();
 
         isInVent = false;
@@ -108,12 +106,7 @@ public class JM_VentTrigger : MonoBehaviourPun
     {
         // 위치를 2번 위치로
         imposter.transform.position = new Vector3(pos2.position.x, pos2.position.y + 0.5f, pos2.position.z);
-
-        //imposter.GetComponentInChildren<SpriteRenderer>().enabled = true;
-        //imposter.transform.Find("Canvas").gameObject.SetActive(true);
-
         imposterCode.SetVisible();
-
         isInVent = false;
         imposterCode.isInVent = false;
         imposterCode.isOutVent = true;
@@ -121,8 +114,6 @@ public class JM_VentTrigger : MonoBehaviourPun
         imposterCode.GetOutsideVent();
         imposterCode.originPos = new Vector3(pos2.position.x, pos2.position.y + 0.5f, pos2.position.z);
     }
-
-    
 
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -141,8 +132,8 @@ public class JM_VentTrigger : MonoBehaviourPun
             JM_ImposterUI.instance.imposterCode = collision.gameObject.GetComponent<JM_ImposterStatus>();
             JM_ImposterUI.instance.imposterPos = collision.gameObject;
 
-            collision.gameObject.GetComponent<JM_ImposterStatus>().ventCode = this;
-            collision.gameObject.GetComponent<JM_ImposterStatus>().isOne = true;
+            collision.gameObject.GetComponent<JM_ImposterStatus>().ventCode3 = this;
+            collision.gameObject.GetComponent<JM_ImposterStatus>().isThird = true;
 
             dir1.SetActive(true);
             dir2.SetActive(true);
@@ -156,8 +147,8 @@ public class JM_VentTrigger : MonoBehaviourPun
         GetComponent<SpriteRenderer>().color = defaultColor;
         JM_ImposterUI.instance.isVent = false;
 
+
         dir1.SetActive(false);
         dir2.SetActive(false);
     }
-
 }

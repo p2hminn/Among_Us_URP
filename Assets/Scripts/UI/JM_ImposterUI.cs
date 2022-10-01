@@ -52,6 +52,7 @@ public class JM_ImposterUI : MonoBehaviourPun
 
     public Button ventButton;
     public Button sabotageButton;
+    public GameObject imposterPos;
 
     // Start is called before the first frame update
     void Start()
@@ -90,8 +91,6 @@ public class JM_ImposterUI : MonoBehaviourPun
             sabotageButton.gameObject.SetActive(true);
             ventButton.gameObject.SetActive(false);
         }
-        print(isUseable);
-
 
         // Use 버튼
         if (isUseable)
@@ -120,8 +119,9 @@ public class JM_ImposterUI : MonoBehaviourPun
 
     public void ClickVent()
     {
-        imposterCode.anim.SetTrigger("Vent");
-        imposterCode.originPos = transform.position;
+        imposterCode.GetInsideVent();
+        imposterCode.LimitSpeed();
+        imposterCode.originPos = imposterPos.transform.position;
     }
 
     // 임포스터 공격을 할 수 있는 상태가 되려면 쿨타임이 있어야된다
