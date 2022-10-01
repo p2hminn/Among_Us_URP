@@ -29,6 +29,14 @@ public class JM_ImposterStatus : MonoBehaviourPun
     // 리포트 버튼
     Button reportButton;
 
+    // 벤트
+    public bool isUp;
+    public bool isDown;
+    bool isInVent;
+    bool isOutVent;
+    public Vector3 originPos;
+    public JM_VentTrigger ventCode;
+
     public enum State
     {
         idle,
@@ -43,7 +51,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody2D>();
 
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         // imposterColor = pm.color;
         state = State.idle;
@@ -56,15 +64,45 @@ public class JM_ImposterStatus : MonoBehaviourPun
 
     // Update is called once per frame
     void Update()
-    { 
-        
-
-
+    {
+        if (isUp)
+        {
+            GoUp();
+            
+        }
+        if (isDown)
+        {
+            GoDown();         
+        }
+        if (isInVent)
+        {
+            //gameObject.SetActive(false);
+            ventCode.isInVent = true;
+        }
+        if (isOutVent)
+        {
+            //gameObject.SetActive(true);
+            ventCode.isInVent = false;
+        }
     }
 
-   
+    public void GoUp()
+    {
+        transform.position += Vector3.up * 2 * Time.deltaTime;
+    }
 
-    
+    public void GoDown()
+    {
+        transform.position -= Vector3.up * 5 * Time.deltaTime;
+        if (Vector3.Distance(originPos, transform.position) <= 0.1f)
+        {
+            transform.position = originPos;
+            isDown = false;
+            isInVent = true;
+        }
+    }
+
+
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -108,7 +146,6 @@ public class JM_ImposterStatus : MonoBehaviourPun
             JM_ImposterUI.instance.isUseable = true;
             SH_RoomUI.instance.isEmergency = true;
         }
-
     }
     
     

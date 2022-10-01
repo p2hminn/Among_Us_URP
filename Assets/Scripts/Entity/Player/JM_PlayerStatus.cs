@@ -33,7 +33,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         playerColor = GetComponent<JM_PlayerMove>().color;
     }
 
@@ -109,7 +109,4 @@ public class JM_PlayerStatus : MonoBehaviourPun
         // 유령 색상 변경
         GetComponent<JM_Ghost>().SetColor(playerColor);
     }
-
-    
-
 }

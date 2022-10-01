@@ -104,6 +104,9 @@ public class JM_ImposterUI : MonoBehaviourPun
             useButton.interactable = false;
             print("false");
         }
+
+        
+
     }
 
     // 공격버튼 누르면 임포스터코드에서 공격함수 실행
@@ -120,6 +123,7 @@ public class JM_ImposterUI : MonoBehaviourPun
     public void ClickVent()
     {
         imposterCode.anim.SetTrigger("Vent");
+        imposterCode.originPos = transform.position;
     }
 
     // 임포스터 공격을 할 수 있는 상태가 되려면 쿨타임이 있어야된다
