@@ -259,7 +259,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     void RPC_SetCrewColor(int colorIndex)
     {
         // 머티리얼 받아서
-        Material mat = gameObject.GetComponent<SpriteRenderer>().material;
+        Material mat = body.GetComponent<SpriteRenderer>().material;
         // 플레이어 컬러에 컬러리스트의 색상값을 지정해주고
         Color settingColor = JM_ColorManager.instance.colorList[colorIndex];
 
