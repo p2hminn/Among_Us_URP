@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-
+using System.Reflection;
 
 public class SH_RoomUI : MonoBehaviourPunCallbacks
 {
@@ -103,6 +103,12 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             JM_GameEnable();
             isOnce = true;
         }
+
+        //if (SH_VoteManager.instance.p)
+        //{
+        //    print("죽었니? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
+        //    print("현재 실행 함수2_RoomUI : " + MethodBase.GetCurrentMethod().Name);
+        //}
 
         // Vote UI 활성화 중인지 체크
         if (voteUI.activeSelf)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Reflection;
 
 public class JM_GameManager : MonoBehaviourPun
 {
@@ -76,7 +77,8 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 playerList[i].gameObject.SetActive(true);
             }
-            isGameRoom = true; 
+            isGameRoom = true;
+            isOnce1 = true;
         }
 
         // 게임 시작되면 플레이어 포톤뷰 정렬
@@ -85,6 +87,12 @@ public class JM_GameManager : MonoBehaviourPun
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
             isOnce2 = true;
         }
+
+        //if (SH_VoteManager.instance.p)
+        //{
+        //    print("죽었니? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
+        //    print("현재 실행 함수2_GameManager : " + MethodBase.GetCurrentMethod().Name);
+        //}
         //if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
         //{
         //    isOnce3 = true;

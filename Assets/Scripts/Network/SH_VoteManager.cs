@@ -48,11 +48,11 @@ public class SH_VoteManager : MonoBehaviourPun
             print("투표한 사람 : " + voteCompleteNum);
         }
 
-        if (p)
-        {
-            print("죽었니? 2 : " + p.gameObject.activeSelf);
-            print("현재 실행 함수2 : " + MethodBase.GetCurrentMethod().Name);
-        }
+        //if (p)
+        //{
+        //    print("죽었니? 2 : " + p.gameObject.activeSelf);
+        //    print("현재 실행 함수2 : " + MethodBase.GetCurrentMethod().Name);
+        //}
         
 
 
@@ -182,7 +182,6 @@ public class SH_VoteManager : MonoBehaviourPun
             if (pm.isImposter)
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
-                print("뽑힌 사람 죽이자~~~~");
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -193,9 +192,9 @@ public class SH_VoteManager : MonoBehaviourPun
                 {
                     p = pm.photonView;
                     pm.gameObject.SetActive(false);
-                    print("없앴음");
-                    print("죽었니? : " + pm.gameObject.activeSelf);
-                    print("현재 실행 함수 : " + MethodBase.GetCurrentMethod().Name);
+                    //print("없앴음");
+                    //print("죽었니? : " + pm.gameObject.activeSelf);
+                    //print("현재 실행 함수 : " + MethodBase.GetCurrentMethod().Name);
                 }
                 
             }
@@ -239,7 +238,7 @@ public class SH_VoteManager : MonoBehaviourPun
             voteTitle.transform.localScale = Vector3.one * (2 * size * upSizeTime + 1 - size * t);
             yield return null;
         }
-        voteTitle.transform.localScale = Vector3.one;
+        voteTitle.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
         //t += Time.deltaTime;
 
 
