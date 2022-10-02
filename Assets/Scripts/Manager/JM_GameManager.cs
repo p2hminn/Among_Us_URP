@@ -62,7 +62,8 @@ public class JM_GameManager : MonoBehaviourPun
         {
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-            
+            print((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
+           
         }
 
         // 게임씬이 된 경우 다시 플레이어들 활성화시키기
@@ -91,6 +92,9 @@ public class JM_GameManager : MonoBehaviourPun
                           //Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
         }
     }
+
+
+
     // 게임씬 활성화
     [PunRPC]
     public void RPC_EnablePlayers()
