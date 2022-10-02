@@ -23062,6 +23062,7 @@ MonoBehaviour:
   discussTime: 10
   voteTime: 120
   localPanelIdx: 0
+  p: {fileID: 0}
   voteTitle: {fileID: 1280306240}
   voteCheckCrewFactory: {fileID: 9166770962288432233, guid: ffc960875072b014d84e4e4d71d2500b, type: 3}
   panels: {fileID: 573991287}
@@ -36309,7 +36310,7 @@ RectTransform:
   m_GameObject: {fileID: 1280306237}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47836127}
@@ -36317,7 +36318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48, y: 269}
+  m_AnchoredPosition: {x: 57, y: 286.03}
   m_SizeDelta: {x: 709.5071, y: 168.3615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1280306239

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Reflection;
 
 public class JM_GameManager : MonoBehaviourPun
 {
@@ -77,7 +78,8 @@ public class JM_GameManager : MonoBehaviourPun
             {
                 playerList[i].gameObject.SetActive(true);
             }
-            isGameRoom = true; 
+            isGameRoom = true;
+            isOnce1 = true;
         }
 
         // ê²Œìž„ ì‹œìž‘ë˜ë©´ í”Œë ˆì´ì–´ í¬í†¤ë·° ì •ë ¬
@@ -86,6 +88,12 @@ public class JM_GameManager : MonoBehaviourPun
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
             isOnce2 = true;
         }
+
+        //if (SH_VoteManager.instance.p)
+        //{
+        //    print("Á×¾ú´Ï? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
+        //    print("ÇöÀç ½ÇÇà ÇÔ¼ö2_GameManager : " + MethodBase.GetCurrentMethod().Name);
+        //}
         //if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
         //{
         //    isOnce3 = true;
