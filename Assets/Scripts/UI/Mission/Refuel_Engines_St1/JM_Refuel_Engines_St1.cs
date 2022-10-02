@@ -18,6 +18,8 @@ public class JM_Refuel_Engines_St1 : MonoBehaviour
 
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,9 @@ public class JM_Refuel_Engines_St1 : MonoBehaviour
             
 
             taskCompletedUI.SetActive(true);
+
+            missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
 
             if (currentTime >= 1)
             {

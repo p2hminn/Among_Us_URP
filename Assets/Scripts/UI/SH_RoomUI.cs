@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Reflection;
+using UnityEngine.Rendering.Universal;
 
 public class SH_RoomUI : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         instance = this;
     }
 
+    public GameObject light;
 
     // Start 버튼
     public Button btn_Start;
@@ -78,6 +80,9 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         crewUICode = GetComponent<JM_CrewUI>();
         imposterUICode.enabled = false;
         crewUICode.enabled = false;
+
+        // 대기실에 있을때는 어두운거 없음
+        light.GetComponent<Light2D>().intensity = 1;
     }
 
     bool isOnce;
@@ -222,6 +227,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     void JM_GameEnable()
     {
         //JM_GameManager.instance.RPC_EnablePlayers();
+
+        // 게임 시작하면 전체 어둡게
+        light.GetComponent<Light2D>().intensity = 0.5f;
+
 
         gameMap.SetActive(true);
         missionStatusUI.SetActive(true);

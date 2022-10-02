@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class JM_PlayerMove : MonoBehaviourPun
 {
+    public GameObject light;
+
     // 플레이어 이동속도
     public float playerSpeed = 3;
     float originSpeed;
@@ -65,6 +67,9 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     void Start()
     {
+        // 시작할때는 시야 없음
+        light.SetActive(false);
+
         roomUICode = SH_RoomUI.instance;
 
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
@@ -155,6 +160,7 @@ public class JM_PlayerMove : MonoBehaviourPun
                 GetComponent<JM_PlayerStatus>().enabled = true;
             }
             isOnce = false;
+            light.SetActive(true);
         }
 
 

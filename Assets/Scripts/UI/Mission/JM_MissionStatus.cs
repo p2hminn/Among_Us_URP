@@ -13,6 +13,7 @@ public class JM_MissionStatus : MonoBehaviourPun
     public bool isMissionDone;
     float currentTime;
     //float sliderValue;
+    float currentMissionDone;
 
     public bool isCrewWin;
 
@@ -27,6 +28,8 @@ public class JM_MissionStatus : MonoBehaviourPun
         //sliderValue = 0;
         // test
         //isMissionDone = true;
+        isMissionDone = false;
+        currentMissionDone = 1;
     }
 
     // Update is called once per frame
@@ -40,42 +43,42 @@ public class JM_MissionStatus : MonoBehaviourPun
         {
             isCrewWin = true;
         }
+        if (!isMissionDone)
+        {
+            currentTime = 0;
+        }
     }
 
     public void UpdateMissionSlider()
     {
         currentTime += Time.deltaTime;
-        missionSlider.value = currentTime;
+        missionSlider.value += Time.deltaTime;
         if (currentTime >= 1)
         {
-            isMissionDone = false;
-            //sliderValue = missionSlider.value;
-        }
-
-    }
-
-    [PunRPC]
-    void RPC_UpdateMissionSlider()
-    {
-        currentTime += Time.deltaTime;
-        missionSlider.value = currentTime;
-        if (currentTime >= 1)
-        {
-            print("けいしかいしかいしぉ");
-            photonView.RPC("RPC_SetMissionDone", RpcTarget.All);
-            //sliderValue = missionSlider.value;
+            SetMissionNotDone();
         }
     }
 
     public void SetMissionDone()
     {
-        photonView.RPC("RPC_SetMissionDone", RpcTarget.All);
+        photonView.RPC("RPC_SetMissionDone", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
     void RPC_SetMissionDone()
     {
         isMissionDone = true;        
+    }
+
+    public void SetMissionNotDone()
+    {
+        photonView.RPC("RPC_SetMissionNotDone", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void RPC_SetMissionNotDone()
+    {
+        isMissionDone = false;
     }
 
 }

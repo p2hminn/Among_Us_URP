@@ -28,6 +28,8 @@ public class CardSlideDemo : MonoBehaviourPun, IBeginDragHandler, IDragHandler, 
 
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
     void Start()
     {
         originPos = transform.position;
@@ -161,6 +163,8 @@ public class CardSlideDemo : MonoBehaviourPun, IBeginDragHandler, IDragHandler, 
 
         isMissionDone = true;
         taskCompletedUI.SetActive(true);
+
+        missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
     }
 
     void Fail()

@@ -22,6 +22,8 @@ public class JM_UploadFolder2UI : MonoBehaviour
     public GameObject missionCompleteUI;
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +53,9 @@ public class JM_UploadFolder2UI : MonoBehaviour
                 JM_CrewMapManager.instance.UploadSt2Admin();
 
                 taskCompletedUI.SetActive(true);
-                //missionCompleteUI.SetActive(true);
+
+                missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
             }
         }
         if (isDone)
