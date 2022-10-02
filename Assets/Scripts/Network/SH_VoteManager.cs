@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
+using System.Reflection;
 
 public class SH_VoteManager : MonoBehaviourPun
 {
@@ -36,6 +37,7 @@ public class SH_VoteManager : MonoBehaviourPun
     public float voteTime = 120;
     // 로컬 플레이어의 패널 idx
     public int localPanelIdx;
+    public PhotonView p;
 
 
     bool isOnce;
@@ -45,6 +47,13 @@ public class SH_VoteManager : MonoBehaviourPun
         {
             print("투표한 사람 : " + voteCompleteNum);
         }
+
+        if (p)
+        {
+            print("죽었니? 2 : " + p.gameObject.activeSelf);
+            print("현재 실행 함수2 : " + MethodBase.GetCurrentMethod().Name);
+        }
+        
 
 
         // 모두 투표완료하면 모두에게 투표 결과 보여주기
@@ -173,13 +182,36 @@ public class SH_VoteManager : MonoBehaviourPun
             if (pm.isImposter)
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
-                pm.GetComponent<JM_PlayerMove>().ToGhost();
+                print("뽑힌 사람 죽이자~~~~");
+                // 뽑힌 사람
+                if (pm.photonView.IsMine)
+                {
+                    pm.GetComponent<JM_PlayerMove>().ToGhost();
+                }
+                
+                else
+                {
+                    p = pm.photonView;
+                    pm.gameObject.SetActive(false);
+                    print("없앴음");
+                    print("죽었니? : " + pm.gameObject.activeSelf);
+                    print("현재 실행 함수 : " + MethodBase.GetCurrentMethod().Name);
+                }
+                
             }
             // 임포스터 아닌 경우
             else
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
-                pm.GetComponent<JM_PlayerMove>().ToGhost();
+                // 뽑힌 사람
+                if (pm.photonView.IsMine)
+                {
+                    pm.GetComponent<JM_PlayerMove>().ToGhost();
+                }
+                else
+                {
+                    pm.gameObject.SetActive(false);
+                }
             }
         }
 
