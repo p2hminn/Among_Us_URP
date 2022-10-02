@@ -59,7 +59,7 @@ public class Start_ReactorUI : MonoBehaviour
     public bool isMissionComplete;
     public GameObject taskCompletedUI;
 
-
+    public GameObject missionTrigger;
 
     // Start is called before the first frame update
 
@@ -577,6 +577,9 @@ public class Start_ReactorUI : MonoBehaviour
             JM_CrewMapManager.instance.StartReactor();
 
             taskCompletedUI.SetActive(true);
+
+            missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
 
             currentTime += Time.deltaTime;
             // 1초 후에 3단계 실행

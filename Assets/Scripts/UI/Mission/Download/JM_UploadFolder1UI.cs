@@ -22,6 +22,8 @@ public class JM_UploadFolder1UI : MonoBehaviour
     public GameObject missionCompleteUI;
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
     void Start()
     {
         percentText = percentage.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text;
@@ -73,6 +75,9 @@ public class JM_UploadFolder1UI : MonoBehaviour
                 }
 
                 taskCompletedUI.SetActive(true);
+
+                missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
             }
         }
         if (isDone)

@@ -43,6 +43,8 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
 
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +102,9 @@ public class JM_CalibrateDistributorUI : MonoBehaviour
             JM_CrewMapManager.instance.CalibrateDistributor();
 
             taskCompletedUI.SetActive(true);
+
+            missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
             currentTime += Time.deltaTime;
             if (currentTime >= 1)
             {

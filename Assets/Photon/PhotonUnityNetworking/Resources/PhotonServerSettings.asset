@@ -101,6 +101,8 @@ MonoBehaviour:
   - RPC_AddImposterIndex
   - RPC_ShareRandomNum
   - RPC_ShareNickNameColor
+  - RPC_SetMissionNotDone
+  - RPC_DisableTrigger
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

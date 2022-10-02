@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class JM_MissionTrigger : MonoBehaviour
+public class JM_MissionTrigger : MonoBehaviourPun
 {
     Color defaultColor;
     Color triggerColor;
+
+    public bool isMissionDone;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +31,20 @@ public class JM_MissionTrigger : MonoBehaviour
                 gameUI.SetActive(true);
             }
         }
+
     }
+
+    public void DisableTrigger()
+    {
+        photonView.RPC("RPC_DisableTrigger", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_DisableTrigger()
+    {
+        GetComponent<CircleCollider2D>().enabled = false;
+    }
+
 
     public GameObject gameUI;
     bool isAble;
@@ -51,12 +67,6 @@ public class JM_MissionTrigger : MonoBehaviour
             JM_CrewUI.instance.missionTrigger = this;
 
             JM_CrewUI.instance.isMissionAble = true;
-        }
-
-        // 아니면 귀신일때
-        if (collision.gameObject.name.Contains("Ghost"))
-        {
-
         }
 
     }

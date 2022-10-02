@@ -23,6 +23,8 @@ public class JM_UnlockTaskUI : MonoBehaviour
 
     public GameObject taskCompletedUI;
 
+    public GameObject missionTrigger;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,8 @@ public class JM_UnlockTaskUI : MonoBehaviour
             JM_CrewMapManager.instance.UnlockManifold();
 
             taskCompletedUI.SetActive(true);
+
+            missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
         }
         if (isSuccess)
         {
@@ -94,7 +98,7 @@ public class JM_UnlockTaskUI : MonoBehaviour
     {
         for (int i = 0; i < buttonList.Count; i++)
         {
-            textList.Add(i);
+            textList.Add(i + 1);
         }
 
         for (int i = 0; i < buttonList.Count; i++)

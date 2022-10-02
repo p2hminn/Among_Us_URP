@@ -23,5 +23,11 @@ public class JM_TaskCompletedUI : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+
+        if (!gameObject.activeSelf)
+        {
+            currentTime = 0;
+        }
+
     }
 }

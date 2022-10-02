@@ -23,6 +23,8 @@ public class JM_CleanO2_Manager : MonoBehaviour
     Vector3 leaf4Pos;
     Vector3 leaf5Pos;
 
+    public GameObject missionTrigger;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +49,10 @@ public class JM_CleanO2_Manager : MonoBehaviour
             JM_CrewMapManager.instance.CleanO2Filter();
 
             taskCompletedUI.SetActive(true);
+
+            missionTrigger.GetComponent<JM_MissionTrigger>().DisableTrigger();
+
+
             if (currentTime >= 1)
             {
                 cleanO2FilterUI.SetActive(false);
