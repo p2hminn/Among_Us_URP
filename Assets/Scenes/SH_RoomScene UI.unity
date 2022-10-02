@@ -23061,6 +23061,7 @@ MonoBehaviour:
   txtVoteTime: {fileID: 528962617}
   discussTime: 10
   voteTime: 120
+  localPanelIdx: 0
   voteTitle: {fileID: 1280306240}
   voteCheckCrewFactory: {fileID: 9166770962288432233, guid: ffc960875072b014d84e4e4d71d2500b, type: 3}
   panels: {fileID: 573991287}

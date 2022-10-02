@@ -79,6 +79,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         imposterUICode.enabled = false;
         crewUICode.enabled = false;
     }
+
+    bool isOnce;
     void Update()
     {
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
@@ -96,9 +98,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         {
             JM_ShowPlayerRole();
         }
-        if (isGameScene)
+        if (isGameScene && !isOnce)
         {
             JM_GameEnable();
+            isOnce = true;
         }
 
         // Vote UI 활성화 중인지 체크
@@ -134,32 +137,22 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     [PunRPC]
     void GameIntroStart()
     {
-
         JM_GameManager.instance.SetStartPos();
-
 
         isStart = true;
         // UI 보이게할 카메라 활성화
         cam.gameObject.SetActive(true);
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
-
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
-        /*
-        if (isStart && JM_PlayerMove.instance.introStart)
-        {
-            // Start 버튼 눌린 경우 게임 인트로 시작
-            StartCoroutine("GameIntro");
-            JM_PlayerMove.instance.introStart = false;
-        }
-        */
     }
 
 
     // 게임 인트로 
     float currentTime = 0;
+    // 쉿 UI
     void JM_GameIntro()
     {
         shhh.SetActive(true);
@@ -173,6 +166,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
+    // 플레이어 역할 배정
     void JM_ShowPlayerRole()
     {
         currentTime += Time.deltaTime;
@@ -192,34 +186,34 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
 
         if (currentTime > delayTime)
         {
-            isGameScene = true;
-
+            #region 위치 지정
             // 플레이어 활성화 함수 게임매니저에서 호출
             // photonView.RPC("RPC_EnablePlayers", RpcTarget.All);
 
             // 위치도 지정
-            
-                
+
+
             // photonView.RPC("RPC_SetPlayerPos", RpcTarget.All);
             // photonView.RPC("RPC_Test", RpcTarget.All);
-
+            #endregion
             isSelectionUI = false;
-            // 임포스터라면 임포스터 꺼주고 크루라면 크루 꺼줌
-            if (isLocalImposter)
-                imposters.SetActive(false);
-            else if (!isLocalImposter)
-                crews.SetActive(false);
-            cam.gameObject.SetActive(true);
 
+            // 플레이 역할 알려주는 UI 꺼줌
+            if (isLocalImposter)  imposters.SetActive(false);
+            else crews.SetActive(false);
+
+            cam.gameObject.SetActive(true);
             currentTime = 0;
+
+            // 게임 세팅 시작
+            isGameScene = true;
         }
     }
     public GameObject missionStatusUI;
+    // 게임 가능하게 세팅
     void JM_GameEnable()
     {
-
-
-        JM_GameManager.instance.RPC_EnablePlayers();
+        //JM_GameManager.instance.RPC_EnablePlayers();
 
         gameMap.SetActive(true);
         missionStatusUI.SetActive(true);

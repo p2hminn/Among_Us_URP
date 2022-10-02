@@ -51,55 +51,57 @@ public class JM_GameManager : MonoBehaviourPun
         localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, localPv.ViewID);
     }
 
-    bool isOnce = true;
-    bool isOnce2 = true;
-
-    bool isOnce3;
+    bool isOnce;
+    bool isOnce1;
+    bool isOnce2;
+    //bool isOnce3;
     void Update()
     {
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
-        if (SH_RoomUI.instance.isStart && isOnce)
+        if (SH_RoomUI.instance.isStart && !isOnce)
         {
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-            
+            for (int i=0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(false);
+            }
+            isOnce = true;
         }
 
         // 게임씬이 된 경우 다시 플레이어들 활성화시키기
-        if (SH_RoomUI.instance.isGameScene)
+        if (SH_RoomUI.instance.isGameScene && !isOnce1)
         {
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(true);
+            }
             isGameRoom = true; 
         }
 
         // 게임 시작되면 플레이어 포톤뷰 정렬
-        if (isGameRoom && isOnce2)
+        if (isGameRoom && !isOnce2)
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
-            for (int i=0;i<playerList.Count; i++)
-            {
-                print(playerList[i].ViewID);
-            }
+            isOnce2 = true;
         }
-
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
-        {
-            isOnce3 = true;
-            GameObject g = GameObject.Find("GameOverUI");
-            g.GetComponent<SH_GameOVer>().Crew(true);   // 크루가  이긴 경우 & 로컬 플레이어가 크루인 경우
-                          //Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
+        //{
+        //    isOnce3 = true;
+        //    GameObject g = GameObject.Find("GameOverUI");
+        //    g.GetComponent<SH_GameOVer>().Crew(true);   // 크루가  이긴 경우 & 로컬 플레이어가 크루인 경우
+        //                  //Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
+        //}
     }
     // 게임씬 활성화
-    [PunRPC]
-    public void RPC_EnablePlayers()
-    {
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            playerList[i].gameObject.SetActive(true);
-        }
-    }
+    //[PunRPC]
+    //public void RPC_EnablePlayers()
+    //{
+    //    for (int i = 0; i < playerList.Count; i++)
+    //    {
+    //        playerList[i].gameObject.SetActive(true);
+    //    }
+    //}
 
     [PunRPC]
     public void RPC_SetPlayerPos()
@@ -156,7 +158,6 @@ public class JM_GameManager : MonoBehaviourPun
                 // 플레이어 최대 숫자(현재 방에 있는 최대 인원)와 0 사이에서 랜덤 숫자 생성
                 int randomNum = Random.Range(0, playerList.Count);
                 //int randomNum = 0;
-                print("임포스터 인덱스 : " + randomNum);
                 // 임포스터 리스트에 랜덤숫자가 없다면
                 if (!imposterIndexList.Contains(randomNum))
                 {
@@ -186,7 +187,7 @@ public class JM_GameManager : MonoBehaviourPun
                 {  
                     // RPC 함수로 해당 인덱스 플레이어는 임포스터 할당
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
-                    //print("임포스터 인덱스 : " + i);
+                    print("임포스터 인덱스 : " + i);
                 }                                                             
                 else
                 {
