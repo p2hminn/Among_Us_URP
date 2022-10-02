@@ -5,22 +5,22 @@ using Photon.Pun;
 
 public class JM_GameManager : MonoBehaviourPun
 {
-    // ½Ì±ÛÅæ
+    // ì‹±ê¸€í†¤
     public static JM_GameManager instance;
 
-    // ÇöÀç waitRoom ÀÎÁö gameRoom ÀÎÁö ÆÇ´Ü
+    // í˜„ì¬ waitRoom ì¸ì§€ gameRoom ì¸ì§€ íŒë‹¨
     public bool isGameRoom;
 
-    // ÇÃ·¹ÀÌ¾îµéÀ» ÀúÀåÇÒ ¸®½ºÆ®
+    // í”Œë ˆì´ì–´ë“¤ì„ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
     public List<PhotonView> playerList = new List<PhotonView>();
 
-    // ÃÊ±â ½ºÆùÀ§Ä¡ ¸®½ºÆ®
+    // ì´ˆê¸° ìŠ¤í°ìœ„ì¹˜ ë¦¬ìŠ¤íŠ¸
     public List<Transform> spawnPosList = new List<Transform>();
 
-    // °ÔÀÓ¾À ½ºÆùÀ§Ä¡ ±âÁØ
+    // ê²Œì„ì”¬ ìŠ¤í°ìœ„ì¹˜ ê¸°ì¤€
     public Transform gameStartOrigin;
 
-    // ·ÎÄÃ ÇÃ·¹ÀÌ¾î photonView
+    // ë¡œì»¬ í”Œë ˆì´ì–´ photonView
     public PhotonView localPv;
 
 
@@ -37,73 +37,75 @@ public class JM_GameManager : MonoBehaviourPun
 
         int randomNum = Random.Range(0, 3);
 
-        // ¹æ ÀÎ¿ø ¼ö text ¾÷µ¥ÀÌÆ®
+        // ë°© ì¸ì› ìˆ˜ text ì—…ë°ì´íŠ¸
         SH_RoomUI.instance.PlayerNumUpdate();
 
         GameObject crew = PhotonNetwork.Instantiate("Crew2_New", spawnPosList[randomNum].position, Quaternion.identity);
-        // ·ÎÄÃ ÇÃ·¹ÀÌ¾îÀÇ photonView ÀúÀå
+        // ë¡œì»¬ í”Œë ˆì´ì–´ì˜ photonView ì €ì¥
         localPv = crew.GetComponent<PhotonView>();
 
     }
-    // ¸®Æ÷Æ® ¹öÆ° ´©¸£¸é ·ÎÄÃ ÇÃ·¹ÀÌ¾îÀÇ ViewID ÀúÀåÇÏµµ·Ï »Ñ¸®±â
+    // ë¦¬í¬íŠ¸ ë²„íŠ¼ ëˆ„ë¥´ë©´ ë¡œì»¬ í”Œë ˆì´ì–´ì˜ ViewID ì €ì¥í•˜ë„ë¡ ë¿Œë¦¬ê¸°
     public void SendReportPlayer()
     {
         localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, localPv.ViewID);
     }
 
-    bool isOnce = true;
-    bool isOnce2 = true;
-
-    bool isOnce3;
+    bool isOnce;
+    bool isOnce1;
+    bool isOnce2;
+    //bool isOnce3;
     void Update()
     {
-        // ¹æÀåÀÌ Start¹öÆ° ´©¸¥ °æ¿ì playerList photonViewÀÇ gameObject ºñÈ°¼ºÈ­ (ÇÑ¹ø¸¸ ½ÇÇàÇÒ °Í)
-        if (SH_RoomUI.instance.isStart && isOnce)
+        // ë°©ì¥ì´ Startë²„íŠ¼ ëˆ„ë¥¸ ê²½ìš° playerList photonViewì˜ gameObject ë¹„í™œì„±í™” (í•œë²ˆë§Œ ì‹¤í–‰í•  ê²ƒ)
+        if (SH_RoomUI.instance.isStart && !isOnce)
         {
-            // imposter ¼ö ¸Å°³º¯¼ö·Î ³Ö¾î¼­ imposter ÁöÁ¤ ·ÎÁ÷ ½ÃÀÛ
+            // imposter ìˆ˜ ë§¤ê°œë³€ìˆ˜ë¡œ ë„£ì–´ì„œ imposter ì§€ì • ë¡œì§ ì‹œì‘
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-            print((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-           
+
+            for (int i=0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(false);
+            }
+            isOnce = true;
         }
 
-        // °ÔÀÓ¾ÀÀÌ µÈ °æ¿ì ´Ù½Ã ÇÃ·¹ÀÌ¾îµé È°¼ºÈ­½ÃÅ°±â
-        if (SH_RoomUI.instance.isGameScene)
+        // ê²Œì„ì”¬ì´ ëœ ê²½ìš° ë‹¤ì‹œ í”Œë ˆì´ì–´ë“¤ í™œì„±í™”ì‹œí‚¤ê¸°
+        if (SH_RoomUI.instance.isGameScene && !isOnce1)
         {
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                playerList[i].gameObject.SetActive(true);
+            }
             isGameRoom = true; 
         }
 
-        // °ÔÀÓ ½ÃÀÛµÇ¸é ÇÃ·¹ÀÌ¾î Æ÷Åæºä Á¤·Ä
-        if (isGameRoom && isOnce2)
+        // ê²Œì„ ì‹œì‘ë˜ë©´ í”Œë ˆì´ì–´ í¬í†¤ë·° ì •ë ¬
+        if (isGameRoom && !isOnce2)
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
-            for (int i=0;i<playerList.Count; i++)
-            {
-                print(playerList[i].ViewID);
-            }
+            isOnce2 = true;
         }
-
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
-        {
-            isOnce3 = true;
-            GameObject g = GameObject.Find("GameOverUI");
-            g.GetComponent<SH_GameOVer>().Crew(true);   // Å©·ç°¡  ÀÌ±ä °æ¿ì & ·ÎÄÃ ÇÃ·¹ÀÌ¾î°¡ Å©·çÀÎ °æ¿ì
-                          //Crew(false);  // Å©·ç°¡ Áø °æ¿ì & ·ÎÄÃ ÇÃ·¹ÀÌ¾î°¡ Å©·çÀÎ °æ¿ì
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
+        //{
+        //    isOnce3 = true;
+        //    GameObject g = GameObject.Find("GameOverUI");
+        //    g.GetComponent<SH_GameOVer>().Crew(true);   // í¬ë£¨ê°€  ì´ê¸´ ê²½ìš° & ë¡œì»¬ í”Œë ˆì´ì–´ê°€ í¬ë£¨ì¸ ê²½ìš°
+        //                  //Crew(false);  // í¬ë£¨ê°€ ì§„ ê²½ìš° & ë¡œì»¬ í”Œë ˆì´ì–´ê°€ í¬ë£¨ì¸ ê²½ìš°
+        //}
     }
 
 
 
-    // °ÔÀÓ¾À È°¼ºÈ­
-    [PunRPC]
-    public void RPC_EnablePlayers()
-    {
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            playerList[i].gameObject.SetActive(true);
-        }
-    }
+    // ê²Œì„ì”¬ í™œì„±í™”
+    //[PunRPC]
+    //public void RPC_EnablePlayers()
+    //{
+    //    for (int i = 0; i < playerList.Count; i++)
+    //    {
+    //        playerList[i].gameObject.SetActive(true);
+    //    }
+    //}
 
     [PunRPC]
     public void RPC_SetPlayerPos()
@@ -114,10 +116,10 @@ public class JM_GameManager : MonoBehaviourPun
         }
     }
 
-    // °ÔÀÓ½ÃÀÛ À§Ä¡µé
+    // ê²Œì„ì‹œì‘ ìœ„ì¹˜ë“¤
     public Vector3[] startPos;
 
-    // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®ÀÏ¶§¸¸ À§Ä¡ÁöÁ¤ ¤¡¤¡
+    // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì¼ë•Œë§Œ ìœ„ì¹˜ì§€ì • ã„±ã„±
     public void SetStartPos()
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -134,43 +136,42 @@ public class JM_GameManager : MonoBehaviourPun
         }
     }
 
-    // ÁöÁ¤ÇÑ À§Ä¡°ªÀ» ÇØ´ç ¾êµéÇÑÅ× °¢ÀÚ ÁöÁ¤
+    // ì§€ì •í•œ ìœ„ì¹˜ê°’ì„ í•´ë‹¹ ì–˜ë“¤í•œí…Œ ê°ì ì§€ì •
 
 
 
-    // ÇÃ·¹ÀÌ¾î »ı¼ºµÉ ¶§ ÇÃ·¹ÀÌ¾î ¸®½ºÆ®¿¡ ÇÃ·¹ÀÌ¾î Æ÷Åæ ºä ÀúÀå (PlayerMove.csÀÇ Start)
+    // í”Œë ˆì´ì–´ ìƒì„±ë  ë•Œ í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ì— í”Œë ˆì´ì–´ í¬í†¤ ë·° ì €ì¥ (PlayerMove.csì˜ Start)
     public void AddPlayer(PhotonView pv)
     {
         playerList.Add(pv);
     }
 
 
-    // ÀÓÆ÷½ºÅÍ idx ¼±Á¤
+    // ì„í¬ìŠ¤í„° idx ì„ ì •
     public void SetGameScene(int imposterAmt)
     {
         //isGameRoom = true;
         if (PhotonNetwork.IsMasterClient)
         {
-            // int ·Î ÀÌ·ç¾îÁø ¸®½ºÆ®¸¦ ¸¸µé°í
+            // int ë¡œ ì´ë£¨ì–´ì§„ ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ê³ 
             List<int> imposterIndexList = new List<int>();
 
-            // ÀÓÆ÷½ºÅÍ ¼ö¸¸Å­ÀÇ for ¹®À» µ¹·Á¼­
+            // ì„í¬ìŠ¤í„° ìˆ˜ë§Œí¼ì˜ for ë¬¸ì„ ëŒë ¤ì„œ
             for (int i = 0; i < imposterAmt; i++)
             {
-                // ÇÃ·¹ÀÌ¾î ÃÖ´ë ¼ıÀÚ(ÇöÀç ¹æ¿¡ ÀÖ´Â ÃÖ´ë ÀÎ¿ø)¿Í 0 »çÀÌ¿¡¼­ ·£´ı ¼ıÀÚ »ı¼º
+                // í”Œë ˆì´ì–´ ìµœëŒ€ ìˆ«ì(í˜„ì¬ ë°©ì— ìˆëŠ” ìµœëŒ€ ì¸ì›)ì™€ 0 ì‚¬ì´ì—ì„œ ëœë¤ ìˆ«ì ìƒì„±
                 int randomNum = Random.Range(0, playerList.Count);
                 //int randomNum = 0;
-                print("ÀÓÆ÷½ºÅÍ ÀÎµ¦½º : " + randomNum);
-                // ÀÓÆ÷½ºÅÍ ¸®½ºÆ®¿¡ ·£´ı¼ıÀÚ°¡ ¾ø´Ù¸é
+                // ì„í¬ìŠ¤í„° ë¦¬ìŠ¤íŠ¸ì— ëœë¤ìˆ«ìê°€ ì—†ë‹¤ë©´
                 if (!imposterIndexList.Contains(randomNum))
                 {
-                    // ¸®½ºÆ®¿¡ ·£´ı¼ıÀÚ Ãß°¡                                                        
+                    // ë¦¬ìŠ¤íŠ¸ì— ëœë¤ìˆ«ì ì¶”ê°€                                                        
                     imposterIndexList.Add(randomNum);
                 }
-                // ±×·¸Áö ¾Ê´Ù¸é
+                // ê·¸ë ‡ì§€ ì•Šë‹¤ë©´
                 else
                 {
-                    // ´Ù½Ã ·£´ı¼ıÀÚ ±¸ÇÔ
+                    // ë‹¤ì‹œ ëœë¤ìˆ«ì êµ¬í•¨
                     randomNum = Random.Range(0, playerList.Count);
                 }
             }
@@ -178,24 +179,24 @@ public class JM_GameManager : MonoBehaviourPun
             ChooseImposter(imposterIndexList);
         }
     }
-    // imposter ÀÎµ¦½º¸¦ ´ãÀº ¸®½ºÆ®¸¦ ¹Ş¾Æ imposter ÁöÁ¤
+    // imposter ì¸ë±ìŠ¤ë¥¼ ë‹´ì€ ë¦¬ìŠ¤íŠ¸ë¥¼ ë°›ì•„ imposter ì§€ì •
     void ChooseImposter(List<int> imposterIndexList)
     {
         for (int i = 0; i < playerList.Count; i++)
         {
-            // ÀÓÆ÷½ºÅÍÀÇ ÀÎµ¦½º°¡ ¸Â´Ù¸é
+            // ì„í¬ìŠ¤í„°ì˜ ì¸ë±ìŠ¤ê°€ ë§ë‹¤ë©´
             for (int j = 0; j < imposterIndexList.Count; j++)
             {
                 if (i == imposterIndexList[j])
                 {  
-                    // RPC ÇÔ¼ö·Î ÇØ´ç ÀÎµ¦½º ÇÃ·¹ÀÌ¾î´Â ÀÓÆ÷½ºÅÍ ÇÒ´ç
+                    // RPC í•¨ìˆ˜ë¡œ í•´ë‹¹ ì¸ë±ìŠ¤ í”Œë ˆì´ì–´ëŠ” ì„í¬ìŠ¤í„° í• ë‹¹
                     playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
-                    //print("ÀÓÆ÷½ºÅÍ ÀÎµ¦½º : " + i);
+                    print("ì„í¬ìŠ¤í„° ì¸ë±ìŠ¤ : " + i);
                 }                                                             
                 else
                 {
                     playerList[i].RPC("RPC_SetCrew", RpcTarget.All);
-                    //print("Å©·ç ÀÎµ¦½º : " + i);
+                    //print("í¬ë£¨ ì¸ë±ìŠ¤ : " + i);
                 }
             }
         }

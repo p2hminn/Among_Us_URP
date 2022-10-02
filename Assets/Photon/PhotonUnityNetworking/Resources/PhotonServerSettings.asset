@@ -96,6 +96,7 @@ MonoBehaviour:
   - RPC_GetOutsideVent
   - RPC_SetInvisible
   - RPC_SetVisible
+  - Disappear
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

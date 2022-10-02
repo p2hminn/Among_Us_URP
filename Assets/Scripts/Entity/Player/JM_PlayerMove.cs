@@ -313,7 +313,7 @@ public class JM_PlayerMove : MonoBehaviourPun
             JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
                 imposterR, imposterG, imposterB, imposterG);
         }
-        ToGhost();  // 플레이어 고스트로 변신하는 함수 호출
+        ToGhost();  // 플레이어 고스트로 변신하는 함수 호출 (죽는 사람 포톤뷰 넘기기)
     }
 
 
@@ -385,12 +385,12 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 오브젝트 태그 바꿔주기
         gameObject.tag = "Ghost";
 
-        // 로컬 플레이어 -> 고스트, 리모트 플레이어 -> 비활성화
-        if (!photonView.IsMine)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        // 리모트 플레이어 => 비활성화,  로컬 플레이어 => Ghost
+        //if (!photonView.IsMine)
+        //{
+        //    gameObject.SetActive(false);
+        //    return;
+        //}
 
         #region 상태 업데이트
         //if (isImposter)
@@ -414,15 +414,18 @@ public class JM_PlayerMove : MonoBehaviourPun
         else GetComponent<JM_ImposterStatus>().enabled = false;
         GetComponent<CapsuleCollider2D>().enabled = false;
         GetComponent<JM_Ghost>().enabled = true;
-
         // Animator 변경
         body.GetComponent<Animator>().runtimeAnimatorController = (RuntimeAnimatorController)ghostController;
         // Sprite  변경
         body.GetComponent<SpriteRenderer>().sprite = ghostSprite;
         // 유령 색상 변경
         GetComponent<JM_Ghost>().SetColor(color);
-
         GetComponent<JM_PlayerMove>().enabled = false;
-        print("GetComponent<JM_PlayerMove>().enabled  : " + GetComponent<JM_PlayerMove>().enabled);
+
     }
+    //[PunRPC]
+    //public void Disappear()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 }
