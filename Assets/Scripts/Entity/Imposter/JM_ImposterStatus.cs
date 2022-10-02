@@ -243,7 +243,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("Crew"))
+        if (collision.gameObject.name.Contains("Crew") && collision.gameObject.GetComponent<JM_PlayerMove>().nickName.color != Color.red)
         {
             isAttackOk = true;
             JM_ImposterUI.instance.isAttackOK = true;
