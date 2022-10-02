@@ -57,9 +57,16 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     public GameObject body;
 
+    public SH_RoomUI roomUICode;
+
+    // 임포스터끼리 확인 가능한 임포스터 포톤뷰의 리스트
+    public List<PhotonView> imposterList;
+
 
     void Start()
     {
+        roomUICode = SH_RoomUI.instance;
+
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
         JM_GameManager.instance.AddPlayer(photonView);
 
@@ -86,6 +93,9 @@ public class JM_PlayerMove : MonoBehaviourPun
             // 시작할때 다른 얘들 말고 나만 스폰애니 ㄱ하고 그 애니 다른 얘들한테 공유
             Spawn();
             anim.SetTrigger("Spawn");
+
+            // 미니맵에 현위치
+            //JM_PlayerPosManager.instance.player = gameObject;
         } 
         
         
@@ -125,9 +135,17 @@ public class JM_PlayerMove : MonoBehaviourPun
             {
                 imposterCode.enabled = true;
                 playerCode.enabled = false;
-                nickName.color = Color.red;
                 GetComponent<JM_ImposterStatus>().enabled = true;
-                
+
+                nickName.color = Color.red;
+
+                // 색상을 서로 볼 수 있게
+                for (int i = 0; i < JM_GameManager.instance.imposterIndexList.Count; i++)
+                {
+                    GameObject imposterMate = JM_GameManager.instance.playerList[JM_GameManager.instance.imposterIndexList[i]].gameObject;
+                    imposterMate.GetComponent<JM_PlayerMove>().nickName.color = Color.red;
+                }
+
                 //print("빨간색 지정 완료");
             }
             else
@@ -164,12 +182,12 @@ public class JM_PlayerMove : MonoBehaviourPun
             }
             SetBool(isMoving);
         }
-    }
+    }  
 
     // 스폰
     void Spawn()
     {
-        
+        photonView.RPC("RPC_Spawn", RpcTarget.AllBuffered);
     }
 
     // RPC 스폰
@@ -322,7 +340,12 @@ public class JM_PlayerMove : MonoBehaviourPun
     {                                                                                                                                                                                               
         isImposter = true;
         // 플레이어가 로컬일 때 SH_RoomUI에 임포스터 여부 알려줌
-        if (photonView.IsMine) SH_RoomUI.instance.isLocalImposter = isImposter;
+        //if (photonView.IsMine) 
+            SH_RoomUI.instance.isLocalImposter = isImposter;
+
+        print("I am Imposter");
+        print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
+
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;
@@ -332,7 +355,12 @@ public class JM_PlayerMove : MonoBehaviourPun
     void RPC_SetCrew()
     {
         isImposter = false;
-        if (photonView.IsMine) SH_RoomUI.instance.isLocalImposter = isImposter;
+        //if (photonView.IsMine) 
+        SH_RoomUI.instance.isLocalImposter = isImposter;
+
+        print("I am Crew");
+        print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
+
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
         //JM_GameManager.instance.isGameRoom = true;

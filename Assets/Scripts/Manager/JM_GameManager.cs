@@ -6,23 +6,28 @@ using System.Reflection;
 
 public class JM_GameManager : MonoBehaviourPun
 {
-    // ì‹±ê¸€í†¤
+    // ½Ì±ÛÅæ
     public static JM_GameManager instance;
 
-    // í˜„ì¬ waitRoom ì¸ì§€ gameRoom ì¸ì§€ íŒë‹¨
+    // ÇöÀç waitRoom ÀÎÁö gameRoom ÀÎÁö ÆÇ´Ü
     public bool isGameRoom;
 
-    // í”Œë ˆì´ì–´ë“¤ì„ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+    // ÇÃ·¹ÀÌ¾îµéÀ» ÀúÀåÇÒ ¸®½ºÆ®
     public List<PhotonView> playerList = new List<PhotonView>();
 
-    // ì´ˆê¸° ìŠ¤í°ìœ„ì¹˜ ë¦¬ìŠ¤íŠ¸
+    // ÇÃ·¹ÀÌ¾îµéÀÇ ÀÎµ¦½º¸¦ ÀúÀåÇÒ ¸®½ºÆ®
+    public List<int> playerIndexList = new List<int>();
+
+    // ÃÊ±â ½ºÆùÀ§Ä¡ ¸®½ºÆ®
     public List<Transform> spawnPosList = new List<Transform>();
 
-    // ê²Œì„ì”¬ ìŠ¤í°ìœ„ì¹˜ ê¸°ì¤€
+    // °ÔÀÓ¾À ½ºÆùÀ§Ä¡ ±âÁØ
     public Transform gameStartOrigin;
 
-    // ë¡œì»¬ í”Œë ˆì´ì–´ photonView
+    // ·ÎÄÃ ÇÃ·¹ÀÌ¾î photonView
     public PhotonView localPv;
+
+    int randomNum;
 
 
     private void Awake()
@@ -38,15 +43,15 @@ public class JM_GameManager : MonoBehaviourPun
 
         int randomNum = Random.Range(0, 3);
 
-        // ë°© ì¸ì› ìˆ˜ text ì—…ë°ì´íŠ¸
+        // ¹æ ÀÎ¿ø ¼ö text ¾÷µ¥ÀÌÆ®
         SH_RoomUI.instance.PlayerNumUpdate();
 
         GameObject crew = PhotonNetwork.Instantiate("Crew2_New", spawnPosList[randomNum].position, Quaternion.identity);
-        // ë¡œì»¬ í”Œë ˆì´ì–´ì˜ photonView ì €ì¥
+        // ·ÎÄÃ ÇÃ·¹ÀÌ¾îÀÇ photonView ÀúÀå
         localPv = crew.GetComponent<PhotonView>();
 
     }
-    // ë¦¬í¬íŠ¸ ë²„íŠ¼ ëˆ„ë¥´ë©´ ë¡œì»¬ í”Œë ˆì´ì–´ì˜ ViewID ì €ì¥í•˜ë„ë¡ ë¿Œë¦¬ê¸°
+    // ¸®Æ÷Æ® ¹öÆ° ´©¸£¸é ·ÎÄÃ ÇÃ·¹ÀÌ¾îÀÇ ViewID ÀúÀåÇÏµµ·Ï »Ñ¸®±â
     public void SendReportPlayer()
     {
         localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, localPv.ViewID);
@@ -58,20 +63,19 @@ public class JM_GameManager : MonoBehaviourPun
     //bool isOnce3;
     void Update()
     {
-        // ë°©ì¥ì´ Startë²„íŠ¼ ëˆ„ë¥¸ ê²½ìš° playerList photonViewì˜ gameObject ë¹„í™œì„±í™” (í•œë²ˆë§Œ ì‹¤í–‰í•  ê²ƒ)
+        // ¹æÀåÀÌ Start¹öÆ° ´©¸¥ °æ¿ì playerList photonViewÀÇ gameObject ºñÈ°¼ºÈ­ (ÇÑ¹ø¸¸ ½ÇÇàÇÒ °Í)
         if (SH_RoomUI.instance.isStart && !isOnce)
         {
-            // imposter ìˆ˜ ë§¤ê°œë³€ìˆ˜ë¡œ ë„£ì–´ì„œ imposter ì§€ì • ë¡œì§ ì‹œì‘
+            // imposter ¼ö ¸Å°³º¯¼ö·Î ³Ö¾î¼­ imposter ÁöÁ¤ ·ÎÁ÷ ½ÃÀÛ
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
-
-            for (int i=0; i < playerList.Count; i++)
+            for (int i = 0; i < playerList.Count; i++)
             {
                 playerList[i].gameObject.SetActive(false);
             }
             isOnce = true;
         }
 
-        // ê²Œì„ì”¬ì´ ëœ ê²½ìš° ë‹¤ì‹œ í”Œë ˆì´ì–´ë“¤ í™œì„±í™”ì‹œí‚¤ê¸°
+        // °ÔÀÓ¾ÀÀÌ µÈ °æ¿ì ´Ù½Ã ÇÃ·¹ÀÌ¾îµé È°¼ºÈ­½ÃÅ°±â
         if (SH_RoomUI.instance.isGameScene && !isOnce1)
         {
             for (int i = 0; i < playerList.Count; i++)
@@ -82,7 +86,7 @@ public class JM_GameManager : MonoBehaviourPun
             isOnce1 = true;
         }
 
-        // ê²Œì„ ì‹œì‘ë˜ë©´ í”Œë ˆì´ì–´ í¬í†¤ë·° ì •ë ¬
+        // °ÔÀÓ ½ÃÀÛµÇ¸é ÇÃ·¹ÀÌ¾î Æ÷Åæºä Á¤·Ä
         if (isGameRoom && !isOnce2)
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
@@ -98,14 +102,11 @@ public class JM_GameManager : MonoBehaviourPun
         //{
         //    isOnce3 = true;
         //    GameObject g = GameObject.Find("GameOverUI");
-        //    g.GetComponent<SH_GameOVer>().Crew(true);   // í¬ë£¨ê°€  ì´ê¸´ ê²½ìš° & ë¡œì»¬ í”Œë ˆì´ì–´ê°€ í¬ë£¨ì¸ ê²½ìš°
-        //                  //Crew(false);  // í¬ë£¨ê°€ ì§„ ê²½ìš° & ë¡œì»¬ í”Œë ˆì´ì–´ê°€ í¬ë£¨ì¸ ê²½ìš°
+        //    g.GetComponent<SH_GameOVer>().Crew(true);   // Å©·ç°¡  ÀÌ±ä °æ¿ì & ·ÎÄÃ ÇÃ·¹ÀÌ¾î°¡ Å©·çÀÎ °æ¿ì
+        //                  //Crew(false);  // Å©·ç°¡ Áø °æ¿ì & ·ÎÄÃ ÇÃ·¹ÀÌ¾î°¡ Å©·çÀÎ °æ¿ì
         //}
     }
-
-
-
-    // ê²Œì„ì”¬ í™œì„±í™”
+    // °ÔÀÓ¾À È°¼ºÈ­
     //[PunRPC]
     //public void RPC_EnablePlayers()
     //{
@@ -120,14 +121,14 @@ public class JM_GameManager : MonoBehaviourPun
     {
         for (int i = 0; i < playerList.Count; i++)
         {
-            
+
         }
     }
 
-    // ê²Œì„ì‹œì‘ ìœ„ì¹˜ë“¤
+    // °ÔÀÓ½ÃÀÛ À§Ä¡µé
     public Vector3[] startPos;
 
-    // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì¼ë•Œë§Œ ìœ„ì¹˜ì§€ì • ã„±ã„±
+    // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®ÀÏ¶§¸¸ À§Ä¡ÁöÁ¤ ¤¡¤¡
     public void SetStartPos()
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -144,70 +145,106 @@ public class JM_GameManager : MonoBehaviourPun
         }
     }
 
-    // ì§€ì •í•œ ìœ„ì¹˜ê°’ì„ í•´ë‹¹ ì–˜ë“¤í•œí…Œ ê°ì ì§€ì •
+    // ÁöÁ¤ÇÑ À§Ä¡°ªÀ» ÇØ´ç ¾êµéÇÑÅ× °¢ÀÚ ÁöÁ¤
 
 
 
-    // í”Œë ˆì´ì–´ ìƒì„±ë  ë•Œ í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ì— í”Œë ˆì´ì–´ í¬í†¤ ë·° ì €ì¥ (PlayerMove.csì˜ Start)
+    // ÇÃ·¹ÀÌ¾î »ı¼ºµÉ ¶§ ÇÃ·¹ÀÌ¾î ¸®½ºÆ®¿¡ ÇÃ·¹ÀÌ¾î Æ÷Åæ ºä ÀúÀå (PlayerMove.csÀÇ Start)
     public void AddPlayer(PhotonView pv)
     {
         playerList.Add(pv);
+        playerIndexList.Add(playerIndexList.Count);
     }
 
+    public List<int> imposterIndexList = new List<int>();
 
-    // ì„í¬ìŠ¤í„° idx ì„ ì •
+    // ÀÓÆ÷½ºÅÍ idx ¼±Á¤
     public void SetGameScene(int imposterAmt)
     {
+        print("imposterAmt : " + imposterAmt);
         //isGameRoom = true;
+        /*
         if (PhotonNetwork.IsMasterClient)
         {
-            // int ë¡œ ì´ë£¨ì–´ì§„ ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ê³ 
-            List<int> imposterIndexList = new List<int>();
-
-            // ì„í¬ìŠ¤í„° ìˆ˜ë§Œí¼ì˜ for ë¬¸ì„ ëŒë ¤ì„œ
+            // ÀÓÆ÷½ºÅÍ ¼ö¸¸Å­ÀÇ for ¹®À» µ¹·Á¼­
             for (int i = 0; i < imposterAmt; i++)
             {
-                // í”Œë ˆì´ì–´ ìµœëŒ€ ìˆ«ì(í˜„ì¬ ë°©ì— ìˆëŠ” ìµœëŒ€ ì¸ì›)ì™€ 0 ì‚¬ì´ì—ì„œ ëœë¤ ìˆ«ì ìƒì„±
-                int randomNum = Random.Range(0, playerList.Count);
+                // ÇÃ·¹ÀÌ¾î ÃÖ´ë ¼ıÀÚ(ÇöÀç ¹æ¿¡ ÀÖ´Â ÃÖ´ë ÀÎ¿ø)¿Í 0 »çÀÌ¿¡¼­ ·£´ı ¼ıÀÚ »ı¼º
+                int randomNum = Random.Range(0, playerIndexList.Count);
                 //int randomNum = 0;
-                // ì„í¬ìŠ¤í„° ë¦¬ìŠ¤íŠ¸ì— ëœë¤ìˆ«ìê°€ ì—†ë‹¤ë©´
-                if (!imposterIndexList.Contains(randomNum))
-                {
-                    // ë¦¬ìŠ¤íŠ¸ì— ëœë¤ìˆ«ì ì¶”ê°€                                                        
-                    imposterIndexList.Add(randomNum);
-                }
-                // ê·¸ë ‡ì§€ ì•Šë‹¤ë©´
-                else
-                {
-                    // ë‹¤ì‹œ ëœë¤ìˆ«ì êµ¬í•¨
-                    randomNum = Random.Range(0, playerList.Count);
-                }
+
+                // ·£´ı¼ıÀÚ¸¦ ÀÓÆ÷½ºÅÍ ÀÎµ¦½º ¸®½ºÆ®¿¡ ÀúÀå
+                imposterIndexList.Add(playerIndexList[randomNum]);
+                // ·£´ı¼ıÀÚ¸¦ ÇÃ·¹ÀÌ¾î ÀÎµ¦½º ¸®½ºÆ®¿¡¼­ »èÁ¦
+                playerIndexList.RemoveAt(randomNum);
             }
-            //print("ChooseImposter");
             ChooseImposter(imposterIndexList);
+            ChooseCrew();
         }
+        */
+
+        for (int i = 0; i < imposterAmt; i++)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                int randomNum = Random.Range(0, playerIndexList.Count);
+                print("master : " + randomNum);
+                photonView.RPC("RPC_ShareRandomNum", RpcTarget.All, playerIndexList[randomNum]);
+                playerIndexList.RemoveAt(randomNum);
+            }
+
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ChooseImposter(imposterIndexList);
+            ChooseCrew();
+        }  
     }
-    // imposter ì¸ë±ìŠ¤ë¥¼ ë‹´ì€ ë¦¬ìŠ¤íŠ¸ë¥¼ ë°›ì•„ imposter ì§€ì •
+
+    [PunRPC]
+    void RPC_ShareRandomNum(int i)
+    {
+        print("others : " + randomNum);
+        imposterIndexList.Add(i);
+    }
+
+    // imposter ÀÎµ¦½º¸¦ ´ãÀº ¸®½ºÆ®¸¦ ¹Ş¾Æ imposter ÁöÁ¤
     void ChooseImposter(List<int> imposterIndexList)
     {
+        /*
+        for (int i = 0; i < imposterIndexList.Count; i++)
+        {
+            if (playerList)
+            playerList[imposterIndexList[i]].RPC("RPC_SetImposter", playerList[i].Owner);
+        }
+        */
+
+        
         for (int i = 0; i < playerList.Count; i++)
         {
-            // ì„í¬ìŠ¤í„°ì˜ ì¸ë±ìŠ¤ê°€ ë§ë‹¤ë©´
+            // ÀÓÆ÷½ºÅÍÀÇ ÀÎµ¦½º°¡ ¸Â´Ù¸é
             for (int j = 0; j < imposterIndexList.Count; j++)
             {
                 if (i == imposterIndexList[j])
-                {  
-                    // RPC í•¨ìˆ˜ë¡œ í•´ë‹¹ ì¸ë±ìŠ¤ í”Œë ˆì´ì–´ëŠ” ì„í¬ìŠ¤í„° í• ë‹¹
-                    playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
-                    print("ì„í¬ìŠ¤í„° ì¸ë±ìŠ¤ : " + i);
-                }                                                             
-                else
                 {
-                    playerList[i].RPC("RPC_SetCrew", RpcTarget.All);
-                    //print("í¬ë£¨ ì¸ë±ìŠ¤ : " + i);
+                    // RPC ÇÔ¼ö·Î ÇØ´ç ÀÎµ¦½º ÇÃ·¹ÀÌ¾î´Â ÀÓÆ÷½ºÅÍ ÇÒ´ç
+                    playerList[i].RPC("RPC_SetImposter", RpcTarget.All);
+
+
+                    print("ÀÓÆ÷½ºÅÍ ÀÎµ¦½º : " + i);
                 }
             }
         }
+        
+
     }
-    
+
+    void ChooseCrew()
+    {
+        for (int i = 0; i < playerIndexList.Count; i++)
+        {
+            playerList[playerIndexList[i]].RPC("RPC_SetCrew", playerList[playerIndexList[i]].Owner);
+        }
+    }
+
 }
