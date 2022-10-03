@@ -52,7 +52,7 @@ public class SH_GameOverUI : MonoBehaviourPun
         //}
 
     }
-
+    public GameObject gameOverUI;
     // 크루원 UI
     public void Crew(bool crewWin)
     {
@@ -99,8 +99,10 @@ public class SH_GameOverUI : MonoBehaviourPun
             }
         }
         #endregion
-
-        StartCoroutine("GameOverFadeIn");
+        print("GameOverUI 사전세팅 완료");
+        gameOverUI.SetActive(true);
+        //cg.alpha = 1;
+        //StartCoroutine("GameOverFadeIn");
     }
 
     // 임포스터 UI
@@ -148,7 +150,11 @@ public class SH_GameOverUI : MonoBehaviourPun
             }
         }
         #endregion
-        StartCoroutine("GameOverFadeIn");
+
+        print("GameOverUI 사전세팅 완료");
+        gameOverUI.SetActive(true);
+        //cg.alpha = 1;
+        //StartCoroutine("GameOverFadeIn");
     }
 
     public float fadeSpeed = 1;
