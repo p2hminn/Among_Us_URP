@@ -271,6 +271,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public void OnReportButton()
     {
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
+        if (photonView.IsMine)
+        {
+            // 신고된 시체 Destroy
+            PhotonNetwork.Destroy(reportedDeadBody);
+        }
         
     }
     // RPC로 시체 색깔 + 시체 이름 넘기기
@@ -279,12 +284,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
     }
     [PunRPC]
-    public void RPC_Report(float deadR, float deadG, float deadB, float deadA, string deadBodyName)
+    public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
     {
         Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
 
-        // 신고된 시체 Destroy
-        Destroy(reportedDeadBody);
+        
 
         StartReportUI(diedCrewColor);
     }

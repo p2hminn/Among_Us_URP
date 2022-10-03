@@ -37,6 +37,16 @@ public class JM_PlayerStatus : MonoBehaviourPun
     // 시체와 충돌 시 리포트 
     [SerializeField]
     Color deadColor;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
+        {
+            SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
+            PhotonView pv = collision.gameObject.GetPhotonView();
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
@@ -46,7 +56,6 @@ public class JM_PlayerStatus : MonoBehaviourPun
             {
                 JM_CrewUI.instance.isReportAble = true;
                 SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
-                SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
                 print("시체 신고완료");
             }
         }
