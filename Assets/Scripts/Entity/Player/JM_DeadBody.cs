@@ -14,6 +14,7 @@ public class JM_DeadBody : MonoBehaviourPun
 
     void Start()
     {
+
         mat = GetComponent<SpriteRenderer>().material;
         mat.SetColor("_PlayerColor", color);
 
