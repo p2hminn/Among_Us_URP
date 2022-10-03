@@ -112,6 +112,7 @@ public class JM_CrewUI : MonoBehaviour
     public void OnClickMap()
     {
         map.SetActive(true);
+        JM_CrewMapManager.instance.SetPlayerPos();
     }
 
 

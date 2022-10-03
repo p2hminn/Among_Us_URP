@@ -147,6 +147,10 @@ public class JM_PlayerMove : MonoBehaviourPun
                 playerCode.enabled = false;
                 GetComponent<JM_ImposterStatus>().enabled = true;
 
+                // 미니맵에 정보 공유
+                JM_ImposterMapManager.instance.player = gameObject;
+                JM_ImposterMapManager.instance.playerImgColor = color;
+
                 nickName.color = Color.red;
 
                 // 색상을 서로 볼 수 있게
@@ -165,6 +169,7 @@ public class JM_PlayerMove : MonoBehaviourPun
                 GetComponent<JM_PlayerStatus>().enabled = true;
                 // 미니맵에 정보 공유
                 JM_CrewMapManager.instance.player = gameObject;
+                JM_CrewMapManager.instance.playerImgColor = color;
             }
             isOnce = false;
             light.SetActive(true);
@@ -200,7 +205,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 스폰
     void Spawn()
     {
-        photonView.RPC("RPC_Spawn", RpcTarget.AllBuffered);
+        photonView.RPC("RPC_Spawn", RpcTarget.Others);
     }
 
     // RPC 스폰
