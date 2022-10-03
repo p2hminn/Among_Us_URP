@@ -75,6 +75,9 @@ public class JM_PlayerMove : MonoBehaviourPun
         // 게임매니저에 플레이어 들어왔다는 사실 던져줌
         JM_GameManager.instance.AddPlayer(photonView);
 
+        // 게임 오브젝트 이름 재설정
+        gameObject.name = "Crew_" + photonView.Owner.NickName;
+
         // 닉네임 가져와서 닉네임 지정
         nickName.text = photonView.Owner.NickName;
         
@@ -85,7 +88,7 @@ public class JM_PlayerMove : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             //print(JM_ColorManager.instance.colorList.Count);
-            int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count);
+            int randomNum = Random.Range(0, JM_ColorManager.instance.colorList.Count); // 크루의 color index (방장에게만 표시)
             photonView.RPC("RPC_SetCrewColor", RpcTarget.AllBuffered, randomNum);
         }
         
@@ -308,6 +311,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     void RPC_SaveColor(float r, float g, float b, float a)
     {
         color = new Color(r, g, b, a);
+        if (photonView.IsMine) JM_ColorManager.instance.localColor = color;
     }
 
     // 죽음
@@ -323,6 +327,9 @@ public class JM_PlayerMove : MonoBehaviourPun
     void RPC_Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
+        // 오브젝트 태그 바꿔주기
+        gameObject.tag = "Ghost";
+
         if (photonView.IsMine)
         {
             deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);  // 모든 화면에서 생성
@@ -336,8 +343,15 @@ public class JM_PlayerMove : MonoBehaviourPun
             // crewUI 에서 죽는 UI 재생
             JM_CrewUI.instance.Die(crewR, crewG, crewB, crewA, 
                 imposterR, imposterG, imposterB, imposterG);
+
+            ToGhost();  // 플레이어 고스트로 변신하는 함수 호출 (죽는 사람 포톤뷰 넘기기)
         }
-        ToGhost();  // 플레이어 고스트로 변신하는 함수 호출 (죽는 사람 포톤뷰 넘기기)
+        else
+        {
+            // 리모트 플레이어는 비활성화
+            gameObject.SetActive(false);
+        }
+        
     }
 
 
@@ -416,8 +430,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     public RuntimeAnimatorController ghostController;
     public void ToGhost()
     {
-        // 오브젝트 태그 바꿔주기
-        gameObject.tag = "Ghost";
+        
 
         // 리모트 플레이어 => 비활성화,  로컬 플레이어 => Ghost
         //if (!photonView.IsMine)

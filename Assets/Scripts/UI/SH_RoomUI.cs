@@ -139,6 +139,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         txt_PlayerNum.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
     }
 
+    public float startSeconds = 5;
+    public Text txtStartCount;
 
     // 방장이 Start버튼 누른 경우
     public void OnClickStart()
@@ -150,16 +152,32 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     [PunRPC]
     void GameIntroStart()
     {
-        JM_GameManager.instance.SetStartPos();
+        // 게임 시작 카운트
+        txtStartCount.gameObject.SetActive(true);
+        StartCoroutine("StartCount");
+    }
+    IEnumerator StartCount()
+    {
+        float currTime = 0;
 
-        isStart = true;
-        // UI 보이게할 카메라 활성화
-        cam.gameObject.SetActive(true);
+        while (currTime < startSeconds)
+        {
+            currTime += Time.deltaTime;
+            txtStartCount.text = $"{(int)startSeconds - (int)currTime}초 후 시작";
+            yield return null;
+        }
+        txtStartCount.text = "";
+
+        JM_GameManager.instance.SetStartPos();
         // 해당 리스트 내의 모든 오브젝트들 비활성화시키기
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
+        // UI 보이게할 카메라 활성화
+        cam.gameObject.SetActive(true);
+        // 게임 인트로 시작
+        isStart = true;
     }
 
 
@@ -252,8 +270,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public void OnReportButton()
     {
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
-        // 신고된 시체 Destroy
-        Destroy(reportedDeadBody);
+        
     }
     // RPC로 시체 색깔 넘기기
     public void Report(float deadR, float deadG, float deadB, float deadA)
@@ -264,6 +281,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
     {
         Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
+
+        // 신고된 시체 Destroy
+        Destroy(reportedDeadBody);
+
         StartReportUI(diedCrewColor);
     }
     // 시체 색 변환 후 리포트 UI 활성화 + 투표 시작

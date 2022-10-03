@@ -103,6 +103,7 @@ MonoBehaviour:
   - RPC_ShareNickNameColor
   - RPC_SetMissionNotDone
   - RPC_DisableTrigger
+  - RPC_SaveID
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

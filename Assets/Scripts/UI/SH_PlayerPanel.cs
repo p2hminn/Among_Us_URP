@@ -18,14 +18,14 @@ public class SH_PlayerPanel : MonoBehaviour
     public PhotonView photonView;
 
     // 패널 상세 정보 세팅 
-    public void SetInfo(PhotonView pv, int reportViewID)
+    public void SetInfo(PhotonView pv, int reportViewID, int emergencyViewID)
     {
         // 로컬 플레이어의 포톤뷰 ID
         playerViewId = pv.ViewID;
         // 로컬 플레이어의 포톤뷰
         photonView = pv;
 
-        // 죽은 크루의 경우
+        // 죽은 크루 패널 거멓게 표시
         if (pv.gameObject.CompareTag("Ghost"))
         {
             // 버튼 비활성화
@@ -46,14 +46,19 @@ public class SH_PlayerPanel : MonoBehaviour
         // 플레이어 닉네임
         NickNametxt.GetComponent<Text>().text = pv.Owner.NickName;
 
-        // 신고한 사람 
+        // 시체 신고한 사람 표시
         if (reportViewID == pv.ViewID) //&& pv.IsMine)
         {
             transform.GetChild(9).gameObject.SetActive(true);  // Img_Report
-            //pv.RPC("RPC_SetPanel", RpcTarget.All);
+            //SH_VoteManager.instance.reportedPanel = gameObject.transform;  // 다시 꺼주기 위해 저장
         }
         //print("reportViewID : " + reportViewID +"  /  pv.ViewID : " + pv.ViewID);
 
+        // 긴급회의 소집한 사람 표시
+        if (emergencyViewID == pv.ViewID)
+        {
+            transform.GetChild(9).gameObject.SetActive(true);
+        }
     }
 
 
