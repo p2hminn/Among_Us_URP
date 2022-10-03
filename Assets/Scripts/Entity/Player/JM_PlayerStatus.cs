@@ -42,8 +42,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
     {
         if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
         {
-            SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
-            PhotonView pv = collision.gameObject.GetPhotonView();
+            SH_RoomUI.instance.reportedDeadBody = collision.gameObject.GetPhotonView();
         }
     }
 

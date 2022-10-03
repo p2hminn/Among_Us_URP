@@ -44,6 +44,9 @@ public class JM_GameManager : MonoBehaviourPun
     // 크루 수
     public int crewNum;
 
+    // 죽은 시체의 포톤뷰가 들어갈 리스트
+    public List<PhotonView> deadBodylist = new List<PhotonView>();
+
     private void Awake()
     {
         instance = this;
@@ -309,4 +312,7 @@ public class JM_GameManager : MonoBehaviourPun
     {
         imposterNum = impNum;
     }
+
+
+
 }
