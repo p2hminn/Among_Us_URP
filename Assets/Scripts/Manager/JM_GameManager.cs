@@ -69,13 +69,6 @@ public class JM_GameManager : MonoBehaviourPun
         GameObject crew = PhotonNetwork.Instantiate("Crew2_New", spawnPosList[randomNum].position, Quaternion.identity);
         // 로컬 플레이어의 photonView 저장
         localPv = crew.GetComponent<PhotonView>();
-
-        // 방장이 관리 : 현재 방의 임포스터, 크루 수 저장
-        if (PhotonNetwork.IsMasterClient)
-        {
-            imposterNum = (int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"];
-            crewNum = PhotonNetwork.CurrentRoom.PlayerCount - imposterNum;
-        }
     }
     // 리포트 버튼 누르면 로컬 플레이어의 ViewID 저장하도록 뿌리기
     public void SendReportPlayer()
@@ -97,6 +90,13 @@ public class JM_GameManager : MonoBehaviourPun
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
         if (SH_RoomUI.instance.isStart && !isOnce)
         {
+            // 방장이 관리 : 현재 방의 임포스터, 크루 수 저장
+            if (PhotonNetwork.IsMasterClient)
+            {
+                imposterNum = (int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"];
+                crewNum = PhotonNetwork.CurrentRoom.PlayerCount - imposterNum;
+            }
+
             // imposter 수 매개변수로 넣어서 imposter 지정 로직 시작
             SetGameScene((int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"]);
             for (int i = 0; i < playerList.Count; i++)
@@ -203,7 +203,7 @@ public class JM_GameManager : MonoBehaviourPun
     // 임포스터 idx 선정
     public void SetGameScene(int imposterAmt)
     {
-        print("imposterAmt : " + imposterAmt);
+        print("임포스터 수 : " + imposterAmt);
         //isGameRoom = true;
         /*
         if (PhotonNetwork.IsMasterClient)
@@ -230,7 +230,7 @@ public class JM_GameManager : MonoBehaviourPun
             if (PhotonNetwork.IsMasterClient)
             {
                 int randomNum = Random.Range(0, playerIndexList.Count);
-                print("master : " + randomNum);
+                //print("master : " + randomNum);
                 photonView.RPC("RPC_ShareRandomNum", RpcTarget.All, playerIndexList[randomNum]);
                 playerIndexList.RemoveAt(randomNum);
             }
@@ -246,7 +246,7 @@ public class JM_GameManager : MonoBehaviourPun
     [PunRPC]
     void RPC_ShareRandomNum(int i)
     {
-        print("others : " + randomNum);
+        //print("others : " + randomNum);
         imposterIndexList.Add(i);
     }
 
@@ -298,24 +298,50 @@ public class JM_GameManager : MonoBehaviourPun
         // 로컬 = 임포스터
         if (isLocalImposter)
         {
-            //gameOverUI.SetActive(true);
             SH_GameOverUI.instance.Impostor(isCrewWin);
         }
         // 로컬 = 크루
         else
         {
-            //gameOverUI.SetActive(true);
             SH_GameOverUI.instance.Crew(isCrewWin);
         }
     }
 
-    // 현재 임포스터 수 업데이트
     [PunRPC]
-    public void SendImpostorNum(int impNum)
+    void RPC_CrewDead()
     {
-        imposterNum = impNum;
+        // 방장이 크루 수 업데이트
+        crewNum--;
+        // 모두에게 뿌리기
+        photonView.RPC("RPC_CrewUpdate", RpcTarget.All, crewNum);
+        // 크루 모두 죽었니?
+        if (crewNum == 0)
+        {
+            photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
+        }
     }
-
+    [PunRPC]
+    void RPC_ImpoDead()
+    {
+        // 임포스터 수 업데이트
+        imposterNum--;
+        // 모두에게 뿌리기
+        photonView.RPC("RPC_CrewUpdate", RpcTarget.All, imposterNum);
+        if (imposterNum == 0)
+        {
+            photonView.RPC("FindYourEnd", RpcTarget.All, true);
+        }
+    }
+    [PunRPC]
+    void RPC_CrewUpdate(int n)
+    {
+        crewNum = n;
+    }
+    [PunRPC]
+    void RPC_ImpoUpdate(int n)
+    {
+        imposterNum = n;
+    }
     // 건물 내부 콜라이더 다 꺼주기
     public void DisableInterior()
     {

@@ -182,18 +182,9 @@ public class SH_VoteManager : MonoBehaviourPun
             // 임포스터인 경우
             if (pm.isImposter)
             {
-                // 방장 : 현재 임포스터 수 모두에게 업데이트 시켜주기
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    JM_GameManager.instance.imposterNum--;
-                    //  임포스터 모두 발견된 경우 : 크루 Win, 임포스터 Loose
-                    if (JM_GameManager.instance.imposterNum == 0)
-                    {
-                        JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, true);
-                        return;
-                    }
-                    JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);
-                }
+                // 방장에게 임포스터 뽑힘 알리기
+                JM_GameManager.instance.photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
+
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
@@ -208,23 +199,12 @@ public class SH_VoteManager : MonoBehaviourPun
                     //print("죽었니? : " + pm.gameObject.activeSelf);
                     //print("현재 실행 함수 : " + MethodBase.GetCurrentMethod().Name);
                 }
-
             }
             // 크루였던 경우
             else
             {
-                // 방장이 관리
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    JM_GameManager.instance. crewNum--;
-                    //  크루 모두 죽은 경우 : 크루 Loose, 임포스터 Win
-                    if (JM_GameManager.instance.crewNum == 0)
-                    {
-                        JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, false);
-                        return;
-                    }
-                    JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);
-                }
+                // 방장에게 임포스터 뽑힘 알리기
+                JM_GameManager.instance.photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
@@ -330,4 +310,6 @@ public class SH_VoteManager : MonoBehaviourPun
         //btnSKipVote = GameObject.Find("Btn_SkipVote").GetComponent<Button>();
         //btnSKipVote.gameObject.SetActive(false);
     }
+
+    
 }

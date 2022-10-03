@@ -12,7 +12,8 @@ public class SH_ChatManager : MonoBehaviourPun
     // ChatItem 공장
     public GameObject chatItemFactory;
     // ScrollView의 Content
-    public Transform trContent;
+    public RectTransform trContent;
+    public Transform trContent2;
     // 아이디색
     Color idColor;
 
@@ -48,12 +49,37 @@ public class SH_ChatManager : MonoBehaviourPun
         // InputChat에 Focusing
         inputChat.ActivateInputField();
     }
+    // 이전 Content의 H
+    float prevContentH;
+    // ScrollView의 RectTransform 
+    public RectTransform trScrollView;
+
     [PunRPC]
     void RpcAddChat(string chatText)  // 받은 Text로 보내줘야 한다.
     {
+        prevContentH = trContent.sizeDelta.y;
+
         // content 자식으로 ChatItem 만들기
-        GameObject item = Instantiate(chatItemFactory, trContent);
+        GameObject item = Instantiate(chatItemFactory, trContent2);
         SH_ChatItem chat = item.GetComponent<SH_ChatItem>();
         chat.SetText(chatText);
+
+        //StartCoroutine(AutoScrollBottom();
+    }
+
+    IEnumerator AutoScrollBottom()
+    {
+        yield return null;
+
+        // trScrollView H 보다 Content H값이 커지면 (스크롤 가능상태)
+        if (trContent.sizeDelta.y > trScrollView.sizeDelta.y)
+        {
+            // content가 바닥에 닿아있었다면
+            if (trContent.anchoredPosition.y >= prevContentH - trScrollView.sizeDelta.y)
+            {
+                // Content의 y값 다시 설정
+                trContent.anchoredPosition = new Vector2(0, trContent.sizeDelta.y - trScrollView.sizeDelta.y);
+            }
+        }
     }
 }
