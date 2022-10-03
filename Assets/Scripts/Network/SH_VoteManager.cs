@@ -182,13 +182,24 @@ public class SH_VoteManager : MonoBehaviourPun
             // 임포스터인 경우
             if (pm.isImposter)
             {
-                saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
+                // 방장 : 현재 임포스터 수 모두에게 업데이트 시켜주기
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    JM_GameManager.instance.imposterNum--;
+                    //  임포스터 모두 발견된 경우 : 크루 Win, 임포스터 Loose
+                    if (JM_GameManager.instance.imposterNum == 0)
+                    {
+                        JM_GameManager.instance.FindYourEnd(true);
+                        return;
+                    }
+                    JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);
+                }
+                saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
                     pm.GetComponent<JM_PlayerMove>().ToGhost();
                 }
-
                 else
                 {
                     p = pm.photonView;
@@ -199,10 +210,22 @@ public class SH_VoteManager : MonoBehaviourPun
                 }
 
             }
-            // 임포스터 아닌 경우
+            // 크루였던 경우
             else
             {
-                saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
+                // 방장이 관리
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    JM_GameManager.instance. crewNum--;
+                    //  크루 모두 죽은 경우 : 크루 Loose, 임포스터 Win
+                    if (JM_GameManager.instance.crewNum == 0)
+                    {
+                        JM_GameManager.instance.FindYourEnd(false);
+                        return;
+                    }
+                    JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);
+                }
+                saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -214,8 +237,6 @@ public class SH_VoteManager : MonoBehaviourPun
                 }
             }
         }
-
-
         // 투표 결과 발표
         voteTitle.text = "투표 결과";
         StartCoroutine("ShowVoteResult");
