@@ -302,4 +302,11 @@ public class JM_GameManager : MonoBehaviourPun
             SH_GameOverUI.instance.Crew(isCrewWin);
         }
     }
+
+    // 현재 임포스터 수 업데이트
+    [PunRPC]
+    public void SendImpostorNum(int impNum)
+    {
+        imposterNum = impNum;
+    }
 }
