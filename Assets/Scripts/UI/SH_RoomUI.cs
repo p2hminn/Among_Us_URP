@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Reflection;
-using UnityEngine.Rendering.Universal;
 
 public class SH_RoomUI : MonoBehaviourPunCallbacks
 {
@@ -16,22 +15,21 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         instance = this;
     }
 
-    public GameObject light;
 
-    // Start ¹öÆ°
+    // Start ë²„íŠ¼
     public Button btn_Start;
-    // ¹æ ÀÌ¸§ Text
+    // ë°© ì´ë¦„ Text
     public Text txt_RoomName;
-    // ÇöÀç Á¢¼Ó ÀÎ¿ø / ÃÖ´ë Á¢¼Ó °¡´É ÀÎ¿ø Text
+    // í˜„ì¬ ì ‘ì† ì¸ì› / ìµœëŒ€ ì ‘ì† ê°€ëŠ¥ ì¸ì› Text
     public Text txt_PlayerNum;
-    // ¹æÀå °ÔÀÓ Start ¹öÆ° ´©¸§ ¿©ºÎ
+    // ë°©ì¥ ê²Œì„ Start ë²„íŠ¼ ëˆ„ë¦„ ì—¬ë¶€
     public bool isStart = false;
 
 
-    // °ÔÀÓ Start ¹öÆ° ´©¸¦ ½Ã ºñÈ°¼ºÈ­ÇØ¾ß ÇÏ´Â ¿ÀºêÁ§Æ®µé
-    [Header("GameStart ½Ã ºñÈ°¼ºÈ­ÇØ¾ß ÇÏ´Â ¿ÀºêÁ§Æ®")]
+    // ê²Œì„ Start ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ ë¹„í™œì„±í™”í•´ì•¼ í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ë“¤
+    [Header("GameStart ì‹œ ë¹„í™œì„±í™”í•´ì•¼ í•˜ëŠ” ì˜¤ë¸Œì íŠ¸")]
     public List<GameObject> toOff = new List<GameObject>();
-    // GameIntro UI Ä«¸Ş¶ó 
+    // GameIntro UI ì¹´ë©”ë¼ 
     public Camera cam;
     // GameIntro UI
     public GameObject shhh;
@@ -42,10 +40,10 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public bool isGameScene;
     public GameObject gameMap;
 
-    // ·ÎÄÃ ÇÃ·¹ÀÌ¾î°¡ ÀÓÆ÷½ºÅÍÀÎÁö ¾Æ´ÑÁö ¿©ºÎ
+    // ë¡œì»¬ í”Œë ˆì´ì–´ê°€ ì„í¬ìŠ¤í„°ì¸ì§€ ì•„ë‹Œì§€ ì—¬ë¶€
     public bool isLocalImposter;
 
-    // ·ÎÄÃ ÀÓÆ÷½ºÅÍUI ÄÚµå ¹× Å©·çUI ÄÚµå
+    // ë¡œì»¬ ì„í¬ìŠ¤í„°UI ì½”ë“œ ë° í¬ë£¨UI ì½”ë“œ
     JM_ImposterUI imposterUICode;
     JM_CrewUI crewUICode;
 
@@ -58,7 +56,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public Button btnCrewUse;
     public Transform trPanels;
 
-    // ½ÃÃ¼ »ö±ò
+    // ì‹œì²´ ìƒ‰ê¹”
     public Color dieColor;
 
     public bool isEmergency;
@@ -66,37 +64,32 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // ¹æÀÌ¸§ UI text
+        // ë°©ì´ë¦„ UI text
         txt_RoomName.text = PhotonNetwork.CurrentRoom.Name;
 
-        // ¹æÀåÀÏ °æ¿ì¿¡¸¸ Start ¹öÆ° È°¼ºÈ­
+        // ë°©ì¥ì¼ ê²½ìš°ì—ë§Œ Start ë²„íŠ¼ í™œì„±í™”
         if (PhotonNetwork.IsMasterClient)
         {
             btn_Start.gameObject.SetActive(true);
         }
 
-        // Å©·çUI ÀÓÆ÷½ºÅÍUI ½ÃÀÛÇÒ¶§´Â µÑ´Ù ²¨Á®ÀÖ´Â »óÅÂ ÃßÈÄ¿¡ °ÔÀÓÀ¸·Î ³Ñ¾î°¥¶§ »óÅÂ ÆÇ´ÜÇØ¼­ Å²´Ù
+        // í¬ë£¨UI ì„í¬ìŠ¤í„°UI ì‹œì‘í• ë•ŒëŠ” ë‘˜ë‹¤ êº¼ì ¸ìˆëŠ” ìƒíƒœ ì¶”í›„ì— ê²Œì„ìœ¼ë¡œ ë„˜ì–´ê°ˆë•Œ ìƒíƒœ íŒë‹¨í•´ì„œ í‚¨ë‹¤
         imposterUICode = GetComponent<JM_ImposterUI>();
         crewUICode = GetComponent<JM_CrewUI>();
         imposterUICode.enabled = false;
         crewUICode.enabled = false;
-
-        // ´ë±â½Ç¿¡ ÀÖÀ»¶§´Â ¾îµÎ¿î°Å ¾øÀ½
-        light.GetComponent<Light2D>().intensity = 1;
     }
 
     bool isOnce;
     void Update()
     {
-        if (isLocalImposter) print("RoomUI recognizes I am imposter");
-
-        // ÇöÀç Âü°¡ ÀÎ¿øÀÌ 4¸íÀÌ°í ¹æÀåÀÎ °æ¿ì¿¡  Start ¹öÆ°  interactable È°¼ºÈ­
+        // í˜„ì¬ ì°¸ê°€ ì¸ì›ì´ 4ëª…ì´ê³  ë°©ì¥ì¸ ê²½ìš°ì—  Start ë²„íŠ¼  interactable í™œì„±í™”
         if (PhotonNetwork.CurrentRoom.PlayerCount ==  1 && PhotonNetwork.IsMasterClient)
         {
             btn_Start.interactable = true;
         }
 
-        // °ÔÀÓ ÀÎÆ®·Î
+        // ê²Œì„ ì¸íŠ¸ë¡œ
         if (isStart)
         {
             JM_GameIntro();
@@ -113,11 +106,11 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
 
         //if (SH_VoteManager.instance.p)
         //{
-        //    print("Á×¾ú´Ï? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
-        //    print("ÇöÀç ½ÇÇà ÇÔ¼ö2_RoomUI : " + MethodBase.GetCurrentMethod().Name);
+        //    print("ì£½ì—ˆë‹ˆ? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
+        //    print("í˜„ì¬ ì‹¤í–‰ í•¨ìˆ˜2_RoomUI : " + MethodBase.GetCurrentMethod().Name);
         //}
 
-        // Vote UI È°¼ºÈ­ ÁßÀÎÁö Ã¼Å©
+        // Vote UI í™œì„±í™” ì¤‘ì¸ì§€ ì²´í¬
         if (voteUI.activeSelf)
         {
             isChat = true;
@@ -129,30 +122,28 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     }
 
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¹æ¿¡ µé¾î¿Ã ¶§ & ³ª°¥ ¶§ ¹æ ÀÎ¿ø ¼ö ¾÷µ¥ÀÌÆ®
+    // í”Œë ˆì´ì–´ê°€ ë°©ì— ë“¤ì–´ì˜¬ ë•Œ & ë‚˜ê°ˆ ë•Œ ë°© ì¸ì› ìˆ˜ ì—…ë°ì´íŠ¸
     public override void OnPlayerEnteredRoom(Player newPlayer) => PlayerNumUpdate();
     public override void OnPlayerLeftRoom(Player otherPlayer) => PlayerNumUpdate();
-    // ÇöÀç ¹æÀÇ ÀÎ¿ø ¼ö Text ¾÷µ¥ÀÌÆ®
+    // í˜„ì¬ ë°©ì˜ ì¸ì› ìˆ˜ Text ì—…ë°ì´íŠ¸
     public void PlayerNumUpdate()
     {
-        // Âü°¡ ÀÎ¿ø / Âü°¡ ÃÖ´ë ÀÎ¿ø UI text ¾÷µ¥ÀÌÆ®
+        // ì°¸ê°€ ì¸ì› / ì°¸ê°€ ìµœëŒ€ ì¸ì› UI text ì—…ë°ì´íŠ¸
         txt_PlayerNum.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
     }
 
     public float startSeconds = 5;
     public Text txtStartCount;
-
-    // ¹æÀåÀÌ Start¹öÆ° ´©¸¥ °æ¿ì
+    // ë°©ì¥ì´ Startë²„íŠ¼ ëˆ„ë¥¸ ê²½ìš°
     public void OnClickStart()
     {
-        // Start¹öÆ° ´­·È´Ù°í RPC ³¯·ÁÁÖ±â
+        // Startë²„íŠ¼ ëˆŒë ¸ë‹¤ê³  RPC ë‚ ë ¤ì£¼ê¸°
         photonView.RPC("GameIntroStart", RpcTarget.All);
     }
-
     [PunRPC]
     void GameIntroStart()
     {
-        // °ÔÀÓ ½ÃÀÛ Ä«¿îÆ®
+        // ê²Œì„ ì‹œì‘ ì¹´ìš´íŠ¸
         txtStartCount.gameObject.SetActive(true);
         StartCoroutine("StartCount");
     }
@@ -163,27 +154,27 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         while (currTime < startSeconds)
         {
             currTime += Time.deltaTime;
-            txtStartCount.text = $"{(int)startSeconds - (int)currTime}ÃÊ ÈÄ ½ÃÀÛ";
+            txtStartCount.text = $"{(int)startSeconds - (int)currTime}ì´ˆ í›„ ì‹œì‘";
             yield return null;
         }
         txtStartCount.text = "";
 
         JM_GameManager.instance.SetStartPos();
-        // ÇØ´ç ¸®½ºÆ® ³»ÀÇ ¸ğµç ¿ÀºêÁ§Æ®µé ºñÈ°¼ºÈ­½ÃÅ°±â
+        // í•´ë‹¹ ë¦¬ìŠ¤íŠ¸ ë‚´ì˜ ëª¨ë“  ì˜¤ë¸Œì íŠ¸ë“¤ ë¹„í™œì„±í™”ì‹œí‚¤ê¸°
         for (int i = 0; i < toOff.Count; i++)
         {
             toOff[i].SetActive(false);
         }
-        // UI º¸ÀÌ°ÔÇÒ Ä«¸Ş¶ó È°¼ºÈ­
+        // UI ë³´ì´ê²Œí•  ì¹´ë©”ë¼ í™œì„±í™”
         cam.gameObject.SetActive(true);
-        // °ÔÀÓ ÀÎÆ®·Î ½ÃÀÛ
+        // ê²Œì„ ì¸íŠ¸ë¡œ ì‹œì‘
         isStart = true;
     }
 
 
-    // °ÔÀÓ ÀÎÆ®·Î 
+    // ê²Œì„ ì¸íŠ¸ë¡œ 
     float currentTime = 0;
-    // ½² UI
+    // ì‰¿ UI
     void JM_GameIntro()
     {
         shhh.SetActive(true);
@@ -197,31 +188,31 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
-    // ÇÃ·¹ÀÌ¾î ¿ªÇÒ ¹èÁ¤
+    // í”Œë ˆì´ì–´ ì—­í•  ë°°ì •
     void JM_ShowPlayerRole()
     {
         currentTime += Time.deltaTime;
         float delayTime = 3;
-        // ÀÓÆ÷½ºÅÍ¶ó¸é
+        // ì„í¬ìŠ¤í„°ë¼ë©´
         if (isLocalImposter)
         {
-            // ÀÓÆ÷½ºÅÍ ui ½ÇÇà
+            // ì„í¬ìŠ¤í„° ui ì‹¤í–‰
             imposters.SetActive(true);
         }
-        // Å©·ç¶ó¸é
+        // í¬ë£¨ë¼ë©´
         else
         {
-            // Å©·ç ui ½ÇÇà
+            // í¬ë£¨ ui ì‹¤í–‰
             crews.SetActive(true);
         }
 
         if (currentTime > delayTime)
         {
-            #region À§Ä¡ ÁöÁ¤
-            // ÇÃ·¹ÀÌ¾î È°¼ºÈ­ ÇÔ¼ö °ÔÀÓ¸Å´ÏÀú¿¡¼­ È£Ãâ
+            #region ìœ„ì¹˜ ì§€ì •
+            // í”Œë ˆì´ì–´ í™œì„±í™” í•¨ìˆ˜ ê²Œì„ë§¤ë‹ˆì €ì—ì„œ í˜¸ì¶œ
             // photonView.RPC("RPC_EnablePlayers", RpcTarget.All);
 
-            // À§Ä¡µµ ÁöÁ¤
+            // ìœ„ì¹˜ë„ ì§€ì •
 
 
             // photonView.RPC("RPC_SetPlayerPos", RpcTarget.All);
@@ -229,26 +220,22 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             #endregion
             isSelectionUI = false;
 
-            // ÇÃ·¹ÀÌ ¿ªÇÒ ¾Ë·ÁÁÖ´Â UI ²¨ÁÜ
+            // í”Œë ˆì´ ì—­í•  ì•Œë ¤ì£¼ëŠ” UI êº¼ì¤Œ
             if (isLocalImposter)  imposters.SetActive(false);
             else crews.SetActive(false);
 
             cam.gameObject.SetActive(true);
             currentTime = 0;
 
-            // °ÔÀÓ ¼¼ÆÃ ½ÃÀÛ
+            // ê²Œì„ ì„¸íŒ… ì‹œì‘
             isGameScene = true;
         }
     }
     public GameObject missionStatusUI;
-    // °ÔÀÓ °¡´ÉÇÏ°Ô ¼¼ÆÃ
+    // ê²Œì„ ê°€ëŠ¥í•˜ê²Œ ì„¸íŒ…
     void JM_GameEnable()
     {
         //JM_GameManager.instance.RPC_EnablePlayers();
-
-        // °ÔÀÓ ½ÃÀÛÇÏ¸é ÀüÃ¼ ¾îµÓ°Ô
-        light.GetComponent<Light2D>().intensity = 0.5f;
-
 
         gameMap.SetActive(true);
         missionStatusUI.SetActive(true);
@@ -264,15 +251,14 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-
+    // ì‹ ê³ ëœ ì‹œì²´ 
     public GameObject reportedDeadBody;
-    // ½ÃÃ¼ ¹ß°ß ÈÄ ¸®Æ÷Æ® ¹öÆ° ´©¸£¸é UI È°¼ºÈ­
+    // ì‹œì²´ ë°œê²¬ í›„ ë¦¬í¬íŠ¸ ë²„íŠ¼ ëˆ„ë¥´ë©´ UI í™œì„±í™”
     public void OnReportButton()
     {
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
-        
     }
-    // RPC·Î ½ÃÃ¼ »ö±ò ³Ñ±â±â
+    // RPCë¡œ ì‹œì²´ ìƒ‰ê¹” ë„˜ê¸°ê¸°
     public void Report(float deadR, float deadG, float deadB, float deadA)
     {
         photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
@@ -281,18 +267,18 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
     {
         Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
-
-        // ½Å°íµÈ ½ÃÃ¼ Destroy
+        // ì‹ ê³ ëœ ì‹œì²´ Destroy
         Destroy(reportedDeadBody);
-
         StartReportUI(diedCrewColor);
     }
-    // ½ÃÃ¼ »ö º¯È¯ ÈÄ ¸®Æ÷Æ® UI È°¼ºÈ­ + ÅõÇ¥ ½ÃÀÛ
+    // ì‹œì²´ ìƒ‰ ë³€í™˜ í›„ ë¦¬í¬íŠ¸ UI í™œì„±í™” + íˆ¬í‘œ ì‹œì‘
     void StartReportUI(Color diedCrewColor)
     {
         Material mat = diedCrew.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", diedCrewColor);
-        // ¸®Æ÷Æ® UI 2ÃÊ°£ È°¼ºÈ­
+        // ë¡œì»¬ í”Œë ˆì´ì–´ í¬í†¤ë·° ì´ìš©í•´ì„œ ëˆ„ê°€ ì‹ ê³ í–ˆëŠ”ì§€ RPCë¡œ ëª¨ë“  PCì— ì €ì¥ë˜ê²Œ í•˜ê¸°
+        //JM_GameManager.instance.localPv.RPC("RPC_SendReportPlayer", RpcTarget.All, JM_GameManager.instance.localPv.ViewID);
+        // ë¦¬í¬íŠ¸ UI 2ì´ˆê°„ í™œì„±í™”
         StartCoroutine("ActivateReportUI");
     }
     IEnumerator ActivateReportUI()
@@ -300,13 +286,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         reportUI.SetActive(true);
         yield return new WaitForSeconds(2);
         reportUI.SetActive(false);
-        // ÅõÇ¥ ½ÃÀÛ
+        // íˆ¬í‘œ ì‹œì‘
         SH_VoteManager.instance.PlayerPanelSetting();
     }
 
 
 
-    // Ã¤ÆÃ ¿ÀÇÂ, ´İ±â
+    // ì±„íŒ… ì˜¤í”ˆ, ë‹«ê¸°
     public GameObject chatView;
     public bool open = false;
     public void OnClickChat() 
@@ -323,7 +309,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         }
     }
 
-    // ±ä±ŞÈ¸ÀÇ 
+    // ê¸´ê¸‰íšŒì˜ 
     public GameObject emergencyImg;
     [PunRPC]
     public void EmergencyMeeting()
@@ -335,7 +321,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         emergencyImg.SetActive(true);
         yield return new WaitForSeconds(2);
         emergencyImg.SetActive(false);
-        // ÅõÇ¥ ½ÃÀÛ
+        // íˆ¬í‘œ ì‹œì‘
         SH_VoteManager.instance.PlayerPanelSetting();
     }
 }
