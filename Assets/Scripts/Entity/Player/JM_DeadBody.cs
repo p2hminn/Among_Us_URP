@@ -51,5 +51,5 @@ public class JM_DeadBody : MonoBehaviourPun
         color.a = a;
     }
 
-   
+
 }

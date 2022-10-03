@@ -27,7 +27,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
     Color imposterColor;
 
     // 리포트 버튼
-    Button reportButton;
+    public Button reportButton;
 
     // 벤트
     public bool isUp;
@@ -273,13 +273,11 @@ public class JM_ImposterStatus : MonoBehaviourPun
         }
 
         // 임포스터도 시체와  충돌할 경우 리포트할 수 있다.
-        else if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
+        else if (collision.gameObject.name.Contains("DeadBody"))
         {
-            // 로컬 임포스터만 리포트 활성화 가능
-            if (photonView.IsMine)
-            {
-                reportButton.interactable = true;
-            }
+            JM_ImposterUI.instance.isReportAble = true;
+            SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
+
         }
 
         // 긴급회의
@@ -297,6 +295,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
     
     private void OnTriggerExit2D(Collider2D collision)
     {
+        JM_ImposterUI.instance.isReportAble = false;
         // 닿아있다가 떨어지면 공격 불가능
         if (collision.gameObject.name.Contains("Crew"))
         {
@@ -308,11 +307,6 @@ public class JM_ImposterStatus : MonoBehaviourPun
         {
             isVent = true;
         }
-        // 시체와 떨어질 경우 리포트 불가능
-        else if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
-        {
-            reportButton.interactable = false;
-        }
         // 긴급회의
         else if (collision.gameObject.CompareTag("Emergency"))
         {
@@ -320,5 +314,6 @@ public class JM_ImposterStatus : MonoBehaviourPun
             JM_ImposterUI.instance.isUseable = false;
             SH_RoomUI.instance.isEmergency = false;
         }
+       
     }
 }

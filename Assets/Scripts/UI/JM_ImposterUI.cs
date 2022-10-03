@@ -42,6 +42,7 @@ public class JM_ImposterUI : MonoBehaviourPun
 
     // 리포트 버튼
     public Button reportButton;
+    public bool isReportAble;
 
     // Use 버튼
     public Button useButton;
@@ -66,6 +67,18 @@ public class JM_ImposterUI : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        // ** 리포트 **
+        // 리포트 가능한 상태(
+        if (isReportAble)
+        {
+            // 리포트 버튼 활성화
+            reportButton.interactable = true;
+        }
+        else if (!isReportAble)
+        {
+            reportButton.interactable = false;
+        }
+
         // 공격버튼 사용 불가능 상태일때 쿨타임 함수 실행
         if (!isButtonActivate)
             AttackTimeCount();

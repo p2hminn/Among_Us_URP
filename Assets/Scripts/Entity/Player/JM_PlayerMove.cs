@@ -55,6 +55,9 @@ public class JM_PlayerMove : MonoBehaviourPun
 
     GameObject ghost;
 
+    // 귀신 콜라이더
+    public GameObject ghostCollider;
+
     SpriteRenderer sr;
 
     public GameObject body;
@@ -173,6 +176,8 @@ public class JM_PlayerMove : MonoBehaviourPun
             }
             isOnce = false;
             light.SetActive(true);
+
+            
         }
 
 
@@ -339,10 +344,10 @@ public class JM_PlayerMove : MonoBehaviourPun
                 return;
             }
         }
-        
-
         photonView.RPC("RPC_Dead", RpcTarget.All, crewR, crewG, crewB, crewA, 
             imposterR, imposterG, imposterB, imposterA );
+
+        
     }
 
     public string myNickName;
@@ -368,6 +373,13 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterR, imposterG, imposterB, imposterG);
 
             ToGhost();  // 플레이어 고스트로 변신하는 함수 호출 (죽는 사람 포톤뷰 넘기기)
+
+            // 나 이제 귀신임
+            // 귀신 됐을때
+            // 맵 인테리어 끄고
+            JM_GameManager.instance.DisableInterior();
+            // 귀신 콜라이더 켜기
+            ghostCollider.SetActive(true);
         }
         else
         {
