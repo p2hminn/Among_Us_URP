@@ -238,7 +238,13 @@ public class JM_ImposterStatus : MonoBehaviourPun
     }
 
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
+        {
+            SH_RoomUI.instance.reportedDeadBody = collision.gameObject.GetPhotonView();
+        }
+    }
 
     // 플레이어랑 닿아있는 동안 공격가능
     private void OnTriggerStay2D(Collider2D collision)

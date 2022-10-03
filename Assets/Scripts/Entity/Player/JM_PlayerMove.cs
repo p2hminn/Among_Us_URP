@@ -335,7 +335,7 @@ public class JM_PlayerMove : MonoBehaviourPun
             // 크루 모두 죽었니?
             if (JM_GameManager.instance.crewNum == 0)
             {
-                JM_GameManager.instance.FindYourEnd(false);  // 크루 Loose, 임포스터 Win
+                JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
                 return;
             }
         }
