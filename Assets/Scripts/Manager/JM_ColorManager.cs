@@ -15,6 +15,11 @@ public class JM_ColorManager : MonoBehaviourPun
     public float g;
     public float b;
     public float a;
+
+    // 색깔 저장 리스트
+    public List<Color> colorList2 = new List<Color>();
+
+    public Color localColor;
    
     private void Awake()
     {

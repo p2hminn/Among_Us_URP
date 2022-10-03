@@ -267,7 +267,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
         }
 
         // 임포스터도 시체와  충돌할 경우 리포트할 수 있다.
-        else if (collision.gameObject.name.Contains("DeadBody"))
+        else if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
         {
             // 로컬 임포스터만 리포트 활성화 가능
             if (photonView.IsMine)
@@ -303,7 +303,7 @@ public class JM_ImposterStatus : MonoBehaviourPun
             isVent = true;
         }
         // 시체와 떨어질 경우 리포트 불가능
-        else if (collision.gameObject.name.Contains("DeadBody"))
+        else if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
         {
             reportButton.interactable = false;
         }

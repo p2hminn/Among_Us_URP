@@ -29,6 +29,15 @@ public class JM_GameManager : MonoBehaviourPun
 
     int randomNum;
 
+    // playerList의 게임오브젝트가 임포스터인지 여부 리스트
+    public List<bool> isImposterList = new List<bool>();
+
+    // playerList의 게임오브젝트 컬러 리스트
+    public List<Color> colorList = new List<Color>();
+
+    // 로컬 플레이어 임포스터 여부
+    public bool isLocalImposter;
+
 
     private void Awake()
     {

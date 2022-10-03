@@ -39,7 +39,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
     Color deadColor;
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("DeadBody"))
+        if (collision.gameObject.name.Contains("DeadBody") && SH_VoteManager.instance.isVote == false)
         {
             // 로컬 플레이어만 리포트 활성화 가능
             if (photonView.IsMine)
@@ -55,6 +55,8 @@ public class JM_PlayerStatus : MonoBehaviourPun
         {
             if (photonView.IsMine)
             {
+                // 긴급회의 소집한 사람 포톤뷰 ID 저장
+                photonView.RPC("RPC_SaveID", RpcTarget.All);
                 SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
                 JM_CrewUI.instance.isMissionAble = true;
                 SH_RoomUI.instance.isEmergency = true;
@@ -67,5 +69,11 @@ public class JM_PlayerStatus : MonoBehaviourPun
         SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = false;
         JM_CrewUI.instance.isMissionAble = false;
         SH_RoomUI.instance.isEmergency = false;
+    }
+
+    [PunRPC]
+    public void RPC_SaveID()
+    {
+        SH_VoteManager.instance.emergeViewID = photonView.ViewID;
     }
 }

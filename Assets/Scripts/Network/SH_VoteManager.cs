@@ -26,6 +26,8 @@ public class SH_VoteManager : MonoBehaviourPun
     public Transform trPanel;
     // 리포트한 사람 포톤뷰 ID
     public int reportViewID;
+    //긴급회의 소집한 사람 포톤뷰 ID
+    public int emergeViewID;
     // 투표 결과 (방장이 수집) : 패널 인덱스, 투표수
     public int[] voteResult;// 인덱스 : 몇 번째 패널인지, int : 몇 표를 받았는지
     public int voteCompleteNum;  // 모두 투표 완료했는지 알기 위해 수 세기
@@ -53,7 +55,7 @@ public class SH_VoteManager : MonoBehaviourPun
         //    print("죽었니? 2 : " + p.gameObject.activeSelf);
         //    print("현재 실행 함수2 : " + MethodBase.GetCurrentMethod().Name);
         //}
-        
+
 
 
         // 모두 투표완료하면 모두에게 투표 결과 보여주기
@@ -95,7 +97,7 @@ public class SH_VoteManager : MonoBehaviourPun
             // panel 오브젝트 이름을 플레이어 이름으로 설정
             playerPanel.gameObject.name = JM_GameManager.instance.playerList[i].Owner.NickName;
             // panel 상세 정보 세팅
-            playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID);
+            playerPanel.SetInfo(JM_GameManager.instance.playerList[i], reportViewID, emergeViewID);
             // 로컬 플레이어의 패널이 몇 번째인지 표기
             if (JM_GameManager.instance.playerList[i].IsMine)
             {
@@ -115,8 +117,6 @@ public class SH_VoteManager : MonoBehaviourPun
     IEnumerator StartDiscuss()
     {
         PanelOff();
-
-
 
         float currTime = 0;
 
@@ -154,6 +154,7 @@ public class SH_VoteManager : MonoBehaviourPun
     public string saveVoteResult;  // 투표 결과 저장할 변수
     public Text voteResultText;  // 투표 결과 UI에 입력할 Text
     public GameObject voteResultUI; // 투표 결과 UI
+    public Transform reportedPanel;  // 시체 신고 표기된 패널
     public void VoteResult()
     {
         // 투표 결과 구하기
@@ -187,7 +188,7 @@ public class SH_VoteManager : MonoBehaviourPun
                 {
                     pm.GetComponent<JM_PlayerMove>().ToGhost();
                 }
-                
+
                 else
                 {
                     p = pm.photonView;
@@ -196,7 +197,7 @@ public class SH_VoteManager : MonoBehaviourPun
                     //print("죽었니? : " + pm.gameObject.activeSelf);
                     //print("현재 실행 함수 : " + MethodBase.GetCurrentMethod().Name);
                 }
-                
+
             }
             // 임포스터 아닌 경우
             else
@@ -277,6 +278,7 @@ public class SH_VoteManager : MonoBehaviourPun
         isVote = false;
         isOnce = false;
         voteCompleteNum = 0;
+        maxVoteNum = 0;
     }
 
 
@@ -290,6 +292,7 @@ public class SH_VoteManager : MonoBehaviourPun
             panel.GetComponent<Button>().interactable = false;
             panel.GetChild(7).gameObject.SetActive(false);  // Btn_Vote
             panel.GetChild(8).gameObject.SetActive(false);  // Btn_VoteCancel
+            panel.GetChild(9).gameObject.SetActive(false); // Img_Report
         }
         // 스킵 버튼 비활성화
         //btnSKipVote = GameObject.Find("Btn_SkipVote").GetComponent<Button>();
