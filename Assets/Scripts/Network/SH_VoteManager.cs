@@ -189,7 +189,7 @@ public class SH_VoteManager : MonoBehaviourPun
                     //  임포스터 모두 발견된 경우 : 크루 Win, 임포스터 Loose
                     if (JM_GameManager.instance.imposterNum == 0)
                     {
-                        JM_GameManager.instance.FindYourEnd(true);
+                        JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, true);
                         return;
                     }
                     JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);
@@ -220,7 +220,7 @@ public class SH_VoteManager : MonoBehaviourPun
                     //  크루 모두 죽은 경우 : 크루 Loose, 임포스터 Win
                     if (JM_GameManager.instance.crewNum == 0)
                     {
-                        JM_GameManager.instance.FindYourEnd(false);
+                        JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, false);
                         return;
                     }
                     JM_GameManager.instance.photonView.RPC("SendImpostorNum", RpcTarget.All, JM_GameManager.instance.imposterNum);

@@ -30,18 +30,20 @@ public class JM_MissionStatus : MonoBehaviourPun
         //isMissionDone = true;
         isMissionDone = false;
         currentMissionDone = 1;
+        isOnce = false;
     }
 
-    // Update is called once per frame
+    bool isOnce;
     void Update()
     {
         if (isMissionDone)
         {
             UpdateMissionSlider();
         }
-        if (missionSlider.value >= missionSlider.maxValue)
+        if (missionSlider.value >= missionSlider.maxValue && !isOnce)
         {
-            isCrewWin = true;
+            JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, true);
+            isOnce = true;
         }
         if (!isMissionDone)
         {
