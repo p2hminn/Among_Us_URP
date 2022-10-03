@@ -47,6 +47,9 @@ public class JM_GameManager : MonoBehaviourPun
     // 죽은 시체의 포톤뷰가 들어갈 리스트
     public List<PhotonView> deadBodylist = new List<PhotonView>();
 
+    // 맵 내부 콜라이더들
+    public GameObject map_Interior;
+
     private void Awake()
     {
         instance = this;
@@ -313,6 +316,11 @@ public class JM_GameManager : MonoBehaviourPun
         imposterNum = impNum;
     }
 
+    // 건물 내부 콜라이더 다 꺼주기
+    public void DisableInterior()
+    {
+        map_Interior.SetActive(false);
+    }
 
 
 }
