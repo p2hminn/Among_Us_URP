@@ -57,7 +57,7 @@ public class SH_GameOverUI : MonoBehaviourPun
     public void Crew(bool crewWin)
     {
         #region UI 사전세팅
-        if (crewWin)
+        if (crewWin == true)
         {
             // 게임 결과 Text
             txtResult.text = "Win";
@@ -75,26 +75,28 @@ public class SH_GameOverUI : MonoBehaviourPun
         }
 
         // 로컬 플레이어 미리 설정
+        crews[0].gameObject.SetActive(true);
         Material mat = crews[0].gameObject.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
         resultColor.Add(JM_ColorManager.instance.localColor);
-        crews[0].gameObject.SetActive(true);
+       
 
         int idx = 1;
         // Crew 수만큼 컬러 지정 & 배치
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
             // 임포스터이거나 로컬 플레이어일 경우 건너뛰기
-            if (JM_GameManager.instance.isImposterList[i] == true | JM_GameManager.instance.colorList[i] == JM_ColorManager.instance.localColor) continue;
-            else
+            //if (JM_GameManager.instance.isImposterList[i] == true | JM_GameManager.instance.colorList[i] == JM_ColorManager.instance.localColor) continue;
+            if (JM_GameManager.instance.isImposterList[i] == false && JM_GameManager.instance.colorList[i] != JM_ColorManager.instance.localColor)
             {
+                crews[i].gameObject.SetActive(true);
                 // 해당 색상을 Crew의 idx번째 이미지에 색칠 + 활성화
                 Color c = JM_GameManager.instance.colorList[i];
                 resultColor.Add(c);
+                print("c :" + c);
                 crews[idx].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", c);
                 // 고스트일 경우 sprite 변경해주기
                 if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[idx].sprite = ghostSprite;
-                crews[i].gameObject.SetActive(true);
                 idx++;
             }
         }
@@ -109,7 +111,7 @@ public class SH_GameOverUI : MonoBehaviourPun
     public void Impostor(bool crewWin)
     {
         #region UI 사전세팅
-        if (!crewWin)
+        if (crewWin == false)
         {
             // 게임 결과 Text
             txtResult.text = "Win";
@@ -127,28 +129,32 @@ public class SH_GameOverUI : MonoBehaviourPun
         }
 
         // 로컬 플레이어 미리 설정
+        crews[0].gameObject.SetActive(true);
         Material mat = crews[0].gameObject.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
-        crews[0].gameObject.SetActive(true);
+        resultColor.Add(JM_ColorManager.instance.localColor);
+        
 
-        int idx = 1;
-        // Crew 수만큼 컬러 지정 & 배치
-        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
-        {
-            // 크루이거나 로컬 플레이어일 경우 건너뛰기
-            if (JM_GameManager.instance.isImposterList[i] == false | JM_GameManager.instance.colorList[i] == JM_ColorManager.instance.localColor) continue;
-            else
-            {
-                // 컬러리스트 i번째 색상을 Crew의 idx번째 이미지에 색칠 + 활성화
-                Color c = JM_GameManager.instance.colorList[i];
-                Material mat2 = crews[idx].gameObject.GetComponent<Image>().material;
-                mat2.SetColor("_PlayerColor", c);
-                // 고스트일 경우 sprite 변경해주기
-                if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[idx].sprite = ghostSprite;
-                crews[i].gameObject.SetActive(true);
-                idx++;
-            }
-        }
+        //// 크루 이미지 인덱스
+        //int idx = 1;
+        //// Crew 수만큼 컬러 지정 & 배치
+        //for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        //{
+        //    // 크루이거나 로컬 플레이어일 경우 건너뛰기
+        //    if (JM_GameManager.instance.isImposterList[i] == false | JM_GameManager.instance.colorList[i] == JM_ColorManager.instance.localColor) continue;
+        //    else
+        //    {
+        //        // 컬러리스트 i번째 색상을 Crew의 idx번째 이미지에 색칠 + 활성화
+        //        crews[i].gameObject.SetActive(true);
+        //        Color c = JM_GameManager.instance.colorList[i];
+        //        Material mat2 = crews[idx].gameObject.GetComponent<Image>().material;
+        //        mat2.SetColor("_PlayerColor", c);
+        //        resultColor.Add(c);
+        //        // 고스트일 경우 sprite 변경해주기
+        //        if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[idx].sprite = ghostSprite;
+        //        idx++;
+        //    }
+        //}
         #endregion
 
         print("GameOverUI 사전세팅 완료");
@@ -173,6 +179,7 @@ public class SH_GameOverUI : MonoBehaviourPun
     {
         cg.alpha = 0;
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("SH_MainMenu");
     }
 
     // PlayAgain 버튼 (대기실로 재입장)

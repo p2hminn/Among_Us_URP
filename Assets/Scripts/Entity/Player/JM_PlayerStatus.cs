@@ -55,7 +55,6 @@ public class JM_PlayerStatus : MonoBehaviourPun
             {
                 JM_CrewUI.instance.isReportAble = true;
                 SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
-                print("시체 신고완료");
             }
         }
 

@@ -332,22 +332,24 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
-        // 방장 : GameManager 에서 player 수 -1
-        if (PhotonNetwork.IsMasterClient)
-        {
-            JM_GameManager.instance.crewNum--;
-
-            // 크루 모두 죽었니?
-            if (JM_GameManager.instance.crewNum == 0)
-            {
-                JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
-                return;
-            }
-        }
+        // 방장에게 죽었다고 알리기
+        photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
         photonView.RPC("RPC_Dead", RpcTarget.All, crewR, crewG, crewB, crewA, 
             imposterR, imposterG, imposterB, imposterA );
 
         
+    }
+
+    [PunRPC]
+    void RPC_CrewDead()
+    {
+        // 방장이 크루 수 업데이트
+        JM_GameManager.instance.crewNum--;
+        // 크루 모두 죽었니?
+        if (JM_GameManager.instance.crewNum == 0)
+        {
+            JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
+        }
     }
 
     public string myNickName;
@@ -397,8 +399,8 @@ public class JM_PlayerMove : MonoBehaviourPun
         //if (photonView.IsMine) 
             SH_RoomUI.instance.isLocalImposter = isImposter;
 
-        print("I am Imposter");
-        print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
+        //print("I am Imposter");
+        //print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
 
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");
@@ -412,8 +414,8 @@ public class JM_PlayerMove : MonoBehaviourPun
         //if (photonView.IsMine) 
         SH_RoomUI.instance.isLocalImposter = isImposter;
 
-        print("I am Crew");
-        print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
+        //print("I am Crew");
+        //print("isImposter : " + isImposter + " ui : " + SH_RoomUI.instance.isLocalImposter);
 
         introStart = true;
         // SH_RoomUI.instance.StartCoroutine("GameIntro");

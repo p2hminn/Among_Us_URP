@@ -88,9 +88,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     bool isOnce;
     void Update()
     {
-        print("시체 : " + reportedDeadBody);
-        if (isLocalImposter) print("RoomUI recognizes I am imposter");
-
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
         if (PhotonNetwork.CurrentRoom.PlayerCount ==  1 && PhotonNetwork.IsMasterClient)
         {
