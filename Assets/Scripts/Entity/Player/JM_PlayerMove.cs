@@ -102,6 +102,8 @@ public class JM_PlayerMove : MonoBehaviourPun
             Spawn();
             anim.SetTrigger("Spawn");
 
+            
+
             // 미니맵에 현위치
             //JM_PlayerPosManager.instance.player = gameObject;
         } 
@@ -161,6 +163,8 @@ public class JM_PlayerMove : MonoBehaviourPun
                 imposterCode.enabled = false;
                 playerCode.enabled = true;
                 GetComponent<JM_PlayerStatus>().enabled = true;
+                // 미니맵에 정보 공유
+                JM_CrewMapManager.instance.player = gameObject;
             }
             isOnce = false;
             light.SetActive(true);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class JM_CrewMapManager : MonoBehaviourPun
@@ -25,6 +26,9 @@ public class JM_CrewMapManager : MonoBehaviourPun
     public GameObject upload_electrics;
     public GameObject upload_admin;
     public GameObject uploadst2_admin;
+
+    public Image playerImg;
+    public GameObject player;
 
     private void Awake()
     {
@@ -228,4 +232,10 @@ public class JM_CrewMapManager : MonoBehaviourPun
     {
         
     }
+
+    public void SetPlayerPos()
+    {
+        playerImg.GetComponent<RectTransform>().anchoredPosition = new Vector2(player.transform.position.x * 27, player.transform.position.y * 27);
+    }
+
 }
