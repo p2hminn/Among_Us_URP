@@ -47,6 +47,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
                 JM_CrewUI.instance.isReportAble = true;
                 SH_RoomUI.instance.dieColor = collision.gameObject.GetComponent<JM_DeadBody>().color;
                 SH_RoomUI.instance.reportedDeadBody = collision.gameObject;
+                print("시체 신고완료");
             }
         }
 
@@ -60,6 +61,7 @@ public class JM_PlayerStatus : MonoBehaviourPun
                 SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
                 JM_CrewUI.instance.isMissionAble = true;
                 SH_RoomUI.instance.isEmergency = true;
+                print("긴급회의 부딪힘");
             }
         }
     }

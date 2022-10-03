@@ -12,7 +12,7 @@ public class JM_GameManager : MonoBehaviourPun
     // 현재 waitRoom 인지 gameRoom 인지 판단
     public bool isGameRoom;
 
-    // 플레이어들을 저장할 리스트
+    // 플레이어 포톤뷰 저장 리스트
     public List<PhotonView> playerList = new List<PhotonView>();
 
     // 플레이어들의 인덱스를 저장할 리스트
@@ -38,6 +38,11 @@ public class JM_GameManager : MonoBehaviourPun
     // 로컬 플레이어 임포스터 여부
     public bool isLocalImposter;
 
+    // 임포스터 수
+    public int imposterNum;
+
+    // 크루 수
+    public int crewNum;
 
     private void Awake()
     {
@@ -59,6 +64,12 @@ public class JM_GameManager : MonoBehaviourPun
         // 로컬 플레이어의 photonView 저장
         localPv = crew.GetComponent<PhotonView>();
 
+        // 방장이 관리 : 현재 방의 임포스터, 크루 수 저장
+        if (PhotonNetwork.IsMasterClient)
+        {
+            imposterNum = (int)PhotonNetwork.CurrentRoom.CustomProperties["imposter"];
+            crewNum = PhotonNetwork.CurrentRoom.PlayerCount - imposterNum;
+        }
     }
     // 리포트 버튼 누르면 로컬 플레이어의 ViewID 저장하도록 뿌리기
     public void SendReportPlayer()
@@ -69,9 +80,14 @@ public class JM_GameManager : MonoBehaviourPun
     bool isOnce;
     bool isOnce1;
     bool isOnce2;
-    //bool isOnce3;
+    bool isOnce3;
     void Update()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            print("imposterNum : " + imposterNum);
+            print("crewNum : " + crewNum);
+        }
         // 방장이 Start버튼 누른 경우 playerList photonView의 gameObject 비활성화 (한번만 실행할 것)
         if (SH_RoomUI.instance.isStart && !isOnce)
         {
@@ -100,6 +116,23 @@ public class JM_GameManager : MonoBehaviourPun
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
             isOnce2 = true;
+
+            // 포톤뷰의 임포스터 여부 저장
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                isImposterList.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().isImposter);
+            }
+
+            // 포톤뷰 컬러 저장
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                colorList.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().color);
+            }
+
+            // 로컬 플레이어 임포스터인지 아닌지 저장
+            isLocalImposter = localPv.gameObject.GetComponent<JM_PlayerMove>().isImposter;
+
+            isOnce2 = true;
         }
 
         //if (SH_VoteManager.instance.p)
@@ -107,23 +140,17 @@ public class JM_GameManager : MonoBehaviourPun
         //    print("죽었니? 2 : " + SH_VoteManager.instance.p.gameObject.activeSelf);
         //    print("현재 실행 함수2_GameManager : " + MethodBase.GetCurrentMethod().Name);
         //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3) && !isOnce3)
-        //{
-        //    isOnce3 = true;
-        //    GameObject g = GameObject.Find("GameOverUI");
-        //    g.GetComponent<SH_GameOVer>().Crew(true);   // 크루가  이긴 경우 & 로컬 플레이어가 크루인 경우
-        //                  //Crew(false);  // 크루가 진 경우 & 로컬 플레이어가 크루인 경우
-        //}
+
+
+        //  Test
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            photonView.RPC("FindYourEnd", RpcTarget.All, true);  // 크루가 이기고 임포스터가 진 경우
+            print("FindYourEnd");
+            //photonView.RPC("FindYourEnd", RpcTarget.All, false) ;  // 크루가 지고 임포스터가 이긴 경우
+        }
     }
-    // 게임씬 활성화
-    //[PunRPC]
-    //public void RPC_EnablePlayers()
-    //{
-    //    for (int i = 0; i < playerList.Count; i++)
-    //    {
-    //        playerList[i].gameObject.SetActive(true);
-    //    }
-    //}
+
 
     [PunRPC]
     public void RPC_SetPlayerPos()
@@ -207,7 +234,7 @@ public class JM_GameManager : MonoBehaviourPun
         {
             ChooseImposter(imposterIndexList);
             ChooseCrew();
-        }  
+        }
     }
 
     [PunRPC]
@@ -228,7 +255,7 @@ public class JM_GameManager : MonoBehaviourPun
         }
         */
 
-        
+
         for (int i = 0; i < playerList.Count; i++)
         {
             // 임포스터의 인덱스가 맞다면
@@ -244,10 +271,7 @@ public class JM_GameManager : MonoBehaviourPun
                 }
             }
         }
-        
-
     }
-
     void ChooseCrew()
     {
         for (int i = 0; i < playerIndexList.Count; i++)
@@ -256,4 +280,26 @@ public class JM_GameManager : MonoBehaviourPun
         }
     }
 
+
+
+
+    // 로컬 플레이어에 맞는 GameOverUI 제공하는 함수 => 게임 매니저 포톤뷰로 FindYourEnd RPC로 호출하면됌
+    
+    [PunRPC]
+    public void FindYourEnd(bool isCrewWin)  //  파라미터로 크루가 이겼는지 여부를 넣어주어야 함
+    {
+        // 로컬 플레이어의 임포스터/크루 여부 확인
+        // 로컬 = 임포스터
+        if (isLocalImposter)
+        {
+            //gameOverUI.SetActive(true);
+            SH_GameOverUI.instance.Impostor(isCrewWin);
+        }
+        // 로컬 = 크루
+        else
+        {
+            //gameOverUI.SetActive(true);
+            SH_GameOverUI.instance.Crew(isCrewWin);
+        }
+    }
 }

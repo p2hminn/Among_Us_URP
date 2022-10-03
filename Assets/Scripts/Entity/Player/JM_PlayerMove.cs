@@ -327,6 +327,15 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void Dead(float crewR, float crewG, float crewB, float crewA, 
         float imposterR, float imposterG, float imposterB, float imposterA)
     {
+        // GameManager 에서 player 수 -1
+        JM_GameManager.instance.crewNum--;
+
+        // 크루 모두 죽었니?
+        if (JM_GameManager.instance.crewNum == 0)
+        {
+            JM_GameManager.instance.FindYourEnd(false);  // 크루 Loose, 임포스터 Win
+        }
+
         photonView.RPC("RPC_Dead", RpcTarget.All, crewR, crewG, crewB, crewA, 
             imposterR, imposterG, imposterB, imposterA );
     }
@@ -360,7 +369,6 @@ public class JM_PlayerMove : MonoBehaviourPun
             // 리모트 플레이어는 비활성화
             gameObject.SetActive(false);
         }
-        
     }
 
 

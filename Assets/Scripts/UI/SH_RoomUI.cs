@@ -88,6 +88,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
     bool isOnce;
     void Update()
     {
+        print("시체 : " + reportedDeadBody);
         if (isLocalImposter) print("RoomUI recognizes I am imposter");
 
         // 현재 참가 인원이 4명이고 방장인 경우에  Start 버튼  interactable 활성화
@@ -272,13 +273,13 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         Report(dieColor.r, dieColor.g, dieColor.b, dieColor.a);
         
     }
-    // RPC로 시체 색깔 넘기기
+    // RPC로 시체 색깔 + 시체 이름 넘기기
     public void Report(float deadR, float deadG, float deadB, float deadA)
     {
         photonView.RPC("RPC_Report", RpcTarget.All,  deadR, deadG, deadB, deadA);
     }
     [PunRPC]
-    public void RPC_Report(float deadR, float deadG, float deadB, float deadA)
+    public void RPC_Report(float deadR, float deadG, float deadB, float deadA, string deadBodyName)
     {
         Color diedCrewColor = new Color(deadR, deadG, deadB, deadA);
 
