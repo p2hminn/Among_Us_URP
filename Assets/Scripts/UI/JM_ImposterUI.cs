@@ -140,6 +140,7 @@ public class JM_ImposterUI : MonoBehaviourPun
     public void OnClickMap()
     {
         map.SetActive(true);
+        JM_ImposterMapManager.instance.SetPlayerPos();
     }
 
     public void onClickUse()

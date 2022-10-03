@@ -29,6 +29,7 @@ public class JM_CrewMapManager : MonoBehaviourPun
 
     public Image playerImg;
     public GameObject player;
+    public Color playerImgColor;
 
     private void Awake()
     {
@@ -230,12 +231,12 @@ public class JM_CrewMapManager : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        
+        playerImg.GetComponent<Image>().material.SetColor("_PlayerColor", playerImgColor);
     }
 
     public void SetPlayerPos()
     {
-        playerImg.GetComponent<RectTransform>().anchoredPosition = new Vector2(player.transform.position.x * 27, player.transform.position.y * 27);
+        playerImg.GetComponent<RectTransform>().anchoredPosition = new Vector2(player.transform.position.x * 30, player.transform.position.y * 26);
     }
 
 }
