@@ -314,23 +314,13 @@ public class JM_GameManager : MonoBehaviourPun
             SH_GameOverUI.instance.Crew(isCrewWin);
         }
     }
-
+   
     public void CrewDead()
     {
-        photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
-    }
-
-        public void ImpoDead()
-    {
-        photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
-
-    }
-
-    [PunRPC]
-    void RPC_CrewDead()
-    {
+        if (!PhotonNetwork.IsMasterClient) return;
         // 방장이 크루 수 업데이트
         crewNum--;
+
         // 모두에게 뿌리기
         photonView.RPC("RPC_CrewUpdate", RpcTarget.All, crewNum);
         // 크루 모두 죽었니?
@@ -339,9 +329,11 @@ public class JM_GameManager : MonoBehaviourPun
             photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
         }
     }
-    [PunRPC]
-    void RPC_ImpoDead()
+    
+    public void ImpoDead()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         // 임포스터 수 업데이트
         imposterNum--;
         // 모두에게 뿌리기
