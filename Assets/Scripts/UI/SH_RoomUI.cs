@@ -271,7 +271,7 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         //JM_GameManager.instance.RPC_EnablePlayers();
 
         // 게임 시작하면 전체 어둡게
-        light.GetComponent<Light2D>().intensity = 0.5f;
+        light.GetComponent<Light2D>().intensity = 0.02f;
 
 
         gameMap.SetActive(true);
