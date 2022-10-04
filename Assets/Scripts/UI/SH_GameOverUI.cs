@@ -78,6 +78,8 @@ public class SH_GameOverUI : MonoBehaviourPun
         mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
         resultColor.Add(JM_ColorManager.instance.localColor);
         crews[0].gameObject.SetActive(true);
+        crews.RemoveAt(0);
+
 
         // 리스트에서 로컬 플레이어의 정보를 전부 지운다
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
@@ -87,7 +89,6 @@ public class SH_GameOverUI : MonoBehaviourPun
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);
-                crews.RemoveAt(i);
             }
         }
 
@@ -165,12 +166,12 @@ public class SH_GameOverUI : MonoBehaviourPun
             gradImg.color = looseColor;
         }
 
-        // 로컬 플레이어 미리 설정
-          
+        // 로컬 플레이어 미리 설정         
         Material mat = crews[0].gameObject.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
         resultColor.Add(JM_ColorManager.instance.localColor);
         crews[0].gameObject.SetActive(true);
+        crews.RemoveAt(0);
 
         // 리스트에서 로컬 플레이어의 정보를 전부 지운다
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
@@ -181,7 +182,7 @@ public class SH_GameOverUI : MonoBehaviourPun
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);
-                crews.RemoveAt(i);
+                
             }
         }
 
