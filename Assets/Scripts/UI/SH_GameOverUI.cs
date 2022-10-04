@@ -55,6 +55,8 @@ public class SH_GameOverUI : MonoBehaviourPun
 
     }
     public GameObject gameOverUI;
+    public AudioSource crewWinAudio;
+    public AudioSource impoWinAudio;
     // 크루원 UI
     public void Crew(bool crewWin)
     {
@@ -66,6 +68,8 @@ public class SH_GameOverUI : MonoBehaviourPun
             txtResult.color = winColor;
             // Gradient Color
             gradImg.color = winColor;
+            // 크루 승리할 경우 효과음
+            crewWinAudio.enabled = true;
         }
         else
         {
@@ -162,6 +166,7 @@ public class SH_GameOverUI : MonoBehaviourPun
             txtResult.color = winColor;
             // Gradient Color
             gradImg.color = winColor;
+            impoWinAudio.enabled = true;
         }
         else
         {

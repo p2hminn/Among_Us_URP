@@ -118,7 +118,7 @@ public class JM_ImposterUI : MonoBehaviourPun
         
 
     }
-
+    public AudioSource killSound;
     // 공격버튼 누르면 임포스터코드에서 공격함수 실행
     public void ClickAttack()
     {
@@ -126,6 +126,8 @@ public class JM_ImposterUI : MonoBehaviourPun
         // 플레이어 죽는 함수 호출
         victimCrew.GetComponent<JM_PlayerMove>().Dead(crewColor.r, crewColor.g, crewColor.b, crewColor.a, 
             imposterColor.r, imposterColor.g, imposterColor.b, imposterColor.a);
+
+        killSound.enabled = true;
 
         isButtonActivate = false;
     }
