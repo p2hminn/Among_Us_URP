@@ -155,6 +155,9 @@ public class SH_VoteManager : MonoBehaviourPun
     public Text voteResultText;  // 투표 결과 UI에 입력할 Text
     public GameObject voteResultUI; // 투표 결과 UI
     public Transform reportedPanel;  // 시체 신고 표기된 패널
+
+    public bool impo;
+    public bool crew;
     public void VoteResult()
     {
         // 투표 결과 구하기
@@ -182,10 +185,11 @@ public class SH_VoteManager : MonoBehaviourPun
             // 임포스터인 경우
             if (pm.isImposter)
             {
-                // 방장에게 임포스터 뽑힘 알리기
-                JM_GameManager.instance.photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
+                
 
-                saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
+                saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
+                impo = true;
+                print(saveVoteResult);
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -203,9 +207,10 @@ public class SH_VoteManager : MonoBehaviourPun
             // 크루였던 경우
             else
             {
-                // 방장에게 임포스터 뽑힘 알리기
-                JM_GameManager.instance.photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
-                saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다. \n 현재 임포스터는 총 {JM_GameManager.instance.imposterNum}명입니다.";
+                
+                saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
+                crew = true;
+                print(saveVoteResult);
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -270,6 +275,18 @@ public class SH_VoteManager : MonoBehaviourPun
             yield return new WaitForSeconds(0.15f);
         }
         yield return new WaitForSeconds(2);
+
+        if (impo)
+        {
+            // 방장에게 임포스터 뽑힘 알리기
+            JM_GameManager.instance.photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
+        }
+        if(crew)
+        {
+            // 방장에게 크루 뽑힘 알리기
+            JM_GameManager.instance.photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
+        }
+        
 
         // 종료
         voteUI.SetActive(false);
