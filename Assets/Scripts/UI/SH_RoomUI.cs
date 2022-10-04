@@ -83,6 +83,8 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
 
         // 대기실에 있을때는 어두운거 없음
         light.GetComponent<Light2D>().intensity = 1;
+
+        notMeColor = new Color(50f / 255f, 50f / 255f, 50f / 255, 1f);
     }
 
     bool isOnce;
@@ -195,6 +197,12 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
             currentTime = 0;
         }
     }
+
+    public Image crewImg;
+    public List<Image> imposterImgs;
+    int index;
+    public Color notMeColor;
+
     // 플레이어 역할 배정
     void JM_ShowPlayerRole()
     {
@@ -205,12 +213,30 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
         {
             // 임포스터 ui 실행
             imposters.SetActive(true);
+
+            for (int i = 0; i < JM_GameManager.instance.imposterIndexList.Count; i++)
+            {
+                imposterImgs[i].gameObject.GetComponent<Image>().material.SetColor
+                    ("_PlayerColor", JM_GameManager.instance.playerList[JM_GameManager.instance.imposterIndexList[i]].
+                    GetComponent<JM_PlayerMove>().color);
+
+                if (JM_GameManager.instance.playerList[JM_GameManager.instance.imposterIndexList[i]].
+                    GetComponent<JM_PlayerMove>().color != JM_ColorManager.instance.localColor)
+                {
+                    imposterImgs[i].gameObject.GetComponent<Image>().color = notMeColor;
+                }
+
+                imposterImgs[i].gameObject.SetActive(true);
+            }
+
         }
         // 크루라면
         else
         {
             // 크루 ui 실행
             crews.SetActive(true);
+            crewImg.gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
+            crewImg.gameObject.SetActive(true);
         }
 
         if (currentTime > delayTime)

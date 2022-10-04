@@ -35,6 +35,10 @@ public class JM_GameManager : MonoBehaviourPun
     // playerList의 게임오브젝트 컬러 리스트
     public List<Color> colorList = new List<Color>();
 
+    public List<PhotonView> playerList2 = new List<PhotonView>();
+    public List<bool> isImposterList2 = new List<bool>();
+    public List<Color> colorList2 = new List<Color>();
+
     // 로컬 플레이어 임포스터 여부
     public bool isLocalImposter;
 
@@ -121,18 +125,21 @@ public class JM_GameManager : MonoBehaviourPun
         if (isGameRoom && !isOnce2)
         {
             playerList.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
+            playerList2.Sort((photon1, photon2) => photon1.ViewID.CompareTo(photon2.ViewID));
             isOnce2 = true;
 
             // 포톤뷰의 임포스터 여부 저장
             for (int i = 0; i < playerList.Count; i++)
             {
                 isImposterList.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().isImposter);
+                isImposterList2.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().isImposter);
             }
 
             // 포톤뷰 컬러 저장
             for (int i = 0; i < playerList.Count; i++)
             {
                 colorList.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().color);
+                colorList2.Add(playerList[i].gameObject.GetComponent<JM_PlayerMove>().color);
             }
 
             // 로컬 플레이어 임포스터인지 아닌지 저장
@@ -195,6 +202,7 @@ public class JM_GameManager : MonoBehaviourPun
     public void AddPlayer(PhotonView pv)
     {
         playerList.Add(pv);
+        playerList2.Add(pv);
         playerIndexList.Add(playerIndexList.Count);
     }
 
