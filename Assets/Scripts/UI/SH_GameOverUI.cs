@@ -96,7 +96,7 @@ public class SH_GameOverUI : MonoBehaviourPun
 
         //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
 
-        
+
 
         // 나머지 떨거지들
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
@@ -104,7 +104,7 @@ public class SH_GameOverUI : MonoBehaviourPun
 
             if (!JM_GameManager.instance.isImposterList[i])
             {
-                crews[idx].gameObject.SetActive(true); 
+                crews[idx].gameObject.SetActive(true);
 
                 Color color = JM_GameManager.instance.colorList[i];
                 crews[idx].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
@@ -188,18 +188,18 @@ public class SH_GameOverUI : MonoBehaviourPun
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);
-                
+
             }
         }
 
         //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
 
-        
+
 
         // 나머지 떨거지들
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
-           
+
             if (JM_GameManager.instance.isImposterList[i])
             {
                 crews[idx].gameObject.SetActive(true);
@@ -211,7 +211,7 @@ public class SH_GameOverUI : MonoBehaviourPun
                 //if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[i].sprite = ghostSprite;
             }
         }
-        
+
 
         //// 크루 이미지 인덱스
         //int idx = 1;
@@ -255,15 +255,16 @@ public class SH_GameOverUI : MonoBehaviourPun
     // Quit 버튼 (로비로 이동)
     public void OnQuit()
     {
-        cg.alpha = 0;
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel("SH_MainMenu");
+        //cg.alpha = 0;
+        //PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LoadLevel("SH_MainMenu"); 
+        Application.Quit();
     }
 
     // PlayAgain 버튼 (대기실로 재입장)
-    public void OnPlayAgain()
-    {
-        cg.alpha = 0;
-        PhotonNetwork.JoinRoom(PhotonNetwork.CurrentRoom.Name);
-    }
+    //public void OnPlayAgain()
+    //{
+    //    cg.alpha = 0;
+    //    PhotonNetwork.JoinRoom(PhotonNetwork.CurrentRoom.Name);
+    //}
 }
