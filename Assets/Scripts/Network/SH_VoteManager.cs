@@ -132,7 +132,7 @@ public class SH_VoteManager : MonoBehaviourPun
         // 죽은 크루의 경우 모든 패널 버튼 비활성화해서 투표 못하게 하기
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
-            if (JM_GameManager.instance.playerList[i].IsMine && JM_GameManager.instance.playerList[i].CompareTag("Ghost"))
+            if (JM_GameManager.instance.playerList[i].IsMine && JM_GameManager.instance.playerList[i].gameObject.GetComponent<JM_Ghost>().enabled)
             {
                 PanelOff();
             }
