@@ -82,11 +82,12 @@ public class SH_GameOverUI : MonoBehaviourPun
         // 리스트에서 로컬 플레이어의 정보를 전부 지운다
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
-            if (JM_GameManager.instance.playerList[i] == gameObject.GetPhotonView())
+            if (JM_ColorManager.instance.localColor == JM_GameManager.instance.colorList[i])
             {
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);
+                crews.RemoveAt(i);
             }
         }
 
@@ -98,7 +99,7 @@ public class SH_GameOverUI : MonoBehaviourPun
 
             if (!JM_GameManager.instance.isImposterList[i])
             {
-                crews[i].gameObject.SetActive(true);
+                crews[i].gameObject.SetActive(true); 
 
                 Color color = JM_GameManager.instance.colorList[i];
                 crews[i].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
@@ -174,11 +175,13 @@ public class SH_GameOverUI : MonoBehaviourPun
         // 리스트에서 로컬 플레이어의 정보를 전부 지운다
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
-            if (JM_GameManager.instance.playerList[i] == gameObject.GetPhotonView())
+            if (JM_ColorManager.instance.localColor == JM_GameManager.instance.colorList[i])
             {
+                print("제발 좀...");
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);
+                crews.RemoveAt(i);
             }
         }
 
