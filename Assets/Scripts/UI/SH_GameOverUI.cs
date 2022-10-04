@@ -24,6 +24,8 @@ public class SH_GameOverUI : MonoBehaviourPun
     public Sprite ghostSprite;
     public List<Color> resultColor;
 
+    int idx;
+
     private void Start()
     {
         cg = GetComponent<CanvasGroup>();
@@ -94,16 +96,20 @@ public class SH_GameOverUI : MonoBehaviourPun
 
         //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
 
+        
+
         // 나머지 떨거지들
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
 
             if (!JM_GameManager.instance.isImposterList[i])
             {
-                crews[i].gameObject.SetActive(true); 
+                crews[idx].gameObject.SetActive(true); 
 
                 Color color = JM_GameManager.instance.colorList[i];
-                crews[i].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+                crews[idx].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+
+                idx++;
 
                 //if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[i].sprite = ghostSprite;
             }
@@ -188,16 +194,19 @@ public class SH_GameOverUI : MonoBehaviourPun
 
         //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
 
+        
+
         // 나머지 떨거지들
         for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
         {
            
             if (JM_GameManager.instance.isImposterList[i])
             {
-                crews[i].gameObject.SetActive(true);
+                crews[idx].gameObject.SetActive(true);
 
                 Color color = JM_GameManager.instance.colorList[i];
-                crews[i].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+                crews[idx].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+                idx++;
 
                 //if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[i].sprite = ghostSprite;
             }
