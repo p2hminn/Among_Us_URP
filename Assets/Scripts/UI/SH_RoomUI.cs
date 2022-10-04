@@ -220,12 +220,6 @@ public class SH_RoomUI : MonoBehaviourPunCallbacks
                     ("_PlayerColor", JM_GameManager.instance.playerList[JM_GameManager.instance.imposterIndexList[i]].
                     GetComponent<JM_PlayerMove>().color);
 
-                if (JM_GameManager.instance.playerList[JM_GameManager.instance.imposterIndexList[i]].
-                    GetComponent<JM_PlayerMove>().color != JM_ColorManager.instance.localColor)
-                {
-                    imposterImgs[i].gameObject.GetComponent<Image>().color = notMeColor;
-                }
-
                 imposterImgs[i].gameObject.SetActive(true);
             }
 
