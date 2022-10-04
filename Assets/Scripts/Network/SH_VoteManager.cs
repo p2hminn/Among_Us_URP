@@ -279,12 +279,12 @@ public class SH_VoteManager : MonoBehaviourPun
         if (impo)
         {
             // 방장에게 임포스터 뽑힘 알리기
-            JM_GameManager.instance.photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
+            JM_GameManager.instance.ImpoDead();
         }
         if(crew)
         {
             // 방장에게 크루 뽑힘 알리기
-            JM_GameManager.instance.photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
+            JM_GameManager.instance.CrewDead();
         }
         
 

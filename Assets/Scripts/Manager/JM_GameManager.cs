@@ -315,6 +315,17 @@ public class JM_GameManager : MonoBehaviourPun
         }
     }
 
+    public void CrewDead()
+    {
+        photonView.RPC("RPC_CrewDead", RpcTarget.MasterClient);
+    }
+
+        public void ImpoDead()
+    {
+        photonView.RPC("RPC_ImpoDead", RpcTarget.MasterClient);
+
+    }
+
     [PunRPC]
     void RPC_CrewDead()
     {
