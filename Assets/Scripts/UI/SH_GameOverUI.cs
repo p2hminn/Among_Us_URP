@@ -74,6 +74,41 @@ public class SH_GameOverUI : MonoBehaviourPun
             gradImg.color = looseColor;
         }
 
+        Material mat = crews[0].gameObject.GetComponent<Image>().material;
+        mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
+        resultColor.Add(JM_ColorManager.instance.localColor);
+        crews[0].gameObject.SetActive(true);
+
+        // 리스트에서 로컬 플레이어의 정보를 전부 지운다
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        {
+            if (JM_GameManager.instance.playerList[i] == gameObject.GetPhotonView())
+            {
+                JM_GameManager.instance.playerList.RemoveAt(i);
+                JM_GameManager.instance.isImposterList.RemoveAt(i);
+                JM_GameManager.instance.colorList.RemoveAt(i);
+            }
+        }
+
+        //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
+
+        // 나머지 떨거지들
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        {
+
+            if (!JM_GameManager.instance.isImposterList[i])
+            {
+                crews[i].gameObject.SetActive(true);
+
+                Color color = JM_GameManager.instance.colorList[i];
+                crews[i].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+
+                //if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[i].sprite = ghostSprite;
+            }
+        }
+
+        /*
+
         // 로컬 플레이어 미리 설정
         crews[0].gameObject.SetActive(true);
         Material mat = crews[0].gameObject.GetComponent<Image>().material;
@@ -100,6 +135,7 @@ public class SH_GameOverUI : MonoBehaviourPun
                 idx++;
             }
         }
+        */
         #endregion
         print("GameOverUI 사전세팅 완료");
         gameOverUI.SetActive(true);
@@ -129,10 +165,39 @@ public class SH_GameOverUI : MonoBehaviourPun
         }
 
         // 로컬 플레이어 미리 설정
-        crews[0].gameObject.SetActive(true);
+          
         Material mat = crews[0].gameObject.GetComponent<Image>().material;
         mat.SetColor("_PlayerColor", JM_ColorManager.instance.localColor);
         resultColor.Add(JM_ColorManager.instance.localColor);
+        crews[0].gameObject.SetActive(true);
+
+        // 리스트에서 로컬 플레이어의 정보를 전부 지운다
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        {
+            if (JM_GameManager.instance.playerList[i] == gameObject.GetPhotonView())
+            {
+                JM_GameManager.instance.playerList.RemoveAt(i);
+                JM_GameManager.instance.isImposterList.RemoveAt(i);
+                JM_GameManager.instance.colorList.RemoveAt(i);
+            }
+        }
+
+        //if (JM_GameManager.instance.playerList[0].gameObject.CompareTag("Ghost")) crews[0].sprite = ghostSprite;
+
+        // 나머지 떨거지들
+        for (int i = 0; i < JM_GameManager.instance.playerList.Count; i++)
+        {
+           
+            if (JM_GameManager.instance.isImposterList[i])
+            {
+                crews[i].gameObject.SetActive(true);
+
+                Color color = JM_GameManager.instance.colorList[i];
+                crews[i].gameObject.GetComponent<Image>().material.SetColor("_PlayerColor", color);
+
+                //if (JM_GameManager.instance.playerList[i].gameObject.CompareTag("Ghost")) crews[i].sprite = ghostSprite;
+            }
+        }
         
 
         //// 크루 이미지 인덱스

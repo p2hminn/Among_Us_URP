@@ -315,7 +315,7 @@ public class JM_GameManager : MonoBehaviourPun
         // 모두에게 뿌리기
         photonView.RPC("RPC_CrewUpdate", RpcTarget.All, crewNum);
         // 크루 모두 죽었니?
-        if (crewNum == 0)
+        if (crewNum <= 0)
         {
             photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
         }
