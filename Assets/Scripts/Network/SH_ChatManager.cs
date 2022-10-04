@@ -23,8 +23,16 @@ public class SH_ChatManager : MonoBehaviourPun
     }
 
     // 버튼 누르면 채팅 생성
+    public GameObject warning;
     public void OnSendChat()
     {
+        // 죽은 사람의 경우 채팅 불가
+        if (JM_GameManager.instance.localPv.gameObject.CompareTag("Ghost"))
+        {
+            inputChat.text = "";
+            StartCoroutine(warn());
+            return;
+        }
         // <color=#FFFFFF> 닉네임 </color>
         string chatText = "<color=#" + ColorUtility.ToHtmlStringRGB(Color.blue) + ">" + PhotonNetwork.NickName + "</color>" + "  :  " + inputChat.text;
         // 채팅 내용 동기화
@@ -34,11 +42,19 @@ public class SH_ChatManager : MonoBehaviourPun
         // InputChat에 Focusing
         inputChat.ActivateInputField();
     }
+    
 
 
     // InputField에서 Enter쳤을 때 호출
     public void OnSubmit(string s)
     {
+        // 죽은 사람의 경우 채팅 불가
+        if (JM_GameManager.instance.localPv.gameObject.CompareTag("Ghost"))
+        {
+            inputChat.text = "";
+            StartCoroutine(warn());
+            return;
+        }
         // <color=#FFFFFF> 닉네임 </color>
         string chatText = "<color=#" + ColorUtility.ToHtmlStringRGB(Color.blue) + ">" + PhotonNetwork.NickName + "</color>" + "  :  " + s;
         // 채팅 내용 동기화
@@ -47,6 +63,12 @@ public class SH_ChatManager : MonoBehaviourPun
         inputChat.text = "";
         // InputChat에 Focusing
         inputChat.ActivateInputField();
+    }
+    IEnumerator warn()
+    {
+        warning.SetActive(true);
+        yield return new WaitForSeconds(2);
+        warning.SetActive(false);
     }
     //// 이전 Content의 H
     //float prevContentH;
