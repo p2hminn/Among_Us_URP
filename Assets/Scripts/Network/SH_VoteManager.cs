@@ -52,7 +52,6 @@ public class SH_VoteManager : MonoBehaviourPun
         //}
 
 
-
         // 모두 투표완료하면 모두에게 투표 결과 보여주기
         if (voteCompleteNum == PhotonNetwork.CurrentRoom.PlayerCount && !isOnce && JM_GameManager.instance.isGameRoom)
         {
@@ -100,8 +99,7 @@ public class SH_VoteManager : MonoBehaviourPun
                 print("myPanelIndex : " + i);
             }
             // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
-            //if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
-            if (JM_GameManager.instance.gameObject.CompareTag("Ghost")) voteCompleteNum++;
+            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
         }
 
 

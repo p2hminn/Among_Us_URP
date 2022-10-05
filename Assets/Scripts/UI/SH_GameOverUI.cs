@@ -259,9 +259,6 @@ public class SH_GameOverUI : MonoBehaviourPun
     // Quit 버튼 (로비로 이동)
     public void OnQuit()
     {
-        //cg.alpha = 0;
-        //PhotonNetwork.LeaveRoom();
-        //PhotonNetwork.LoadLevel("SH_MainMenu"); 
         Application.Quit();
     }
 
