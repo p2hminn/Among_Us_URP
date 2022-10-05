@@ -42,6 +42,7 @@ public class JM_MissionStatus : MonoBehaviourPun
         }
         if (missionSlider.value >= missionSlider.maxValue && !isOnce)
         {
+            print("크루 미션 완료");
             JM_GameManager.instance.photonView.RPC("FindYourEnd", RpcTarget.All, true);
             isOnce = true;
         }

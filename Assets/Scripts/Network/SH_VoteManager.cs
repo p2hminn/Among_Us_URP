@@ -183,7 +183,7 @@ public class SH_VoteManager : MonoBehaviourPun
 
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터였습니다.";
                 impo = true;
-                print(saveVoteResult);
+                
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -203,7 +203,7 @@ public class SH_VoteManager : MonoBehaviourPun
             {
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
                 crew = true;
-                print(saveVoteResult);
+                
                 // 뽑힌 사람
                 if (pm.photonView.IsMine)
                 {
@@ -270,13 +270,21 @@ public class SH_VoteManager : MonoBehaviourPun
         yield return new WaitForSeconds(2);
 
         // 방장이 수 관리
-        if (impo) JM_GameManager.instance.ImpoDead();
-        if(crew) JM_GameManager.instance.CrewDead();
-        
-        
+        if (impo)
+        {
+            JM_GameManager.instance.ImpoDead();
+            print("임포스터 --");
+        }
+        if (crew)
+        {
+            JM_GameManager.instance.CrewDead();
+            print("크루 --");
+        }
 
-        // 종료
-        voteUI.SetActive(false);
+
+
+            // 종료
+            voteUI.SetActive(false);
         voteResultUI.SetActive(false);
 
         // 변수 초기화

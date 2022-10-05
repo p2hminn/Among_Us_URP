@@ -353,8 +353,10 @@ public class JM_PlayerMove : MonoBehaviourPun
     [PunRPC]
     void RPC_CrewDead()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         // 방장이 크루 수 업데이트
         JM_GameManager.instance.crewNum--;
+        print("크루 죽임 당함");
         // 크루 모두 죽었니?
         if (JM_GameManager.instance.crewNum == 0)
         {
