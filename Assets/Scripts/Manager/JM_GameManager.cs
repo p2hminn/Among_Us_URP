@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using System.Reflection;
 
@@ -84,9 +85,21 @@ public class JM_GameManager : MonoBehaviourPun
     bool isOnce1;
     bool isOnce2;
     bool isOnce3;
+
+    //public Slider slider;
+    //[PunRPC]
+    //public void SliderUp()
+    //{
+    //    slider.value = 1;
+    //}
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //if (Input.GetKeyDown(KeyCode.Alpha1) && PhotonNetwork.IsMasterClient)
+        //{
+        //    photonView.RPC("SliderUp", RpcTarget.All);
+        //}
+
+        if (PhotonNetwork.IsMasterClient && isGameRoom)
         {
             print("imposterNum : " + imposterNum);
             print("crewNum : " + crewNum);
@@ -314,32 +327,33 @@ public class JM_GameManager : MonoBehaviourPun
             SH_GameOverUI.instance.Crew(isCrewWin);
         }
     }
-   
+
+    // 방장이 크루 수 업데이트
     public void CrewDead()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        // 방장이 크루 수 업데이트
+        
         crewNum--;
-
         // 모두에게 뿌리기
         photonView.RPC("RPC_CrewUpdate", RpcTarget.All, crewNum);
         // 크루 모두 죽었니?
         if (crewNum <= 0)
         {
+            print("크루 모두 죽음");
             photonView.RPC("FindYourEnd", RpcTarget.All, false);  // 크루 Loose, 임포스터 Win
         }
     }
-    
+    // 임포스터 수 업데이트
     public void ImpoDead()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-
-        // 임포스터 수 업데이트
+        
         imposterNum--;
         // 모두에게 뿌리기
         photonView.RPC("RPC_CrewUpdate", RpcTarget.All, imposterNum);
         if (imposterNum == 0)
         {
+            print("임포스터 모두 죽음");
             photonView.RPC("FindYourEnd", RpcTarget.All, true);
         }
     }

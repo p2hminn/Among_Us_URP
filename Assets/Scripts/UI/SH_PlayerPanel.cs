@@ -21,7 +21,7 @@ public class SH_PlayerPanel : MonoBehaviour
     public void SetInfo(PhotonView pv, int reportViewID, int emergencyViewID)
     {
         // 로컬 플레이어의 포톤뷰 ID
-        playerViewId = pv.ViewID;
+        playerViewId = pv.ViewID; 
         // 로컬 플레이어의 포톤뷰
         photonView = pv;
 

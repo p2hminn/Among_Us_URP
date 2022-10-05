@@ -45,11 +45,6 @@ public class SH_VoteManager : MonoBehaviourPun
     bool isOnce;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            print("투표한 사람 : " + voteCompleteNum);
-        }
-
         //if (p)
         //{
         //    print("죽었니? 2 : " + p.gameObject.activeSelf);
@@ -105,7 +100,8 @@ public class SH_VoteManager : MonoBehaviourPun
                 print("myPanelIndex : " + i);
             }
             // 죽은 크루 투표했다고 치기 (RPC로 방장한테 보내야함)
-            if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
+            //if (JM_GameManager.instance.playerList[i].CompareTag("Ghost")) voteCompleteNum++;
+            if (JM_GameManager.instance.gameObject.CompareTag("Ghost")) voteCompleteNum++;
         }
 
 
@@ -207,7 +203,6 @@ public class SH_VoteManager : MonoBehaviourPun
             // 크루였던 경우
             else
             {
-                
                 saveVoteResult = $"{pm.nickName.text}님은 임포스터가 아니었습니다.";
                 crew = true;
                 print(saveVoteResult);
@@ -276,16 +271,10 @@ public class SH_VoteManager : MonoBehaviourPun
         }
         yield return new WaitForSeconds(2);
 
-        if (impo)
-        {
-            // 방장에게 임포스터 뽑힘 알리기
-            JM_GameManager.instance.ImpoDead();
-        }
-        if(crew)
-        {
-            // 방장에게 크루 뽑힘 알리기
-            JM_GameManager.instance.CrewDead();
-        }
+        // 방장이 수 관리
+        if (impo) JM_GameManager.instance.ImpoDead();
+        if(crew) JM_GameManager.instance.CrewDead();
+        
         
 
         // 종료
@@ -295,6 +284,8 @@ public class SH_VoteManager : MonoBehaviourPun
         // 변수 초기화
         isVote = false;
         isOnce = false;
+        impo = false;
+        crew = false;
         voteCompleteNum = 0;
         maxVoteNum = 0;
     }

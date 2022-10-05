@@ -189,7 +189,6 @@ public class SH_GameOverUI : MonoBehaviourPun
         {
             if (JM_ColorManager.instance.localColor == JM_GameManager.instance.colorList[i])
             {
-                print("Á¦¹ß Á»...");
                 JM_GameManager.instance.playerList.RemoveAt(i);
                 JM_GameManager.instance.isImposterList.RemoveAt(i);
                 JM_GameManager.instance.colorList.RemoveAt(i);

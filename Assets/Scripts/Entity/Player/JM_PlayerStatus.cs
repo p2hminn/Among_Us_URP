@@ -68,7 +68,6 @@ public class JM_PlayerStatus : MonoBehaviourPun
                 SH_RoomUI.instance.btnEmergency.GetComponent<SpriteRenderer>().enabled = true;
                 JM_CrewUI.instance.isMissionAble = true;
                 SH_RoomUI.instance.isEmergency = true;
-                print("±ä±ÞÈ¸ÀÇ ºÎµúÈû");
             }
         }
     }

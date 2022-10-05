@@ -67,9 +67,14 @@ public class JM_PlayerMove : MonoBehaviourPun
     // 임포스터끼리 확인 가능한 임포스터 포톤뷰의 리스트
     public List<PhotonView> imposterList;
 
+    AudioSource footStep;
+
 
     void Start()
     {
+
+        footStep = GetComponent<AudioSource>();
+
         // 시작할때는 시야 없음
         light.SetActive(false);
 
@@ -126,8 +131,12 @@ public class JM_PlayerMove : MonoBehaviourPun
     
     
     bool isOnce = true;
+    
     void Update()
     {
+        if (isMoving && !footStep.isPlaying) footStep.Play();
+        else if (!isMoving) footStep.Stop();
+
         // 만약 내 것이 아니라면 함수를 나가겠다
         if (!photonView.IsMine) return;
 
@@ -197,6 +206,7 @@ public class JM_PlayerMove : MonoBehaviourPun
                 Move(h, v);
                 // 이동 중 
                 isMoving = true;
+                
             }
             else
             {
@@ -447,7 +457,6 @@ public class JM_PlayerMove : MonoBehaviourPun
     public void RPC_SendVoted(int localpanelIdx)
     {
         // 투표 완료 표시 모두에게~
-        print("받은 panelIdx : " + localpanelIdx);
         GameObject panel = SH_RoomUI.instance.trPanels.gameObject;
         panel.transform.GetChild(localpanelIdx).GetChild(3).gameObject.SetActive(true);  // Voted Img
     }
