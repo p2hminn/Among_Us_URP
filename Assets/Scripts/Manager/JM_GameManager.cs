@@ -350,7 +350,7 @@ public class JM_GameManager : MonoBehaviourPun
         
         imposterNum--;
         // 모두에게 뿌리기
-        photonView.RPC("RPC_CrewUpdate", RpcTarget.All, imposterNum);
+        photonView.RPC("RPC_ImpoUpdate", RpcTarget.All, imposterNum);
         if (imposterNum == 0)
         {
             print("임포스터 모두 죽음");

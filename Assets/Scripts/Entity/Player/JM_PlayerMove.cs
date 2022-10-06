@@ -353,7 +353,6 @@ public class JM_PlayerMove : MonoBehaviourPun
     [PunRPC]
     void RPC_CrewDead()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
         // 방장이 크루 수 업데이트
         JM_GameManager.instance.crewNum--;
         print("크루 죽임 당함");
@@ -371,7 +370,7 @@ public class JM_PlayerMove : MonoBehaviourPun
     {
         // 오브젝트 태그 바꿔주기
         gameObject.tag = "Ghost";
-
+         
         if (photonView.IsMine)
         {
             deadBody = PhotonNetwork.Instantiate("DeadBody", transform.position, Quaternion.identity);  // 모든 화면에서 생성
